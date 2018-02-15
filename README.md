@@ -2,5 +2,5 @@
 
 - Matt and Terrence - Mobile App
 - Katie - Web UI
-- Jason and Jared - Backend
+- James and Jared - Backend
 - EJ - JavaScript
