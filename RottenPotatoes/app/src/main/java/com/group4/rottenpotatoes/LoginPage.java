@@ -3,6 +3,7 @@ package com.group4.rottenpotatoes;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -64,8 +65,10 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -87,6 +90,14 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptRegister(view);
             }
         });
 
@@ -137,6 +148,15 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
         }
     }
 
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    private void attemptRegister(View view) {
+        // TODO: Implement registration page and events
+        Intent intent = new Intent(this, RegisterPage.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String message = "Hello World";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -294,21 +314,25 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean>
+    {
 
         private final String mEmail;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password)
+        {
             mEmail = email;
             mPassword = password;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params)
+        {
             // TODO: attempt authentication against a network service.
 
-            try {
+            try
+            {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
