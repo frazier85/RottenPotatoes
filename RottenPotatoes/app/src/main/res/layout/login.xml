@@ -19,14 +19,6 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="64dp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
