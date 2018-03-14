@@ -216,7 +216,7 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
+        // TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
