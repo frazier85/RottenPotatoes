@@ -6,6 +6,7 @@ $action = $_GET["action"];
 $data = getRequestInfo();
 $user = $data["username"];
 $pass = $data["password"];
+
 if(!isset($action))
 {
 	sendError("Invalid request.");
@@ -35,7 +36,7 @@ if($action == "register")
 	}
   //TODO:
   //Update for different account types
-	if($stmt = $dbc->prepare("INSERT INTO USERS (id, firstname, lastname, email username, PW) VALUES (NULL, ?, ?, ?, ?, ?)"))
+	if($stmt = $dbc->prepare("INSERT INTO USERS (id, firstname, lastname, email username, PW) VALUES (NULL, NULL, ?, ?, ?, ?, ?)"))
 	{
 		$stmt->bind_param('sssss', $fn, $ln, $email, $user, $pass);
 		$stmt->execute();
@@ -48,16 +49,16 @@ if($action == "register")
 }
 elseif($action == "login")
 {
-  if ($stmt = $dbc->prepare("SELECT ID,username FROM USERS WHERE username=? AND PW=?" ))
+  if ($stmt = $dbc->prepare("SELECT ID,admin,username FROM USERS WHERE username=? AND PW=?" ))
   {
     $stmt->bind_param('ss', $user, $pass);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($uid,$user);
+    $stmt->bind_result($uid,$admin,$user);
     $json = '{"id":-1,"username":"","error":"Invalid username or password."}';
     if($stmt->fetch())
     {
-      $json = '{"id":' . $uid . ',"username":"' . $user .'","error":""}';
+      $json = '{"id":' . $uid . ',"username":"' . $user .'","admin":' . $admin .',"error":""}';
     }
     $stmt->close();
     sendResultInfoAsJson($json);

@@ -30,6 +30,27 @@ function doesUserExist($user)
 	return false;
 }
 
+function doesUserHaveAdmin($user)
+{
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+	if ($stmt = $dbc->prepare("SELECT admin FROM USERS WHERE username=?" ))
+	{
+		$stmt->bind_param('s', $user);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($admin);
+		if($stmt->fetch())
+		{
+			$stmt->close();
+			mysqli_close($dbc);
+			return $admin > 0;
+		}
+	}
+	mysqli_close($dbc);
+	return false;
+}
+
 function getRequestInfo()
 {
 	return json_decode(file_get_contents('php://input'), true);
