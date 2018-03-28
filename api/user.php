@@ -73,3 +73,4 @@ else
 	mysqli_close($dbc);
 	die("Invalid request.");
 }
+?>
