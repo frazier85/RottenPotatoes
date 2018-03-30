@@ -30,6 +30,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,6 +215,22 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://54.211.12.55/album.html";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(stringRequest);
     }
 
     private boolean isEmailValid(String email) {
