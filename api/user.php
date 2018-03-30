@@ -36,7 +36,7 @@ if($action == "register")
 	}
   //TODO:
   //Update for different account types
-	if($stmt = $dbc->prepare("INSERT INTO USERS (id, firstname, lastname, email username, PW) VALUES (NULL, NULL, ?, ?, ?, ?, ?)"))
+	if($stmt = $dbc->prepare("INSERT INTO USERS (ID, admin, firstname, lastname, email username, password) VALUES (NULL, 0, ?, ?, ?, ?, ?)"))
 	{
 		$stmt->bind_param('sssss', $fn, $ln, $email, $user, $pass);
 		$stmt->execute();
