@@ -11,6 +11,13 @@
 * <TYPE> is "album": expects "query" and returns a JSON of albums including URLs to their art
 * <TYPE> is "artist": expects "query" and returns a JSON of artists
 
+**/api/review.php?action=<ACTION>**
+* <ACTION> is "get_reviews": expects album id as "id", returns reviews for that albums
+* <ACTION> is "add": adds a review, expects "id" (album ID), "body", "uid" (user id), rating
+* <ACTION> is "del": deletes a review, expects only "id" (review ID)
+* <ACTION> is "edit": edits a review, expects "id" (review ID), "body", "rating"
+* <ACTION> is "get_rating": expects album id as "id", returns average rating of album
+
 **/api/admin.php?action=<ACTION>**
 * <ACTION> is "promote": expects "uid" (user ID of person to promote to admin) and gives user admin
 * <ACTION> is "demote": opposite of promote
