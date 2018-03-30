@@ -1,7 +1,5 @@
 #PHP API
 
-(this is tentative but hopefully won't change too much)
-
 **/api/user.php?action=<ACTION>**
 * <ACTION> is "login": expects "username" and "password" and logs the user in Leinecker style. "admin" >= 1 if user has admin permissions, 0 otherwise
 * <ACTION> is "register": expects "username", "password", "email", "fname", "lname" and registers user
