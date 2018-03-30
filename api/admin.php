@@ -35,5 +35,28 @@ if($action == "promote")
 	}
 	mysqli_close($dbc);
 }
+elseif($action == "demote")
+{
+	$uid = $data["uid"];
+	if(!isset($uid))
+	{
+		sendError("Invalid user.");
+	}
+	else if($stmt = $dbc->prepare("UPDATE USERS SET admin=0 WHERE ID=?"))
+	{
+		$stmt->bind_param('i', $uid);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+else
+{
+	mysqli_close($dbc);
+	sendError("Invalid request.");
+}
 
 ?>
