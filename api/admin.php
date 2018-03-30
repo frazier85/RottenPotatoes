@@ -53,6 +53,72 @@ elseif($action == "demote")
 	}
 	mysqli_close($dbc);
 }
+elseif($action == "add_artist")
+{
+	$name = $data["name"];
+	$genre = $data["genre"];
+	if($stmt = $dbc->prepare("INSERT INTO ARTISTS (ID, name, genre_ID) VALUES (NULL, ?, ?)"))
+	{
+		$stmt->bind_param('si', $name, $genre);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action == "add_genre")
+{
+	$name = $data["name"];
+	if($stmt = $dbc->prepare("INSERT INTO GENRES (ID, name) VALUES (NULL, ?)"))
+	{
+		$stmt->bind_param('s', $name);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action == "add_album")
+{
+
+}
+elseif($action == "add_store")
+{
+	$name = $data["name"];
+	$icon = $data["icon"];
+
+	if($stmt = $dbc->prepare("INSERT INTO STORES (ID, name, icon) VALUES (NULL, ?, ?)"))
+	{
+		$stmt->bind_param('ss', $name, $icon);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action == "add_storelink")
+{
+	$link = $data["link"];
+	$store = $data["store"];
+	$album = $data["album"];
+
+	if($stmt = $dbc->prepare("INSERT INTO STORES (ID, link, store_ID, album_ID) VALUES (NULL, ?, ?, ?)"))
+	{
+		$stmt->bind_param('sii', $link, $store, $album);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
 else
 {
 	mysqli_close($dbc);
