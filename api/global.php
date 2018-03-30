@@ -51,6 +51,22 @@ function doesUserHaveAdmin($user)
 	return false;
 }
 
+function getArtistString($id, $name, $genreId)
+{
+	return '{"id" : ' . $id . ', "name" : "' . $name . '", "genreId":"' . $genreId . '"}';
+}
+
+function getAlbumString($id, $name, $icon, $genreId)
+{
+	return '{"id" : ' . $id . ', "name" : "' . $name . . '", "icon" : "' . $icon .
+		'", "genreId":"' .'", "genreId":"' . $genreId . '"}';
+}
+
+function getGenreString($id, $name)
+{
+	return '{"id" : ' . $id . ', "name" : "' . $name . '"}';
+}
+
 function getRequestInfo()
 {
 	return json_decode(file_get_contents('php://input'), true);

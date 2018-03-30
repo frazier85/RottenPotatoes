@@ -17,21 +17,31 @@ if (mysqli_connect_errno())
 	die();
 }
 
+if(strlen($query) < 3)
+{
+	sendError("Searches must have at least 3 characters.");
+	die();
+}
+
+//LIKE CONCAT('%',?,'%')
 if($by == "genre")
 {
-  if ($stmt = $dbc->prepare("SELECT ID,admin,username FROM USERS WHERE username=? AND PW=?" ))
+  if ($stmt = $dbc->prepare("SELECT * FROM GENRES WHERE name LIKE CONCAT('%',?,'%')" ))
   {
-    $stmt->bind_param('ss', $user, $pass);
+    $stmt->bind_param('s', $query);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($uid,$admin,$user);
-    $json = '{"id":-1,"username":"","error":"Invalid username or password."}';
-    if($stmt->fetch())
-    {
-      $json = '{"id":' . $uid . ',"username":"' . $user .'","admin":' . $admin .',"error":""}';
-    }
-    $stmt->close();
-    sendResultInfoAsJson($json);
+    $stmt->bind_result($id,$name);
+		$json = '{ "genres": [ ';
+		while($stmt->fetch())
+		{
+			$json = $json . getGenreString($id, $name) . ',';
+		}
+		//remove last comma
+		$json = substr($json, 0, -1);
+		$json = $json . "]}";
+		$stmt->close();
+		sendResultInfoAsJson($json);
   }
   else
   {
@@ -41,29 +51,53 @@ if($by == "genre")
 }
 if($by == "artist")
 {
-
+	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
+	{
+		$stmt->bind_param('s', $query);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id, $name, $genreId);
+		$json = '{ "artists": [ ';
+		while($stmt->fetch())
+		{
+			$json = $json . getAlbumString($id, $name, $genreId) . ',';
+		}
+		//remove last comma
+		$json = substr($json, 0, -1);
+		$json = $json . "]}";
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
 }
 if($by == "album")
 {
-  if ($stmt = $dbc->prepare("SELECT * FROM USERS WHERE username=? AND PW=?" ))
-  {
-    $stmt->bind_param('ss', $user, $pass);
-    $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($uid,$admin,$user);
-    $json = '{"id":-1,"username":"","error":"Invalid username or password."}';
-    if($stmt->fetch())
-    {
-      $json = '{"id":' . $uid . ',"username":"' . $user .'","admin":' . $admin .',"error":""}';
-    }
-    $stmt->close();
-    sendResultInfoAsJson($json);
-  }
-  else
-  {
-    sendError("There was an issue with our database.");
-  }
-  mysqli_close($dbc);
+	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
+	{
+		$stmt->bind_param('s', $query);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id, $name, $icon, $genreId);
+		$json = '{ "albums": [ ';
+		while($stmt->fetch())
+		{
+			$json = $json . getAlbumString($id, $name, $icon, $genreId) . ',';
+		}
+		//remove last comma
+		$json = substr($json, 0, -1);
+		$json = $json . "]}";
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
 }
 else
 {
