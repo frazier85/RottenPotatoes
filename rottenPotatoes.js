@@ -5,6 +5,7 @@ var urlBase = '/api';
 function searchByGenre()
 {
 
+	// change id names
 	var query = document.getElementById("searchText").value;
 	var id = document.getElementById("inputID").value;
 	var name = document.getElementById("inputGenreName").value;
@@ -49,7 +50,7 @@ function searchByGenre()
 
 function searchByArtist()
 {
-
+	// change id names
 	var query = document.getElementById("searchText").value;
 	var id = document.getElementById("inputID").value;
 	var name = document.getElementById("inputArtistName").value;
@@ -96,7 +97,7 @@ function searchByArtist()
 
 function searchByAlbum()
 {
-
+	// change id names
 	var query = document.getElementById("searchText").value;
 	var id = document.getElementById("inputID").value;
 	var name = document.getElementById("inputArtistName").value;
@@ -154,6 +155,7 @@ function searchByAlbum()
 // ==========================================================================
 function promote()
 {
+	// change id names
 	var uid = document.getElementById("inputUid").value;
 
 	var jsonPayload = '{"uid" : "' + uid + '"}';
@@ -180,6 +182,7 @@ function promote()
 
 function demote()
 {
+	// change id names
 	var uid = document.getElementById("inputUid").value;
 
 	var jsonPayload = '{"uid" : "' + uid + '"}';
@@ -543,6 +546,7 @@ function doLogin()
 {
 	uid = 0;
 
+	// change id names
 	var username = document.getElementById("loginUsername").value;
 	var password = md5(document.getElementById("loginPassword").value);
 
