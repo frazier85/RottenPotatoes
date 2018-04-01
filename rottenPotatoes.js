@@ -59,7 +59,7 @@ function searchByArtist()
 	var searchList = document.getElementById("searchList");
 	searchList.innerHTML = "";
 
-	var jsonPayload = '{"query" : "' + query + '", "id" : "' + id + '", "name" : "' + name + '", "genreId" : "' + genreId + '", "email" : "' + email + '"}';
+	var jsonPayload = '{"query" : "' + query + '", "id" : "' + id + '", "name" : "' + name + '", "genreId" : "' + genreId + '"}';
 	var url = urlBase + '/search.php?by=artist';
 
 	var xhr = new XMLHttpRequest();
@@ -98,11 +98,15 @@ function searchByAlbum()
 {
 
 	var query = document.getElementById("searchText").value;
+	var id = document.getElementById("inputID").value;
+	var name = document.getElementById("inputArtistName").value;
+	var icon = document.getElementById("inputIcon").value;
+	var genreId = document.getElementById("inputGenreName").value;
 
 	var searchList = document.getElementById("searchList");
 	searchList.innerHTML = "";
 
-	var jsonPayload = '{"uid" : "' + userId + '", "search" : "' + search + '"}';
+	var jsonPayload = '{"query" : "' + query + '", "id" : "' + id + '", "name" : "' + name + '", "icon" : "' + icon + '", "genreId" : "' + genreId + '"}';
 	var url = urlBase + '/search.php?by=album';
 
 	var xhr = new XMLHttpRequest();
