@@ -19,7 +19,7 @@ if (mysqli_connect_errno())
 	die();
 }
 
-if($action == "register")
+if($action === "register")
 {
   $email = $data["email"];
   $fn = $data["fname"];
@@ -47,7 +47,7 @@ if($action == "register")
 	}
 	mysqli_close($dbc);
 }
-elseif($action == "login")
+elseif($action === "login")
 {
   if ($stmt = $dbc->prepare("SELECT ID,admin,username FROM USERS WHERE username=? AND PW=?" ))
   {

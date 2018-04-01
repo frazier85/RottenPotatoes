@@ -17,7 +17,7 @@ if (mysqli_connect_errno())
 	die();
 }
 
-if($action == "promote")
+if($action === "promote")
 {
   $uid = $data["uid"];
   if(!isset($uid))
@@ -35,7 +35,7 @@ if($action == "promote")
 	}
 	mysqli_close($dbc);
 }
-elseif($action == "demote")
+elseif($action === "demote")
 {
 	$uid = $data["uid"];
 	if(!isset($uid))
@@ -53,7 +53,21 @@ elseif($action == "demote")
 	}
 	mysqli_close($dbc);
 }
-elseif($action == "add_artist")
+elseif($action === "del_user")
+{
+	$id = $data["id"];
+	if($stmt = $dbc->prepare("DELETE FROM USERS WHERE id=?"))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action === "add_artist")
 {
 	$name = $data["name"];
 	$genre = $data["genre"];
@@ -68,7 +82,21 @@ elseif($action == "add_artist")
 	}
 	mysqli_close($dbc);
 }
-elseif($action == "add_genre")
+elseif($action === "del_artist")
+{
+	$id = $data["id"];
+	if($stmt = $dbc->prepare("DELETE FROM ARTISTS WHERE id=?"))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action === "add_genre")
 {
 	$name = $data["name"];
 	if($stmt = $dbc->prepare("INSERT INTO GENRES (ID, name) VALUES (NULL, ?)"))
@@ -82,11 +110,25 @@ elseif($action == "add_genre")
 	}
 	mysqli_close($dbc);
 }
-elseif($action == "add_album")
+elseif($action === "del_genre")
+{
+	$id = $data["id"];
+	if($stmt = $dbc->prepare("DELETE FROM GENRES WHERE id=?"))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action === "add_album")
 {
 
 }
-elseif($action == "add_store")
+elseif($action === "add_store")
 {
 	$name = $data["name"];
 	$icon = $data["icon"];
@@ -102,15 +144,43 @@ elseif($action == "add_store")
 	}
 	mysqli_close($dbc);
 }
-elseif($action == "add_storelink")
+elseif($action === "del_store")
+{
+	$id = $data["id"];
+	if($stmt = $dbc->prepare("DELETE FROM STORES WHERE id=?"))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action === "add_storelink")
 {
 	$link = $data["link"];
 	$store = $data["store"];
 	$album = $data["album"];
 
-	if($stmt = $dbc->prepare("INSERT INTO STORES (ID, link, store_ID, album_ID) VALUES (NULL, ?, ?, ?)"))
+	if($stmt = $dbc->prepare("INSERT INTO LINKS (ID, link, store_ID, album_ID) VALUES (NULL, ?, ?, ?)"))
 	{
 		$stmt->bind_param('sii', $link, $store, $album);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
+}
+elseif($action === "del_storelink")
+{
+	$id = $data["id"];
+	if($stmt = $dbc->prepare("DELETE FROM LINKS WHERE id=?"))
+	{
+		$stmt->bind_param('i', $id);
 		$stmt->execute();
 	}
 	else
