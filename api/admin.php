@@ -19,7 +19,7 @@ if (mysqli_connect_errno())
 
 if($action === "promote")
 {
-  $uid = $data["uid"];
+  $uid = $data["id"];
   if(!isset($uid))
   {
     sendError("Invalid user.");
@@ -37,7 +37,7 @@ if($action === "promote")
 }
 elseif($action === "demote")
 {
-	$uid = $data["uid"];
+	$uid = $data["id"];
 	if(!isset($uid))
 	{
 		sendError("Invalid user.");
@@ -56,7 +56,7 @@ elseif($action === "demote")
 elseif($action === "del_user")
 {
 	$id = $data["id"];
-	if($stmt = $dbc->prepare("DELETE FROM USERS WHERE id=?"))
+	if($stmt = $dbc->prepare("DELETE FROM USERS WHERE ID=?"))
 	{
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
@@ -85,7 +85,7 @@ elseif($action === "add_artist")
 elseif($action === "del_artist")
 {
 	$id = $data["id"];
-	if($stmt = $dbc->prepare("DELETE FROM ARTISTS WHERE id=?"))
+	if($stmt = $dbc->prepare("DELETE FROM ARTISTS WHERE ID=?"))
 	{
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
@@ -113,7 +113,7 @@ elseif($action === "add_genre")
 elseif($action === "del_genre")
 {
 	$id = $data["id"];
-	if($stmt = $dbc->prepare("DELETE FROM GENRES WHERE id=?"))
+	if($stmt = $dbc->prepare("DELETE FROM GENRES WHERE ID=?"))
 	{
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
@@ -147,7 +147,7 @@ elseif($action === "add_store")
 elseif($action === "del_store")
 {
 	$id = $data["id"];
-	if($stmt = $dbc->prepare("DELETE FROM STORES WHERE id=?"))
+	if($stmt = $dbc->prepare("DELETE FROM STORES WHERE ID=?"))
 	{
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
@@ -178,7 +178,7 @@ elseif($action === "add_storelink")
 elseif($action === "del_storelink")
 {
 	$id = $data["id"];
-	if($stmt = $dbc->prepare("DELETE FROM LINKS WHERE id=?"))
+	if($stmt = $dbc->prepare("DELETE FROM LINKS WHERE ID=?"))
 	{
 		$stmt->bind_param('i', $id);
 		$stmt->execute();

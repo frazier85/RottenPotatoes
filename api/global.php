@@ -13,7 +13,6 @@ define("DB_PASS", "manageMe!");
 function getRequestInfo()
 {
 	$d = file_get_contents('php://input');
-	//return json_decode('{"email":"test@test.edu","fname":"John","lname":"Wick","username":"dontkillmydog","password":"yes"}', true);
 	return json_decode($d, true);
 }
 
@@ -26,7 +25,7 @@ function doesUserExist($user)
 		$stmt->bind_param('s', $user);
 		$stmt->execute();
 		$stmt->store_result();
-		$stmt->bind_result($uid,$user);
+		$stmt->bind_result($user);
 		if($stmt->fetch())
 		{
 			$stmt->close();
