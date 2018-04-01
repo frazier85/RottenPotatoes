@@ -14,4 +14,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="action_login_register_nav"> Login/Register</string>
+    <string name="action_home">Home</string>
+    <string name="action_search">Search</string>
 </resources>
