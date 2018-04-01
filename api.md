@@ -1,4 +1,4 @@
-#PHP API
+#PHP API#
 
 **/api/user.php?action=<ACTION>**
 * <ACTION> is "login": expects "username" and "password" and logs the user in Leinecker style. "admin" >= 1 if user has admin permissions, 0 otherwise
@@ -19,6 +19,7 @@
 **/api/admin.php?action=<ACTION>**
 * <ACTION> is "promote": expects "uid" (user ID of person to promote to admin) and gives user admin
 * <ACTION> is "demote": opposite of promote
+* <ACTION> is "del_user": Expects id (user's ID)
 * <ACTION> is "add_artist": Expects "name", "genre" (INT)
 * <ACTION> is "add_album": Expects "name", "genre" (INT), "icon" and "songs" which will be a JSON array of songs that has "id", "length", "artist" (INT) within each song
 * <ACTION> is "add_genre": Expects "name"
