@@ -51,7 +51,7 @@ if($by == "genre")
 }
 if($by == "artist")
 {
-	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
+	if ($stmt = $dbc->prepare("SELECT * FROM ARTISTS WHERE name LIKE CONCAT('%',?,'%')" ))
 	{
 		$stmt->bind_param('s', $query);
 		$stmt->execute();
@@ -60,7 +60,7 @@ if($by == "artist")
 		$json = '{ "artists": [ ';
 		while($stmt->fetch())
 		{
-			$json = $json . getAlbumString($id, $name, $genreId) . ',';
+			$json = $json . getArtistString($id, $name, $genreId) . ',';
 		}
 		//remove last comma
 		$json = substr($json, 0, -1);

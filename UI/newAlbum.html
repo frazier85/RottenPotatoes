@@ -15,14 +15,16 @@
       <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="#">Rotten Potatoes</a>
 
+        <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='newAlbum.html'">New Album</button>
+
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2 long-box" type="search" id="searchText" placeholder="Search" aria-label="Search" style="width:400px">
           <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="submit" onClick="">Search</button>
         </form>
 
           <span class="navbar-text">Hello Guest</a>
-          <button class="btn btn-outline-success" type="submit"  onClick="">Log In</button>
-
+            <button class="btn btn-outline-success" type="submit" onClick="window.location.href='loginOrRegister.html'">Log In/Register</button>
+            <button class="btn btn-outline-success" type="submit" onClick="">Log Out</button>
 
       </nav>
 
@@ -36,14 +38,20 @@
             <div class="row">
               <div class="col">
                 <div class="form-group">
-                  <label for="file1">Movie Image</label>
+                  <label for="file1">Album Image</label>
                   <input type="file" class="form-control-file" id="file1">
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
-                  <label for="titleInput">Movie Title</label>
-                  <input type="text" class="form-control" id="titleInput" placeholder="Movie Title">
+                  <label for="titleInput">Album Title</label>
+                  <input type="text" class="form-control" id="titleInput" placeholder="Album Title">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="artistInput">Artist</label>
+                  <input type="text" class="form-control" id="titleInput" placeholder="Artist">
                 </div>
               </div>
             </div>
@@ -52,7 +60,7 @@
               <div class="col">
                 <div class="form-group">
                 <label for="ratingInput">Rating</label>
-                <div class="col-sm-6">
+                <div class="col">
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                     <label class="form-check-label" for="inlineRadio1">1</label>

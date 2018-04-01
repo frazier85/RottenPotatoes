@@ -19,7 +19,7 @@ if (mysqli_connect_errno())
 	die();
 }
 
-if($action == "register")
+if($action === "register")
 {
   $email = $data["email"];
   $fn = $data["fname"];
@@ -34,9 +34,7 @@ if($action == "register")
 		sendError("Usernames must be at least 3 characters long");
 		die();
 	}
-  //TODO:
-  //Update for different account types
-	if($stmt = $dbc->prepare("INSERT INTO USERS (ID, admin, firstname, lastname, email username, password) VALUES (NULL, 0, ?, ?, ?, ?, ?)"))
+	if($stmt = $dbc->prepare("INSERT INTO USERS (ID, admin, firstname, lastname, email, username, password) VALUES (NULL, 0, ?, ?, ?, ?, ?)"))
 	{
 		$stmt->bind_param('sssss', $fn, $ln, $email, $user, $pass);
 		$stmt->execute();
@@ -47,9 +45,9 @@ if($action == "register")
 	}
 	mysqli_close($dbc);
 }
-elseif($action == "login")
+elseif($action === "login")
 {
-  if ($stmt = $dbc->prepare("SELECT ID,admin,username FROM USERS WHERE username=? AND PW=?" ))
+  if ($stmt = $dbc->prepare("SELECT ID,admin,username FROM USERS WHERE username=? AND password=?" ))
   {
     $stmt->bind_param('ss', $user, $pass);
     $stmt->execute();
