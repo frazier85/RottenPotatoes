@@ -1,6 +1,8 @@
 var urlBase = '/api';
 
 // search.php portion
+// still needs to do stuff with the JSON that is returned from php
+// simply just sends query~ 
 //===============================================================================
 function searchByGenre()
 {
