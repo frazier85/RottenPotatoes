@@ -6,14 +6,16 @@ public class Song {
     private String link;
     private String review;
     private String genre;
+    private String album;
 
-    public Song(String artist, String title, String link, String review, String genre)
+    public Song(String artist, String title, String link, String review, String genre, String album)
     {
         this.artist = artist;
         this.title = title;
         this.link = link;
         this.review = review;
         this.genre = genre;
+        this.album = album;
     }
 
     public String getArtist() {
@@ -55,4 +57,8 @@ public class Song {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
+    public String getAlbum(){ return album; }
+
+    public void setAlbum(String album) { this.album = album; }
 }
