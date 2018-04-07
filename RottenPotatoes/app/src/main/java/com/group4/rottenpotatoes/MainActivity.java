@@ -44,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+
         mSongView = findViewById(R.id.recyclerViewMain);
         ArrayList<Song> allSongs = new ArrayList<>();
         mSongAdapter = new SongAdapter(this, allSongs);
