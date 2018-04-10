@@ -6,11 +6,14 @@ function register()
 {
 	var username = document.getElementById("usernameInput").value;
 	var password = md5(document.getElementById("passwordInput").value);
+  var fname = "fist";
+  var lname = "last";
+  var email = "dickbutt@email.com";
 
 	document.getElementById("loginResult").innerHTML = "";
 
-	var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
-	var url = urlBase + '/login.php?register=1';
+	var jsonPayload = '{"fname" : "' + fname + '", "lname" : "' + lname + '", "email" : "' + email + '", "username" : "' + username + '", "password" : "' + password + '"}';
+	var url = urlBase + '/user.php?action=register';
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
@@ -37,7 +40,7 @@ function register()
 
 function login()
 {
-	userId = 0;
+	uid = 0;
 
 	var username = document.getElementById("usernameInput").value;
 	var password = md5(document.getElementById("passwordInput").value);
@@ -45,7 +48,7 @@ function login()
 	document.getElementById("loginResult").innerHTML = "";
 
 	var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
-	var url = urlBase + '/login.php?login=1';
+	var url = urlBase + '/user.php?action=login';
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
@@ -56,60 +59,17 @@ function login()
 
 		var jsonObject = JSON.parse( xhr.responseText );
 
-		userId = jsonObject.id;
+		uid = jsonObject.id;
 
-		if( userId < 1 )
+		if( uid < 1 )
 		{
 			document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 			return;
 		}
 
 		displayName = jsonObject.username;
-		document.getElementById("userDisplay").innerHTML = displayName;
-		document.getElementById("loginUsername").value = "";
-		document.getElementById("loginPassword").value = "";
 
-	}
-	catch(err)
-	{
-		document.getElementById("loginResult").innerHTML = err.message;
-	}
-
-}
-
-function addAlbum()
-{
-	userId = 0;
-
-	var username = document.getElementById("usernameInput").value;
-	var password = md5(document.getElementById("passwordInput").value);
-
-	document.getElementById("loginResult").innerHTML = "";
-
-	var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
-	var url = urlBase + '/login.php?login=1';
-
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, false);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.send(jsonPayload);
-
-		var jsonObject = JSON.parse( xhr.responseText );
-
-		userId = jsonObject.id;
-
-		if( userId < 1 )
-		{
-			document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-			return;
-		}
-
-		displayName = jsonObject.username;
-		document.getElementById("userDisplay").innerHTML = displayName;
-		document.getElementById("loginUsername").value = "";
-		document.getElementById("loginPassword").value = "";
+		document.getElementById("loginResult").innerHTML = "Youre logged in now! Cool.";
 
 	}
 	catch(err)
