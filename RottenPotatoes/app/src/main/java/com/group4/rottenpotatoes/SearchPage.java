@@ -28,7 +28,7 @@ public class SearchPage extends AppCompatActivity {
     Button mSearchButton;
     Button mLoginRegisterButton;
 
-    private static final String URL = "http://project.codethree.net//api/search.php?by=";
+    private static final String URL = "http://project.codethree.net/api/search.php?by=";
     List<Song> mSongList;
     RecyclerView mRecyclerView;
 
@@ -85,29 +85,31 @@ public class SearchPage extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
+                            // JSONArray array = new JSONArray(response);
+                            JSONObject obj = new JSONObject(response);
 
                             //traversing through all the object
-                            for (int i = 0; i < array.length(); i++)
-                            {
-
-                                //getting product object from json array
-                                JSONObject song = array.getJSONObject(i);
-
-                                //adding the product to product list
-                                mSongList.add(new Song(
-                                        song.getString("artist"),
-                                        song.getString("title"),
-                                        song.getString("link"),
-                                        song.getString("review"),
-                                        song.getString("genre"),
-                                        song.getString("album")
-                                ));
-                            }
-
-                            //creating adapter object and setting it to recyclerview
-                            SongAdapter adapter = new SongAdapter(SearchPage.this, mSongList);
-                            mRecyclerView.setAdapter(adapter);
+//                            for (int i = 0; i < array.length(); i++)
+//                            {
+//
+//                                //getting product object from json array
+//                                JSONObject song = array.getJSONObject(i);
+//
+//                                //adding the product to product list
+//                                mSongList.add(new Song(
+//                                        song.getString("artist"),
+//                                        song.getString("title"),
+//                                        song.getString("link"),
+//                                        song.getString("review"),
+//                                        song.getString("genre"),
+//                                        song.getString("album")
+//                                ));
+//                            }
+//
+//                            //creating adapter object and setting it to recyclerview
+//                            SongAdapter adapter = new SongAdapter(SearchPage.this, mSongList);
+//                            mRecyclerView.setAdapter(adapter);
+                            System.out.println(obj.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
