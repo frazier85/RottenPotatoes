@@ -78,3 +78,61 @@ function login()
 	}
 
 }
+
+function searchBy()
+{
+
+	var query = document.getElementById("searchText").value;
+	var searchType = document.getElementById("searchType");
+	searchList.innerHTML = "";
+
+	var jsonPayload = '{"query" : "' + query + '"}';
+	var url = urlBase + '/search.php?by=' + searchType;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	switch(searchType)
+	{
+		case 'genre':
+
+
+		break;
+		case 'artist':
+
+		break;
+		case 'album':
+
+		break;
+		default:
+		document.getElementById("contentResult").innerHTML = "Please search by something";
+
+	}
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				hideOrShow( "searchList", true );
+
+				document.getElementById("contentResult").innerHTML = "Data has been retrieved";
+				var jsonObject = JSON.parse( xhr.responseText );
+				var i;
+				for( i in jsonObject.contacts)
+				{
+						var opt = document.createElement("option");
+						var entryString = "";
+						opt.text = entryString.concat(jsonObject.contacts[i].first, " ", jsonObject.contacts[i].last, " ", jsonObject.contacts[i].phone, " ", jsonObject.contacts[i].email);
+						opt.value = jsonObject.contacts[i].id;
+						contactList.options.add(opt);
+				}
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contentResult").innerHTML = err.message;
+	}
+}
