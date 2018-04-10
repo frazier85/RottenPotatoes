@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class SongPage extends AppCompatActivity
 {
     private Button mHomeButton;
     private Button mSearchButton;
     private Button mLoginRegisterButton;
-    private RecyclerView mCommentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,14 +49,28 @@ public class SongPage extends AppCompatActivity
             }
         });
 
-        // Configure RecyclerView
-        mCommentView = findViewById(R.id.recyclerViewComments);
-
         populateComments();
     }
 
     private void populateComments()
     {
         // TODO: get comments and ratings from DB
+        String titleText = "The title would go here";
+        String artistText = "The artist would go here";
+        String albumText = "Album would go here";
+        String reviewText = "5.0";
+
+        TextView title = findViewById(R.id.textViewTitleSongPage);
+        title.setText(titleText);
+
+        TextView artist = findViewById(R.id.textViewArtistSongPage);
+        artist.setText(artistText);
+
+        TextView album = findViewById(R.id.textViewArtistSongPage);
+        album.setText(albumText);
+
+        TextView review = findViewById(R.id.textViewReviewSongPage);
+        review.setText(reviewText);
+
     }
 }
