@@ -24,7 +24,7 @@ if(strlen($query) < 3)
 }
 
 //LIKE CONCAT('%',?,'%')
-if($by == "genre")
+if($by === "genre")
 {
   if ($stmt = $dbc->prepare("SELECT * FROM GENRES WHERE name LIKE CONCAT('%',?,'%')" ))
   {
@@ -49,7 +49,7 @@ if($by == "genre")
   }
   mysqli_close($dbc);
 }
-if($by == "artist")
+elseif($by === "artist")
 {
 	if ($stmt = $dbc->prepare("SELECT * FROM ARTISTS WHERE name LIKE CONCAT('%',?,'%')" ))
 	{
@@ -74,7 +74,7 @@ if($by == "artist")
 	}
 	mysqli_close($dbc);
 }
-if($by == "album")
+elseif($by === "album")
 {
 	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
 	{
