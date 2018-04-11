@@ -4,8 +4,8 @@ require_once "global.php";
 
 $by = $_GET["by"];
 $data = getRequestInfo();
-$query = $data["query"];
-if(!isset($query))
+$qry = $data["query"];
+if(!isset($qry))
 {
 	sendError("Invalid request.");
 	die();
@@ -17,18 +17,16 @@ if (mysqli_connect_errno())
 	die();
 }
 
-if(strlen($query) < 3)
+if(strlen($qry) < 3)
 {
 	sendError("Searches must have at least 3 characters.");
 	die();
 }
-
-//LIKE CONCAT('%',?,'%')
 if($by === "genre")
 {
   if ($stmt = $dbc->prepare("SELECT * FROM GENRES WHERE name LIKE CONCAT('%',?,'%')" ))
   {
-    $stmt->bind_param('s', $query);
+    $stmt->bind_param('s', $qry);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($id,$name);
@@ -53,7 +51,7 @@ elseif($by === "artist")
 {
 	if ($stmt = $dbc->prepare("SELECT * FROM ARTISTS WHERE name LIKE CONCAT('%',?,'%')" ))
 	{
-		$stmt->bind_param('s', $query);
+		$stmt->bind_param('s', $qry);
 		$stmt->execute();
 		$stmt->store_result();
 		$stmt->bind_result($id, $name, $genreId);
@@ -78,14 +76,14 @@ elseif($by === "album")
 {
 	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
 	{
-		$stmt->bind_param('s', $query);
+		$stmt->bind_param('s', $qry);
 		$stmt->execute();
 		$stmt->store_result();
-		$stmt->bind_result($id, $name, $icon, $genreId);
+		$stmt->bind_result($id, $name, $artist_ID, $icon, $year);
 		$json = '{ "albums": [ ';
 		while($stmt->fetch())
 		{
-			$json = $json . getAlbumString($id, $name, $icon, $genreId) . ',';
+			$json = $json . getAlbumString($id, $name, $artist_ID, $icon, $year) . ',';
 		}
 		//remove last comma
 		$json = substr($json, 0, -1);
