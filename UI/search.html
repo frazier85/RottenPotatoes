@@ -8,6 +8,10 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-instantsearch-theme-algolia@4.4.2">
       <script type="text/javascript" src="js/code.js"></script>
       <link rel="stylesheet" href="code.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
     </head>
 
     <body>
@@ -18,12 +22,24 @@
         <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='newAlbum.html'">New Album</button>
 
         <form class="form-inline my-2 my-lg-0">
+          <div class="form-group">
+            <label for="exampleSelect1">Search By:</label>
+            <select class="form-control" id="searchType">
+              <option>Album</option>
+              <option>Artist</option>
+              <option>Genre</option>
+            </select>
+          </div>
           <input class="form-control mr-sm-2 long-box" type="search" id="searchText" placeholder="Search" aria-label="Search" style="width:400px">
+
           <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="submit" onClick="">Search</button>
+
         </form>
 
+
           <span class="navbar-text">Hello Guest</a>
-          <button class="btn btn-outline-success" type="submit" onClick="window.location.href='loginOrRegister.html'">Log In/Register</button>
+            <button class="btn btn-outline-success" type="button" onClick="window.location.href='loginOrRegister.html'">Log In/Register</button>
+            <button class="btn btn-outline-success" type="button" onClick="">Log Out</button>
 
 
       </nav>

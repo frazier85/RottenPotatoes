@@ -1,21 +1,16 @@
 var urlBase = '/api';
 
 // search.php portion
-// still needs to do stuff with the JSON that is returned from php
-// simply just sends query~ 
 //===============================================================================
 function searchByGenre()
 {
 
 	// change id names
 	var query = document.getElementById("searchText").value;
-	var id = document.getElementById("inputID").value;
-	var name = document.getElementById("inputGenreName").value;
-
 	var searchList = document.getElementById("searchList");
 	searchList.innerHTML = "";
 
-	var jsonPayload = '{"query" : "' + query + '", "id" : "' + id + '", "name" : "' + name + '"}';
+	var jsonPayload = '{"query" : "' + query + '"}';
 	var url = urlBase + '/search.php?by=genre';
 
 	var xhr = new XMLHttpRequest();
@@ -54,15 +49,10 @@ function searchByArtist()
 {
 	// change id names
 	var query = document.getElementById("searchText").value;
-	var id = document.getElementById("inputID").value;
-	var name = document.getElementById("inputArtistName").value;
-	var genreId = document.getElementById("inputGenreName").value;
-
-
 	var searchList = document.getElementById("searchList");
 	searchList.innerHTML = "";
 
-	var jsonPayload = '{"query" : "' + query + '", "id" : "' + id + '", "name" : "' + name + '", "genreId" : "' + genreId + '"}';
+	var jsonPayload = '{"query" : "' + query + '"}';
 	var url = urlBase + '/search.php?by=artist';
 
 	var xhr = new XMLHttpRequest();
@@ -101,15 +91,10 @@ function searchByAlbum()
 {
 	// change id names
 	var query = document.getElementById("searchText").value;
-	var id = document.getElementById("inputID").value;
-	var name = document.getElementById("inputArtistName").value;
-	var icon = document.getElementById("inputIcon").value;
-	var genreId = document.getElementById("inputGenreName").value;
-
 	var searchList = document.getElementById("searchList");
 	searchList.innerHTML = "";
 
-	var jsonPayload = '{"query" : "' + query + '", "id" : "' + id + '", "name" : "' + name + '", "icon" : "' + icon + '", "genreId" : "' + genreId + '"}';
+	var jsonPayload = '{"query" : "' + query + '"}';
 	var url = urlBase + '/search.php?by=album';
 
 	var xhr = new XMLHttpRequest();
