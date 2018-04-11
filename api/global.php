@@ -63,9 +63,9 @@ function getArtistString($id, $name, $genreId)
 	return '{"id" : ' . $id . ', "name" : "' . $name . '", "genreId":"' . $genreId . '"}';
 }
 
-function getAlbumString($id, $name, $artist_ID, $icon, $year)
+function getAlbumString($id, $name, $icon, $year, $artistId, $genreId)
 {
-	return '{"id" : ' . $id . ', "name" : "' . $name . '", "artistId" : "' . $artist_ID . '", "icon" : "' . $icon . '", "year":"' . $year . '"}';
+	return '{"id" : ' . $id . ', "name" : "' . $name . '", "iconUrl" : "' . $icon . '", "year" : ' . $year . ', "artistId" : ' . $artistId . ', "genreId" : ' . $genreId . '}';
 }
 
 function getGenreString($id, $name)

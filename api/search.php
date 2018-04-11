@@ -79,11 +79,11 @@ elseif($by === "album")
 		$stmt->bind_param('s', $qry);
 		$stmt->execute();
 		$stmt->store_result();
-		$stmt->bind_result($id, $name, $artist_ID, $icon, $year);
+		$stmt->bind_result($id, $name, $icon, $year, $artistId, $genreId);
 		$json = '{ "albums": [ ';
 		while($stmt->fetch())
 		{
-			$json = $json . getAlbumString($id, $name, $artist_ID, $icon, $year) . ',';
+			$json = $json . getAlbumString($id, $name, $icon, $year, $artistId, $genreId) . ',';
 		}
 		//remove last comma
 		$json = substr($json, 0, -1);
