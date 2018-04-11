@@ -13,7 +13,7 @@ if(!isset($action))
 $dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if (mysqli_connect_errno())
 {
-	sendError('There was an issue with our database. (' . mysqli_connect_errno . ')');
+	sendError('There was an issue with our database. (' . mysqli_connect_errno() . ')');
 	die();
 }
 
