@@ -131,6 +131,8 @@ public class LoginPage extends Activity {
      * function to verify login details in mysql db
      * */
     private void checkLogin(final String username, final String password) {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
         // Tag used to cancel the request
         String tag_string_req = "req_login";
 
@@ -147,24 +149,18 @@ public class LoginPage extends Activity {
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
+                    String error = jObj.getString("error");
 
                     // Check for error node in json
-                    if (!error) {
+                    if (!error.isEmpty()) {
                         // user successfully logged in
                         // Create login session
                         session.setLogin(true);
 
                         // Now store the user in SQLite
-                        String uid = jObj.getString("uid");
-
-                        JSONObject user = jObj.getJSONObject("user");
+                        String id = jObj.getString("id");
+                        JSONObject user = jObj.getJSONObject("username");
                         int admin = user.getInt("admin");
-                        String firstname = user.getString("firstname");
-                        String lastname = user.getString("lastname");
-                        String email = user.getString("email");
-                        String username = user.getString("username");
-                        String password = user.getString("password");
 
                         // Inserting row in users table
                         db.addUser(admin, firstname, lastname, email, username, password);
@@ -209,9 +205,7 @@ public class LoginPage extends Activity {
             }
 
         };
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        queue.add(strReq);
     }
 
     private void showDialog() {
