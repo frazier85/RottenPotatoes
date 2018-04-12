@@ -132,6 +132,12 @@ function getGenreName($id)
 	return "null";
 }
 
+function getReviewString($id, $body, $uid, $albumid, $rating)
+{
+	$username = getUsername($uid);
+	return '{"id" : ' . $id . ', "text" : "' . $body . '", "uid" : ' . $uid . ', "username" : "' . $username . '", "albumid" : ' . $albumid . ', "rating" : ' . $rating . '}';
+}
+
 function getSongsAsJsonArray($albumid)
 {
 	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -155,6 +161,26 @@ function getSongsAsJsonArray($albumid)
 	else
 	{
 		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+	return "null";
+}
+
+function getUsername($id)
+{
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	if ($stmt = $dbc->prepare("SELECT username FROM USERS WHERE ID=?" ))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($user);
+		if($stmt->fetch())
+		{
+			$stmt->close();
+			mysqli_close($dbc);
+			return $user;
+		}
 	}
 	mysqli_close($dbc);
 	return "null";

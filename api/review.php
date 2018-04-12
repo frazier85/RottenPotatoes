@@ -94,24 +94,44 @@ elseif($action === "get_rating")
 }
 elseif($action === "get_reviews")
 {
-
+	$aid = $data["id"];
+	if ($stmt = $dbc->prepare("SELECT * FROM REVIEWS WHERE album_ID=?" ))
+  {
+    $stmt->bind_param('i', $aid);
+    $stmt->execute();
+    $stmt->store_result();
+		$stmt->bind_result($id, $body, $uid, $albumid, $rating);
+		$json = '{ "reviews": [ ';
+		while($stmt->fetch())
+		{
+			$json = $json . getReviewString($id, $body, $uid, $albumid, $rating) . ',';
+		}
+		//remove last comma
+		$json = substr($json, 0, -1);
+		$json = $json . "]}";
+		$stmt->close();
+		sendResultInfoAsJson($json);
+  }
+  else
+  {
+    sendError("There was an issue with our database.");
+  }
+  mysqli_close($dbc);
 }
 elseif($action === "get_review")
 {
-	$id = $data["id"];
+	$rid = $data["id"];
 	if ($stmt = $dbc->prepare("SELECT * FROM REVIEWS WHERE ID=?" ))
   {
-    $stmt->bind_param('i', $id);
+    $stmt->bind_param('i', $rid);
     $stmt->execute();
     $stmt->store_result();
-		$stmt->bind_result(/*TODO: Put stuff here*/);
+		$stmt->bind_result($id, $body, $uid, $albumid, $rating);
+		$json = "{}";
 		if($stmt->fetch())
 		{
-			$total += $rating;
-			$count++;
+			$json = getReviewString($id, $body, $uid, $albumid, $rating);
 		}
-		$avg = $total / $count;
-		$json = '{"rating":' . $avg .'}';
 		$stmt->close();
 		sendResultInfoAsJson($json);
   }
