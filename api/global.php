@@ -41,7 +41,7 @@ function doesUserHaveAdmin($user)
 {
 	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	if ($stmt = $dbc->prepare("SELECT admin FROM USERS WHERE username=?" ))
+	if ($stmt = $dbc->prepare("SELECT admin FROM USERS WHERE username=?"))
 	{
 		$stmt->bind_param('s', $user);
 		$stmt->execute();

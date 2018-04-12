@@ -2,8 +2,8 @@
 define("IN_API", 1);
 require_once "global.php";
 
-$by = $_GET["action"];
 $data = getRequestInfo();
+$action = $_GET["action"];
 
 $dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if (mysqli_connect_errno())
@@ -36,7 +36,7 @@ if($action === "get_genres")
 	}
 	mysqli_close($dbc);
 }
-($action === "get_albums_bygenre")
+elseif($action === "get_albums_bygenre")
 {
   $gid = $data["id"];
   if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE genre_ID=?" ))
@@ -62,7 +62,7 @@ if($action === "get_genres")
 	}
 	mysqli_close($dbc);
 }
-($action === "get_albums_byartist")
+elseif($action === "get_albums_byartist")
 {
   $aid = $data["id"];
   if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE artist_ID=?" ))
