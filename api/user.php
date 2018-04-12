@@ -56,6 +56,9 @@ elseif($action === "login")
     $json = '{"id":-1,"username":"","error":"Invalid username or password."}';
     if($stmt->fetch())
     {
+			session_start();
+			$_SESSION["user"] = $user;
+			$_SESSION["userid"] = $uid;
       $json = '{"id":' . $uid . ',"username":"' . $user .'","admin":' . $admin .',"error":""}';
     }
     $stmt->close();
@@ -66,6 +69,11 @@ elseif($action === "login")
     sendError("There was an issue with our database.");
   }
   mysqli_close($dbc);
+}
+elseif($action === "logout")
+{
+	session_unset();
+	session_destroy();
 }
 else
 {

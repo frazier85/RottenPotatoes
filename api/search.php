@@ -22,32 +22,7 @@ if(strlen($qry) < 3)
 	sendError("Searches must have at least 3 characters.");
 	die();
 }
-if($by === "genre")
-{
-  if ($stmt = $dbc->prepare("SELECT * FROM GENRES WHERE name LIKE CONCAT('%',?,'%')" ))
-  {
-    $stmt->bind_param('s', $qry);
-    $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($id,$name);
-		$json = '{ "genres": [ ';
-		while($stmt->fetch())
-		{
-			$json = $json . getGenreString($id, $name) . ',';
-		}
-		//remove last comma
-		$json = substr($json, 0, -1);
-		$json = $json . "]}";
-		$stmt->close();
-		sendResultInfoAsJson($json);
-  }
-  else
-  {
-    sendError("There was an issue with our database.");
-  }
-  mysqli_close($dbc);
-}
-elseif($by === "artist")
+if($by === "artist")
 {
 	if ($stmt = $dbc->prepare("SELECT * FROM ARTISTS WHERE name LIKE CONCAT('%',?,'%')" ))
 	{

@@ -1,14 +1,18 @@
 #PHP API#
 
 **/api/user.php?action=<ACTION>**
-* <ACTION> is "login": expects "username" and "password" and logs the user in Leinecker style. "admin" >= 1 if user has admin permissions, 0 otherwise
+* <ACTION> is "login": expects "username" and "password" and logs the user in Leinecker style. "admin" >= 1 if user has admin permissions, 0 otherwise. creates a PHP session
 * <ACTION> is "register": expects "username", "password", "email", "fname", "lname" and registers user
+* <ACTION> is "logout": ends the PHP session, expects no data and returns no data
 
 **/api/search.php?by=<TYPE>**
-* <TYPE> is "genre": expects "query" and returns a JSON of genres  
 * <TYPE> is "album": expects "query" and returns a JSON of albums including URLs to their art
 * <TYPE> is "album_card": expects "query" and returns a JSON of albums including URLs to their art and songs and artist name and genre name
 * <TYPE> is "artist": expects "query" and returns a JSON of artists
+
+**/api/general.php?action=<ACTION>**
+* <ACTION> is "get_genres": no POST data needed, returns all genres (useful for making a menu or area for users to browse)
+* <ACTION> is "get_albums_bygenre": expects genre ID as "id", returns all albums in a genre
 
 **/api/review.php?action=<ACTION>**
 * <ACTION> is "get_reviews": expects album id as "id", returns reviews for that albums
