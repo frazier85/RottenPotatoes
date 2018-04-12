@@ -61,7 +61,6 @@ elseif($by === "artist_getalbums")
 			$ids[] = $id;
 		}
 		$stmt->close();
-		sendResultInfoAsJson($json);
 	}
 	else
 	{
