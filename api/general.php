@@ -62,6 +62,32 @@ if($action === "get_genres")
 	}
 	mysqli_close($dbc);
 }
+($action === "get_albums_byartist")
+{
+  $aid = $data["id"];
+  if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE artist_ID=?" ))
+	{
+		$stmt->bind_param('i', $aid);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id, $name, $icon, $year, $artistId, $genreId);
+		$json = '{ "albums": [ ';
+		while($stmt->fetch())
+		{
+			$json = $json . getAlbumString($id, $name, $icon, $year, $artistId, $genreId) . ',';
+		}
+		//remove last comma
+		$json = substr($json, 0, -1);
+		$json = $json . "]}";
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+}
 else
 {
 	mysqli_close($dbc);
