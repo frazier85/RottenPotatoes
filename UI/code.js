@@ -84,55 +84,189 @@ function searchBy()
 
 	var query = document.getElementById("searchText").value;
 	var searchType = document.getElementById("searchType");
-	searchList.innerHTML = "";
+	searchType = searchType.value;
+
+	document.getElementById("searchResult").innerHTML = "";
+
+ 	var resultList = document.getElementById("resultList");
+ 	resultList.innerHTML = "";
+
+
 
 	var jsonPayload = '{"query" : "' + query + '"}';
 	var url = urlBase + '/search.php?by=' + searchType;
-
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	switch(searchType)
 	{
 		case 'genre':
+			try
+			{
+				xhr.onreadystatechange = function()
+				{
+					if (this.readyState == 4 && this.status == 200)
+					{
+						document.getElementById("searchResult").innerHTML = "Genre data has been retrieved";
 
+						hideOrShow( "resultList", true );
+
+						var jsonObject = JSON.parse( xhr.responseText );
+
+						alert( xhr.responseText );
+
+						var i;
+						$("#dataTable tbody tr").remove();
+						for( i in jsonObject.genres)
+						{
+							var row = "";
+              row += '<tr><td>' + " " + '</td><td>' + " " + '</td><td>' + " " + '</td><td>' + " " + '</td><td>' + jsonObject.genres[i].name+ '</td></tr>';
+
+              var oldTBody = document.getElementById("rowData").innerHTML + row;
+
+              document.getElementById("rowData").innerHTML = oldTBody;
+						}
+					}
+				};
+				xhr.send(jsonPayload);
+			}
+			catch(err)
+			{
+				document.getElementById("searchResult").innerHTML = err.message;
+			}
 
 		break;
+
 		case 'artist':
+
+		try
+		{
+			xhr.onreadystatechange = function()
+			{
+				if (this.readyState == 4 && this.status == 200)
+				{
+					hideOrShow( "resultList", true );
+
+					document.getElementById("searchResult").innerHTML = "Artist data has been retrieved";
+					var jsonObject = JSON.parse( xhr.responseText );
+
+					alert( xhr.responseText );
+
+					$("#dataTable tbody tr").remove();
+					var i;
+					for( i in jsonObject.artists)
+					{
+						var row = "";
+						 row += '<tr><td>' + " " + '</td><td>' + " " + '</td><td>' + " " + '</td><td>' + jsonObject.artists[i].name + '</td><td>' + jsonObject.artists[i].genre_ID + '</td></tr>';
+
+						var oldTBody = document.getElementById("rowData").innerHTML + row;
+
+						document.getElementById("rowData").innerHTML = oldTBody;
+					}
+				}
+			};
+			xhr.send(jsonPayload);
+		}
+		catch(err)
+		{
+			document.getElementById("searchResult").innerHTML = err.message;
+		}
 
 		break;
 		case 'album':
+		try
+		{
+			xhr.onreadystatechange = function()
+			{
+				if (this.readyState == 4 && this.status == 200)
+				{
+					hideOrShow( "resultList", true );
+
+					document.getElementById("searchResult").innerHTML = "Album Card Data has been retrieved";
+
+					var jsonObject = JSON.parse( xhr.responseText );
+
+					alert( xhr.responseText );
+
+				 $("#dataTable tbody tr").remove();
+
+					var i;
+					for( i in jsonObject.albums)
+					{
+						 var row = "";
+						 row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artist_ID + '</td><td>' + jsonObject.albums[i].genre_ID + '</td></tr>';
+
+						 var oldTBody = document.getElementById("rowData").innerHTML + row;
+
+						 document.getElementById("rowData").innerHTML = oldTBody;
+
+					}
+
+				}
+			};
+			xhr.send(jsonPayload);
+		}
+		catch(err)
+		{
+			document.getElementById("searchResult").innerHTML = err.message;
+		}
+
+		break;
+		case 'album_card':
+
+		try
+		{
+			xhr.onreadystatechange = function()
+			{
+				if (this.readyState == 4 && this.status == 200)
+				{
+					hideOrShow( "resultList", true );
+
+					document.getElementById("searchResult").innerHTML = "Album Card Data has been retrieved";
+
+					var jsonObject = JSON.parse( xhr.responseText );
+
+         $("#dataTable tbody tr").remove();
+
+					var i;
+					for( i in jsonObject.albums)
+					{
+             var row = "";
+             row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artist_ID + '</td><td>' + jsonObject.albums[i].genre_ID + '</td></tr>';
+
+             var oldTBody = document.getElementById("rowData").innerHTML + row;
+
+             document.getElementById("rowData").innerHTML = oldTBody;
+
+					}
+
+				}
+			};
+			xhr.send(jsonPayload);
+		}
+		catch(err)
+		{
+			document.getElementById("searchResult").innerHTML = err.message;
+		}
 
 		break;
 		default:
-		document.getElementById("contentResult").innerHTML = "Please search by something";
+		document.getElementById("searchResult").innerHTML = "Please search by something";
 
 	}
-	try
-	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				hideOrShow( "searchList", true );
 
-				document.getElementById("contentResult").innerHTML = "Data has been retrieved";
-				var jsonObject = JSON.parse( xhr.responseText );
-				var i;
-				for( i in jsonObject.contacts)
-				{
-						var opt = document.createElement("option");
-						var entryString = "";
-						opt.text = entryString.concat(jsonObject.contacts[i].first, " ", jsonObject.contacts[i].last, " ", jsonObject.contacts[i].phone, " ", jsonObject.contacts[i].email);
-						opt.value = jsonObject.contacts[i].id;
-						contactList.options.add(opt);
-				}
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
+}
+
+function hideOrShow( elementId, showState )
+{
+	var vis = "visible";
+	var dis = "block";
+	if( !showState )
 	{
-		document.getElementById("contentResult").innerHTML = err.message;
+		vis = "hidden";
+		dis = "none";
 	}
+
+	document.getElementById( elementId ).style.visibility = vis;
+	document.getElementById( elementId ).style.display = dis;
 }
