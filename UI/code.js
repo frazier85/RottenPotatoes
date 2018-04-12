@@ -95,113 +95,40 @@ function searchBy()
 
 	var jsonPayload = '{"query" : "' + query + '"}';
 	var url = urlBase + '/search.php?by=' + searchType;
+	alert(url);
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	switch(searchType)
 	{
-		case 'genre':
-			try
-			{
-				xhr.onreadystatechange = function()
-				{
-					if (this.readyState == 4 && this.status == 200)
-					{
-						document.getElementById("searchResult").innerHTML = "Genre data has been retrieved";
 
-						hideOrShow( "resultList", true );
-
-						var jsonObject = JSON.parse( xhr.responseText );
-
-						alert( xhr.responseText );
-
-						var i;
-						$("#dataTable tbody tr").remove();
-						for( i in jsonObject.genres)
-						{
-							var row = "";
-              row += '<tr><td>' + " " + '</td><td>' + " " + '</td><td>' + " " + '</td><td>' + " " + '</td><td>' + jsonObject.genres[i].name+ '</td></tr>';
-
-              var oldTBody = document.getElementById("rowData").innerHTML + row;
-
-              document.getElementById("rowData").innerHTML = oldTBody;
-						}
-					}
-				};
-				xhr.send(jsonPayload);
-			}
-			catch(err)
-			{
-				document.getElementById("searchResult").innerHTML = err.message;
-			}
-
-		break;
-
-		case 'artist':
-
+		case 'artist_getalbums':
 		try
 		{
 			xhr.onreadystatechange = function()
 			{
 				if (this.readyState == 4 && this.status == 200)
 				{
-					hideOrShow( "resultList", true );
+				//	hideOrShow( "resultList", true );
 
-					document.getElementById("searchResult").innerHTML = "Artist data has been retrieved";
+					document.getElementById("searchResult").innerHTML = "Artist Albums data has been retrieved";
 					var jsonObject = JSON.parse( xhr.responseText );
 
 					alert( xhr.responseText );
 
 					$("#dataTable tbody tr").remove();
 					var i;
-					for( i in jsonObject.artists)
-					{
-						var row = "";
-						 row += '<tr><td>' + " " + '</td><td>' + " " + '</td><td>' + " " + '</td><td>' + jsonObject.artists[i].name + '</td><td>' + jsonObject.artists[i].genre_ID + '</td></tr>';
-
-						var oldTBody = document.getElementById("rowData").innerHTML + row;
-
-						document.getElementById("rowData").innerHTML = oldTBody;
-					}
-				}
-			};
-			xhr.send(jsonPayload);
-		}
-		catch(err)
-		{
-			document.getElementById("searchResult").innerHTML = err.message;
-		}
-
-		break;
-		case 'album':
-		try
-		{
-			xhr.onreadystatechange = function()
-			{
-				if (this.readyState == 4 && this.status == 200)
-				{
-					hideOrShow( "resultList", true );
-
-					document.getElementById("searchResult").innerHTML = "Album Card Data has been retrieved";
-
-					var jsonObject = JSON.parse( xhr.responseText );
-
-					alert( xhr.responseText );
-
-				 $("#dataTable tbody tr").remove();
-
 					var i;
 					for( i in jsonObject.albums)
 					{
 						 var row = "";
-						 row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artist_ID + '</td><td>' + jsonObject.albums[i].genre_ID + '</td></tr>';
+						 row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artistId + '</td><td>' + jsonObject.albums[i].genreId + '</td></tr>';
 
 						 var oldTBody = document.getElementById("rowData").innerHTML + row;
 
 						 document.getElementById("rowData").innerHTML = oldTBody;
 
 					}
-
 				}
 			};
 			xhr.send(jsonPayload);
@@ -212,6 +139,7 @@ function searchBy()
 		}
 
 		break;
+
 		case 'album_card':
 
 		try
@@ -220,11 +148,12 @@ function searchBy()
 			{
 				if (this.readyState == 4 && this.status == 200)
 				{
-					hideOrShow( "resultList", true );
+				//	hideOrShow( "resultList", true );
 
-					document.getElementById("searchResult").innerHTML = "Album Card Data has been retrieved";
+					document.getElementById("searchResult").innerHTML = "Album Data has been retrieved";
 
 					var jsonObject = JSON.parse( xhr.responseText );
+					alert( xhr.responseText );
 
          $("#dataTable tbody tr").remove();
 
@@ -232,7 +161,7 @@ function searchBy()
 					for( i in jsonObject.albums)
 					{
              var row = "";
-             row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artist_ID + '</td><td>' + jsonObject.albums[i].genre_ID + '</td></tr>';
+             row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
 
              var oldTBody = document.getElementById("rowData").innerHTML + row;
 
