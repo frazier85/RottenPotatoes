@@ -63,14 +63,101 @@ function getArtistString($id, $name, $genreId)
 	return '{"id" : ' . $id . ', "name" : "' . $name . '", "genreId":"' . $genreId . '"}';
 }
 
+function getArtistName($id)
+{
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	if ($stmt = $dbc->prepare("SELECT name FROM ARTISTS WHERE ID=?" ))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($name);
+		if($stmt->fetch())
+		{
+			$stmt->close();
+			mysqli_close($dbc);
+			return $name;
+		}
+		$stmt->close();
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+	return "null";
+}
+
 function getAlbumString($id, $name, $icon, $year, $artistId, $genreId)
 {
 	return '{"id" : ' . $id . ', "name" : "' . $name . '", "iconUrl" : "' . $icon . '", "year" : ' . $year . ', "artistId" : ' . $artistId . ', "genreId" : ' . $genreId . '}';
 }
 
+//Includes songs in the album and artist name
+function getAlbumStringFull($id, $name, $icon, $year, $artistId, $genreId)
+{
+	$genre = getGenreString($genreId, getGenreName($genreId));
+	$artist = getArtistString($artistId, getArtistName($artistId), $genreId);
+	$songs = getSongsAsJsonArray($id);
+	return '{"id" : ' . $id . ', "name" : "' . $name . '", "iconUrl" : "' . $icon . '", "year" : ' . $year . ', "songs" : ' . $songs . ', "artist" : ' . $artist . ', "genre" : ' . $genre . '}';
+}
+
 function getGenreString($id, $name)
 {
 	return '{"id" : ' . $id . ', "name" : "' . $name . '"}';
+}
+
+function getGenreName($id)
+{
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	if ($stmt = $dbc->prepare("SELECT name FROM GENRES WHERE ID=?" ))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($name);
+		if($stmt->fetch())
+		{
+			$stmt->close();
+			mysqli_close($dbc);
+			return $name;
+		}
+		$stmt->close();
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+	return "null";
+}
+
+function getSongsAsJsonArray($albumid)
+{
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$json = '[ ';
+	if ($stmt = $dbc->prepare("SELECT ID,name FROM SONGS WHERE album_ID=?" ))
+	{
+		$stmt->bind_param('i', $albumid);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id, $name);
+		while($stmt->fetch())
+		{
+			$json = $json . '{"id" : ' . $id . ', "name" : "' . $name . '"},';
+		}
+		$json = substr($json, 0, -1);
+		$json = $json . "]";
+		$stmt->close();
+		mysqli_close($dbc);
+		return $json;
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+	return "null";
 }
 
 function sendResultInfoAsJson( $obj )

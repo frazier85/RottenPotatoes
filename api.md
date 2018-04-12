@@ -7,6 +7,7 @@
 **/api/search.php?by=<TYPE>**
 * <TYPE> is "genre": expects "query" and returns a JSON of genres  
 * <TYPE> is "album": expects "query" and returns a JSON of albums including URLs to their art
+* <TYPE> is "album_card": expects "query" and returns a JSON of albums including URLs to their art and songs and artist name and genre name
 * <TYPE> is "artist": expects "query" and returns a JSON of artists
 
 **/api/review.php?action=<ACTION>**
