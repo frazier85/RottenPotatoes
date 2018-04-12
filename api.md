@@ -9,6 +9,7 @@
 * <TYPE> is "album": expects "query" and returns a JSON of albums including URLs to their art
 * <TYPE> is "album_card": expects "query" and returns a JSON of albums including URLs to their art and songs and artist name and genre name
 * <TYPE> is "artist": expects "query" and returns a JSON of artists
+* <TYPE> is "artist_getalbums": expects "query" and returns a JSON of albums that are by artists with similar names to the query
 
 **/api/general.php?action=<ACTION>**
 * <ACTION> is "get_genres": no POST data needed, returns all genres (useful for making a menu or area for users to browse)

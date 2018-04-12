@@ -47,6 +47,59 @@ if($by === "artist")
 	}
 	mysqli_close($dbc);
 }
+elseif($by === "artist_getalbums")
+{
+	$ids = array();
+	if ($stmt = $dbc->prepare("SELECT ID FROM ARTISTS WHERE name LIKE CONCAT('%',?,'%')" ))
+	{
+		$stmt->bind_param('s', $qry);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id);
+		while($stmt->fetch())
+		{
+			$ids[] = $id;
+		}
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+		die();
+	}
+	$json = '{ "albums": [ ';
+	$atLeastOne = false;
+	foreach($ids as $artid)
+	{
+		if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE artist_ID=?" ))
+		{
+			$stmt->bind_param('i', $artid);
+			$stmt->execute();
+			$stmt->store_result();
+			$stmt->bind_result($id, $name, $icon, $year, $artistId, $genreId);
+			while($stmt->fetch())
+			{
+				$atLeastOne = true;
+				$json = $json . getAlbumString($id, $name, $icon, $year, $artistId, $genreId) . ',';
+			}
+			$stmt->close();
+
+		}
+		else
+		{
+			sendError("There was an issue with our database.");
+			die();
+		}
+	}
+	if($atLeastOne)
+	{
+		$json = substr($json, 0, -1);
+	}
+	$json = $json . "]}";
+	mysqli_close($dbc);
+	sendResultInfoAsJson($json);
+}
 elseif($by === "album")
 {
 	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
