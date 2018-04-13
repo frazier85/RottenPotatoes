@@ -219,7 +219,7 @@ function addAlbum()
 
 	document.getElementById("submitResult").innerHTML = "";
 
-	var jsonPayload = '{"name" : "' + name + '", "album_artwork" : "' + album_artwork + '", "year" : "' + year + '", "artist_ID" : "' + artist_ID + '", "genre_ID" : "' + genre_ID + '"}';
+	var jsonPayload = '{"name" : "' + name + '", "album_artwork" : "' + album_artwork + '", "year" : "' + year + '", "artist_ID" : "' + artist_ID + '", "genre" : "' + genre_ID + '"}';
 	alert(jsonPayload);
 
 	var url = urlBase + '/admin.php?action=add_album';
