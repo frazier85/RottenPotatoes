@@ -81,7 +81,14 @@ elseif($action === "get_rating")
 			$total += $rating;
 			$count++;
 		}
-		$avg = $total / $count;
+		if($count == 0)
+		{
+			$avg = -1;
+		}
+		else
+		{
+			$avg = $total / $count;
+		}
 		$json = '{"rating":' . $avg .'}';
 		$stmt->close();
 		sendResultInfoAsJson($json);
