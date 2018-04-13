@@ -51,22 +51,30 @@ markPageDangerous();
           <form class="form-inline my-2 my-lg-0">
             <div class="form-group">
               <label for="searchType">Genre:</label>
-              <select class="form-control" id="searchType">
-                <option value="1">Hip-Hop/Rap</option>
-                <option value="2">Rock</option>
-                <option value="5">Country</option>
-                <option value="6">Alternative</option>
-                <option value="7">Jazz</option>
-                <option value="8">Pop</option>
-                <option value="9">Raggae</option>
-                <option value="10">Electronic</option>
+              <select class="form-control" id="genre_ID">
+                <?php
+                 define("IN_API", 1);
+                 require_once "api/global.php";
 
+                 $dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+                 if (mysqli_connect_errno())
+                 {
+                 	sendError('There was an issue with our database. (' . mysqli_connect_errno() . ')');
+                 	die();
+                 }
+
+                 $result = $dbc->query("SELECT * FROM GENRES");
+
+                 while ($row = $result->fetch_assoc()) {
+                     echo "<option value=\"" . $row['ID'] . "\">" . $row['name'] . "</option>";
+                 }
+                 ?>
 
               </select>
             </div>
-            <input class="form-control mr-sm-2 long-box" type="text" id="artistNameText" placeholder="Artist Name" aria-label="ArtistName" style="width:400px">
+            <input class="form-control mr-sm-2 long-box" type="text" id="name" placeholder="Artist Name" aria-label="ArtistName" style="width:400px">
 
-            <button class="btn btn-outline-success my-2 my-sm-0" id="newArtist" type="button" onClick="newArtist();">Submit Artist</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" id="newArtist" type="button" onClick="addArtist();">Submit Artist</button>
 
           </form>
 
