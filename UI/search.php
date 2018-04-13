@@ -22,7 +22,7 @@ require_once "common.php";
       <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="http://project.codethree.net">Rotten Potatoes</a>
 
-        <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='new.php'">Add</button>
+        <?PHP renderAdminButtons(); ?>
 
         <form class="form-inline my-2 my-lg-0">
           <div class="form-group">
