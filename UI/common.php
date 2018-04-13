@@ -6,6 +6,17 @@ function renderFooter()
   echo "<center>©2018 Rotten Potatoes Group. All rights reserved.</center>";
 }
 
+//Used on pages normal users should not see
+function markPageDangerous()
+{
+  if(!isset($_SESSION["user"]) or $_SESSION["admin"] < 1)
+  {
+    header("Location: http://project.codethree.net");
+    //Die in case sneaky users disable redirects
+    die();
+  }
+}
+
 function renderAdminButtons()
 {
   if(!isset($_SESSION["user"]))

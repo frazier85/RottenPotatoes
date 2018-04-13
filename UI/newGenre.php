@@ -1,5 +1,6 @@
 <?PHP
 require_once "common.php";
+markPageDangerous();
 ?>
 <!DOCTYPE html>
   <html>
