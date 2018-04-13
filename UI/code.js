@@ -115,9 +115,6 @@ function searchBy()
 
 	document.getElementById("searchResult").innerHTML = "";
 
- 	var resultList = document.getElementById("resultList");
- 	resultList.innerHTML = "";
-
 
 
 	var jsonPayload = '{"query" : "' + query + '"}';
