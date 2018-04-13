@@ -29,8 +29,8 @@
           <input class="form-control mr-sm-2 long-box" type="search" id="searchText" placeholder="Search" aria-label="Search" style="width:400px"> -->
 
           <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.html'">Search</button>
-<!--
-        </form> -->
+
+        <!-- </form> -->
 
 
           <span class="navbar-text">Hello Guest</a>
@@ -50,44 +50,20 @@
             <div class="row">
               <div class="col">
                 <div class="form-group">
-                  <label for="icon">Album Image URL</label>
-                  <input type="text" class="form-control" id="album_artwork" placeholder="Album Image URL">
+                  <label for="file1">Album Image</label>
+                  <input type="file" class="form-control-file" id="file1">
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
-                  <label for="title">Album Title</label>
-                  <input type="text" class="form-control" id="name" placeholder="Album Title">
+                  <label for="titleInput">Album Title</label>
+                  <input type="text" class="form-control" id="titleInput" placeholder="Album Title">
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <label for="artistInput">Artist</label>
-
-                    <div class="form-group">
-                      <select name="Artist" id="artist_ID" class="form-control">
-                        <?php
-                          define("IN_API", 1);
-                          require_once "api/global.php";
-
-                          $dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-                          if (mysqli_connect_errno())
-                          {
-                          	sendError('There was an issue with our database. (' . mysqli_connect_errno() . ')');
-                          	die();
-                          }
-
-                          $result = $dbc->query("SELECT * FROM ARTISTS");
-
-                          while ($row = $result->fetch_assoc()) {
-                              echo "<option value=\"" . $row['ID'] . "\">" . $row['name'] . "</option>";
-                          }
-                          ?>
-                      </select>
-                    </div>
-
-
-
+                  <input type="text" class="form-control" id="titleInput" placeholder="Artist">
                 </div>
               </div>
             </div>
@@ -95,53 +71,51 @@
             <div class="row">
               <div class="col">
                 <div class="form-group">
+                <label for="ratingInput">Rating</label>
                 <div class="col">
-                  <label for="yearInput">Year</label>
-
-                  <input type="text" class="form-control" id="year" placeholder="Year">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">1</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">2</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                    <label class="form-check-label" for="inlineRadio3">3</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+                    <label class="form-check-label" for="inlineRadio4">4</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+                    <label class="form-check-label" for="inlineRadio5">5</label>
+                  </div>
                 </div>
               </div>
               </div>
 
               <div class="col">
-
                 <div class="form-group">
-                  <label for="searchType">Genre:</label>
-                  <select class="form-control" id="genre_ID">
-                    <?php
-                      require_once "api/global.php";
-
-                      $dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-                      if (mysqli_connect_errno())
-                      {
-                        sendError('There was an issue with our database. (' . mysqli_connect_errno() . ')');
-                        die();
-                      }
-
-                      $result = $dbc->query("SELECT * FROM GENRES");
-
-                      while ($row = $result->fetch_assoc()) {
-                          echo "<option value=\"" . $row['ID'] . "\">" . $row['name'] . "</option>";
-                      }
-                      ?>
-                  </select>
+                  <label for="genreInput">Genre</label>
+                  <input type="text" class="form-control" id="genreInput" placeholder="Genre">
                 </div>
-
               </div>
             </div>
             <p>
             <div class="row justify-content-center">
               <div class="col-2">
-                <button type="button" class="btn btn-primary" onClick="addAlbum();">Submit</button>
+                <button type="button" class="btn btn-primary" onClick="">Submit</button>
               </div>
             </div>
 
           </form>
           </div>
-          <span id="submitResult"></span>
-
         </div>
 
+        <span id="submitResult"></span>
 
       </div>
 

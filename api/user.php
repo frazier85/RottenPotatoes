@@ -45,6 +45,9 @@ if($action === "register")
 	}
 	mysqli_close($dbc);
 }
+
+
+
 elseif($action === "login")
 {
   if ($stmt = $dbc->prepare("SELECT ID,admin,username FROM USERS WHERE username=? AND password=?" ))

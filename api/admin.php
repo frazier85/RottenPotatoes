@@ -124,10 +124,27 @@ elseif($action === "del_genre")
 	}
 	mysqli_close($dbc);
 }
+
 elseif($action === "add_album")
 {
+	$name = $data["name"];
+	$album_artwork = $data["album_artwork"];
+	$artist_ID = $data["artist_ID"];
+	$year = $data["year"];
+	$genre_ID = $data["genre_ID"];
 
+	if($stmt = $dbc->prepare("INSERT INTO ALBUMS (ID, name, album_artwork, year, artist_ID, genre_ID) VALUES (NULL, ?, ?, ?, ?, ?)"))
+	{
+		$stmt->bind_param('ssiii', $name, $album_artwork, $year, $artist_ID , $genre_ID);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	mysqli_close($dbc);
 }
+
 elseif($action === "add_store")
 {
 	$name = $data["name"];
