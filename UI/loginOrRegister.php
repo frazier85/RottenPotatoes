@@ -11,7 +11,6 @@ require_once "common.php";
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-instantsearch-theme-algolia@4.4.2">
       <script type="text/javascript" src="code.js"></script>
       <script type="text/javascript" src="md5.js"></script>
-      <link rel="stylesheet" href="rottenPotatoes.css">
     </head>
 
     <body>
@@ -32,7 +31,7 @@ require_once "common.php";
           </div>
           <input class="form-control mr-sm-2 long-box" type="search" id="searchText" placeholder="Search" aria-label="Search" style="width:400px"> -->
 
-          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.html'">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
 
         <!-- </form> -->
 
