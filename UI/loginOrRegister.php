@@ -37,9 +37,7 @@ require_once "common.php";
         <!-- </form> -->
 
 
-          <span class="navbar-text">Hello Guest</a>
-            <button class="btn btn-outline-success" type="button" onClick="window.location.href='loginOrRegister.php'">Log In/Register</button>
-            <button class="btn btn-outline-success" type="button" onClick="">Log Out</button>
+          <?PHP renderWelcome(); ?>
 
 
       </nav>
