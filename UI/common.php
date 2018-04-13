@@ -1,6 +1,19 @@
 <?PHP
 session_start();
 
+function generateHeader()
+{
+  echo '<script type="text/javascript" src="code.js"></script>';
+  echo '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">';
+  echo '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">';
+  echo '<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">';
+  echo '<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">';
+  echo '<link rel="manifest" href="/site.webmanifest">';
+  echo '<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">';
+  echo '<meta name="msapplication-TileColor" content="#da532c">';
+  echo '<meta name="theme-color" content="#ffffff">';
+}
+
 function renderTitle()
 {
   echo '<a class="navbar-brand" href="http://project.codethree.net"><img src="potato.png" width="55" height="55">  Rotten Potatoes</a>';
