@@ -64,6 +64,7 @@ elseif($action === "login")
 			session_start();
 			$_SESSION["user"] = $user;
 			$_SESSION["userid"] = $uid;
+			$_SESSION["admin"] = $admin;
       $json = '{"id":' . $uid . ',"username":"' . $user .'","admin":' . $admin .',"error":""}';
     }
     $stmt->close();
@@ -81,6 +82,7 @@ elseif($action === "logout")
 	session_start();
 	$_SESSION["user"] = null;
 	$_SESSION["userid"] = null;
+	$_SESSION["admin"] = null;
 	session_unset();
 }
 else
