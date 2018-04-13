@@ -85,13 +85,13 @@ public class LoginPage extends Activity {
         // Session manager
         session = new SessionManager(getApplicationContext());
 
-        // Check if user is already logged in or not
-        if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
-            Intent intent = new Intent(LoginPage.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        // Check if user is already logged in or not
+//        if (session.isLoggedIn()) {
+//            // User is already logged in. Take him to main activity
+//            Intent intent = new Intent(LoginPage.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
 
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +163,7 @@ public class LoginPage extends Activity {
                         int admin = user.getInt("admin");
 
                         // Inserting row in users table
-                        db.addUser(admin, firstname, lastname, email, username, password);
+                        // db.addUser(admin, firstname, lastname, email, username, password);
 
                         // Launch main activity
                         Intent intent = new Intent(LoginPage.this,

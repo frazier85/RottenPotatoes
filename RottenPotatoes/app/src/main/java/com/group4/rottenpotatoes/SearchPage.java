@@ -1,18 +1,18 @@
 package com.group4.rottenpotatoes;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -28,9 +28,11 @@ public class SearchPage extends AppCompatActivity {
     Button mSearchButton;
     Button mLoginRegisterButton;
 
-    private static final String URL = "http://project.codethree.net/api/search.php?by=";
+    private static final String URL = "http://project.codethree.net/api/search.php?by=album_card";
     List<Song> mSongList;
     RecyclerView mRecyclerView;
+
+    SongAdapter mSongAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,77 +62,75 @@ public class SearchPage extends AppCompatActivity {
             }
         });
 
-        // Recycler View Setup
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mSongList = new ArrayList<>();
 
-        loadSongs();
 
-//        // Get the intent, verify the action and get the query
-//        Intent intent = getIntent();
-//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//            String query = intent.getStringExtra(SearchManager.QUERY);
-//            search(query);
-//        }
+        // Setup adapter for recycler view
+        mSongAdapter = new SongAdapter(this, mSongList);
+
+        // Recycler View Setup
+        mRecyclerView = findViewById(R.id.recyclerViewSearch);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mSongAdapter);
+
+
+        // Get the intent, verify the action and get the query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            search(query);
+        }
     }
 
-    private void loadSongs()
-    {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            // JSONArray array = new JSONArray(response);
-                            JSONObject obj = new JSONObject(response);
 
-                            //traversing through all the object
-//                            for (int i = 0; i < array.length(); i++)
-//                            {
-//
-//                                //getting product object from json array
-//                                JSONObject song = array.getJSONObject(i);
-//
-//                                //adding the product to product list
-//                                mSongList.add(new Song(
-//                                        song.getString("artist"),
-//                                        song.getString("title"),
-//                                        song.getString("link"),
-//                                        song.getString("review"),
-//                                        song.getString("genre"),
-//                                        song.getString("album")
-//                                ));
-//                            }
-//
-//                            //creating adapter object and setting it to recyclerview
-//                            SongAdapter adapter = new SongAdapter(SearchPage.this, mSongList);
-//                            mRecyclerView.setAdapter(adapter);
-                            System.out.println(obj.toString());
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //TODO: handle errors
-                    }
-                });
-        Volley.newRequestQueue(this).add(stringRequest);
-    }
 
     private void search(String query)
     {
-        // TODO: Perform the search
-        // Return search results with an Adapter?
-        // https://developer.android.com/guide/topics/search/search-dialog.html
+        JSONObject searchQuery = new JSONObject();
+        try {
+            searchQuery.put("query", query);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
 
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, URL, searchQuery, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // TODO: Something here
+                        try {
+                            JSONArray album = response.getJSONArray("albums");
+                            for(int i = 0; i < album.length(); i++)
+                            {
+                                JSONObject currentObj = album.getJSONObject(i);
+                                String albumName = currentObj.getString("name");
+                                String year = currentObj.getString("year");
+                                String iconURL = currentObj.getString("iconUrl");
+
+                                JSONObject artistObj = currentObj.getJSONObject("artist");
+                                String artist = artistObj.getString("name");
+
+                                JSONObject genreObj = currentObj.getJSONObject("genre");
+                                String genre = genreObj.getString("name");
+
+                                Song currentSong = new Song(artist, " ", iconURL, "0.0", genre, albumName);
+                                mSongList.add(currentSong);
+                            }
+                        }catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        System.out.println(error);
+                    }
+                });
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
 
     }
 }
