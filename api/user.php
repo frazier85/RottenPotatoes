@@ -78,6 +78,7 @@ elseif($action === "login")
 elseif($action === "logout")
 {
 	mysqli_close($dbc);
+	session_start();
 	$_SESSION["user"] = null;
 	$_SESSION["userid"] = null;
 	session_unset();
