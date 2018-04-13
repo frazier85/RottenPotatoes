@@ -20,7 +20,7 @@ markPageDangerous();
 
         <?PHP renderAdminButtons(); ?>
 
-          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.html'">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
 
           <?PHP renderWelcome(); ?>
 

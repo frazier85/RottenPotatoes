@@ -7,7 +7,6 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-instantsearch-theme-algolia@4.4.2">
       <script type="text/javascript" src="code.js"></script>
-      <link rel="stylesheet" href="code.css">
     </head>
 
     <body>
@@ -17,21 +16,7 @@
 
         <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='new.php'">Add</button>
 
-        <!-- <form class="form-inline my-2 my-lg-0">
-          <div class="form-group">
-            <label for="exampleSelect1">Search By:</label>
-            <select class="form-control" id="searchType">
-              <option>Album</option>
-              <option>Artist</option>
-              <option>Genre</option>
-            </select>
-          </div>
-          <input class="form-control mr-sm-2 long-box" type="search" id="searchText" placeholder="Search" aria-label="Search" style="width:400px"> -->
-
-          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.html'">Search</button>
-
-        <!-- </form> -->
-
+          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
 
           <span class="navbar-text">Hello Guest</a>
             <button class="btn btn-outline-success" type="button" onClick="window.location.href='loginOrRegister.php'">Log In/Register</button>

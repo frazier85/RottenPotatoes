@@ -135,7 +135,6 @@ function searchBy()
 			{
 				if (this.readyState == 4 && this.status == 200)
 				{
-				//	hideOrShow( "resultList", true );
 
 					document.getElementById("searchResult").innerHTML = "Artist Albums data has been retrieved";
 					var jsonObject = JSON.parse( xhr.responseText );
@@ -171,7 +170,7 @@ function searchBy()
 			{
 				if (this.readyState == 4 && this.status == 200)
 				{
-				//	hideOrShow( "resultList", true );
+
 
 					document.getElementById("searchResult").innerHTML = "Album Data has been retrieved";
 
@@ -314,18 +313,4 @@ function addArtist()
 		document.getElementById("submitResult").innerHTML = err.message;
 	}
 
-}
-
-function hideOrShow( elementId, showState )
-{
-	var vis = "visible";
-	var dis = "block";
-	if( !showState )
-	{
-		vis = "hidden";
-		dis = "none";
-	}
-
-	document.getElementById( elementId ).style.visibility = vis;
-	document.getElementById( elementId ).style.display = dis;
 }

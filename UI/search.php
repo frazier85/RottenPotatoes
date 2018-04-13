@@ -54,10 +54,6 @@ require_once "common.php";
         <div class="container">
 
           <span id="searchResult"></span>
-          <select id="resultList" style="display:none; visibility:hidden;">
-            <!-- <option value="volvo">Volvo</option> -->
-          </select>
-
 
           <div class="table-responsive">
             <table class="table table-bordered table-hover" id="dataTable">
