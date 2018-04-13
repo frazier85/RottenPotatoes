@@ -95,7 +95,7 @@ function logout()
 		//redirect user to our main page
 		setTimeout(function(){
     	window.location.href = "http://project.codethree.net";
-		}, 500);
+		}, 100);
 
 	}
 	catch(err)
