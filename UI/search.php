@@ -20,9 +20,10 @@ require_once "common.php";
     <body>
 
       <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="http://project.codethree.net">Rotten Potatoes</a>
-
-        <?PHP renderAdminButtons(); ?>
+        <?PHP
+        renderTitle();
+        renderAdminButtons();
+        ?>
 
         <form class="form-inline my-2 my-lg-0">
           <div class="form-group">

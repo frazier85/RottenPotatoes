@@ -15,9 +15,10 @@ require_once "common.php";
     <body>
 
       <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="http://project.codethree.net">Rotten Potatoes</a>
-
-        <?PHP renderAdminButtons(); ?>
+        <?PHP
+        renderTitle();
+        renderAdminButtons();
+        ?>
 
           <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
 

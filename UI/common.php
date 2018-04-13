@@ -1,6 +1,11 @@
 <?PHP
 session_start();
 
+function renderTitle()
+{
+  echo '<a class="navbar-brand" href="http://project.codethree.net"><img src="potato.png" width="55" height="55">  Rotten Potatoes</a>';
+}
+
 function renderFooter()
 {
   echo "<center>©2018 Rotten Potatoes Group. All rights reserved.</center>";
