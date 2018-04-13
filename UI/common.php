@@ -20,7 +20,7 @@ function renderWelcome()
   echo "!  ";
   if(isset($_SESSION["user"]))
   {
-    echo '<button class="btn btn-outline-success" type="button" onClick="">Log Out</button>';
+    echo '<button class="btn btn-outline-success" type="button" onClick="logout();">Log Out</button>';
   }
   else
   {

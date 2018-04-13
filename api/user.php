@@ -4,8 +4,6 @@ require_once "global.php";
 
 $action = $_GET["action"];
 $data = getRequestInfo();
-$user = $data["username"];
-$pass = $data["password"];
 
 if(!isset($action))
 {
@@ -24,6 +22,8 @@ if($action === "register")
   $email = $data["email"];
   $fn = $data["fname"];
   $ln = $data["lname"];
+	$user = $data["username"];
+	$pass = $data["password"];
   if(doesUserExist($user))
 	{
 		sendError("Username is taken");
@@ -50,6 +50,8 @@ if($action === "register")
 
 elseif($action === "login")
 {
+	$user = $data["username"];
+	$pass = $data["password"];
   if ($stmt = $dbc->prepare("SELECT ID,admin,username FROM USERS WHERE username=? AND password=?" ))
   {
     $stmt->bind_param('ss', $user, $pass);
@@ -75,8 +77,10 @@ elseif($action === "login")
 }
 elseif($action === "logout")
 {
+	mysqli_close($dbc);
+	$_SESSION["user"] = null;
+	$_SESSION["userid"] = null;
 	session_unset();
-	session_destroy();
 }
 else
 {

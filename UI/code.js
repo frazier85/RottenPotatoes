@@ -84,6 +84,26 @@ function login()
 
 }
 
+function logout()
+{
+	var url = urlBase + '/user.php?action=logout';
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, false);
+	try
+	{
+		xhr.send();
+		//redirect user to our main page
+		setTimeout(function(){
+    	window.location.href = "http://project.codethree.net";
+		}, 500);
+
+	}
+	catch(err)
+	{
+		//Do nothing errors don't happen xd
+	}
+}
+
 function searchBy()
 {
 
