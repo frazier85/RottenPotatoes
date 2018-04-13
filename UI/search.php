@@ -77,7 +77,7 @@ require_once "common.php";
       </div>
       </div>
 
-      <center> You've reached the bottom of the website. Congrats!</center>
+      <?PHP renderFooter(); ?>
     </body>
 
   </html>
