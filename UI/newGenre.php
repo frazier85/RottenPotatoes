@@ -18,7 +18,7 @@ markPageDangerous();
       <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="http://project.codethree.net">Rotten Potatoes</a>
 
-        <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='new.php'">Add</button>
+        <?PHP renderAdminButtons(); ?>
 
           <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.html'">Search</button>
 
