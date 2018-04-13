@@ -16,24 +16,23 @@
       <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="#">Rotten Potatoes</a>
 
-        <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='newAlbum.php'">New Album</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='new.php'">Add</button>
 
-        <form class="form-inline my-2 my-lg-0">
+        <!-- <form class="form-inline my-2 my-lg-0">
           <div class="form-group">
             <label for="searchType">Search By:</label>
             <select class="form-control" id="searchType">
-              <option value="album">Album</option>
-              <option value="artist">Artist</option>
-              <option value="genre">Genre</option>
-              <option value="album_card">Album Card</option>
+              <option value="album_card">Album</option>
+              <option value="artist_getalbums">Artist</option>
+
 
             </select>
           </div>
-          <input class="form-control mr-sm-2 long-box" type="text" id="searchText" placeholder="Search" aria-label="Search" style="width:400px">
+          <input class="form-control mr-sm-2 long-box" type="text" id="searchText" placeholder="Search" aria-label="Search" style="width:400px"> -->
 
-          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="searchBy();">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.html'">Search</button>
 
-        </form>
+        <!-- </form> -->
 
 
           <span class="navbar-text">Hello Guest</a>
@@ -49,22 +48,26 @@
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
 
-              <table class="table1" id="dataTable">
-                  <thead>
-                    <th>Title</th>
-                    <th>Year</th>
-                    <th>Icon</th>
-                    <th>Artist</th>
-                    <th>Genre</th>
-                  </thead>
-                  <tbody id="rowData">
-                  </tbody>
-                </table>
-
           <span id="searchResult"></span>
           <select id="resultList" style="display:none; visibility:hidden;">
             <!-- <option value="volvo">Volvo</option> -->
           </select>
+
+
+
+            <table class="table1" id="dataTable">
+                <thead>
+                  <th>Icon</th>
+                  <th>Title</th>
+                  <th>Year</th>
+                  <th>Artist</th>
+                  <th>Genre</th>
+                </thead>
+                <tbody id="rowData">
+                </tbody>
+              </table>
+
+
 
           <h5>Snazzy front page stuff</h5>
           </div>

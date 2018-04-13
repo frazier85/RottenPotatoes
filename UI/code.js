@@ -6,24 +6,29 @@ function register()
 {
 	var username = document.getElementById("usernameInput").value;
 	var password = md5(document.getElementById("passwordInput").value);
-  var fname = "fist";
-  var lname = "last";
-  var email = "dickbutt@email.com";
+
+  var fname = "n/a";
+  var lname = "n/a";
+  var email = "n/a";
 
 	document.getElementById("loginResult").innerHTML = "";
 
 	var jsonPayload = '{"fname" : "' + fname + '", "lname" : "' + lname + '", "email" : "' + email + '", "username" : "' + username + '", "password" : "' + password + '"}';
 	var url = urlBase + '/user.php?action=register';
+	alert(jsonPayload);
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
 	try
 	{
 		xhr.send(jsonPayload);
 		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
 		{
 			var jsonObject = JSON.parse(xhr.responseText);
+			alert(xhr.responseText);
+
 			document.getElementById("loginResult").innerHTML = jsonObject.error;
 		}
 		else
@@ -95,7 +100,6 @@ function searchBy()
 
 	var jsonPayload = '{"query" : "' + query + '"}';
 	var url = urlBase + '/search.php?by=' + searchType;
-	alert(url);
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -113,16 +117,13 @@ function searchBy()
 
 					document.getElementById("searchResult").innerHTML = "Artist Albums data has been retrieved";
 					var jsonObject = JSON.parse( xhr.responseText );
-
-					alert( xhr.responseText );
-
+					alert(xhr.responseText);
 					$("#dataTable tbody tr").remove();
-					var i;
 					var i;
 					for( i in jsonObject.albums)
 					{
 						 var row = "";
-						 row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artistId + '</td><td>' + jsonObject.albums[i].genreId + '</td></tr>';
+						 row += '<tr><td>' +   '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
 
 						 var oldTBody = document.getElementById("rowData").innerHTML + row;
 
@@ -153,7 +154,7 @@ function searchBy()
 					document.getElementById("searchResult").innerHTML = "Album Data has been retrieved";
 
 					var jsonObject = JSON.parse( xhr.responseText );
-					alert( xhr.responseText );
+					alert(xhr.responseText);
 
          $("#dataTable tbody tr").remove();
 
@@ -161,7 +162,7 @@ function searchBy()
 					for( i in jsonObject.albums)
 					{
              var row = "";
-             row += '<tr><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].icon + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
+             row += '<tr><td>' +   '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
 
              var oldTBody = document.getElementById("rowData").innerHTML + row;
 
@@ -182,6 +183,46 @@ function searchBy()
 		default:
 		document.getElementById("searchResult").innerHTML = "Please search by something";
 
+	}
+
+}
+
+function addAlbum()
+{
+	var album_artwork = document.getElementById("album_artwork").value;
+	var name = document.getElementById("name").value;
+	var artist_ID = document.getElementById("artist_ID").value;
+	var year = document.getElementById("year").value;
+	var genre_ID = document.getElementById("genre_ID").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"name" : "' + name + '", "album_artwork" : "' + album_artwork + '", "year" : "' + year + '", "artist_ID" : "' + artist_ID + '", "genre_ID" : "' + genre_ID + '"}';
+	alert(jsonPayload);
+
+	var url = urlBase + '/admin.php?action=add_album';
+	alert(url);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Album added.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
 	}
 
 }

@@ -7,8 +7,7 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-instantsearch-theme-algolia@4.4.2">
       <script type="text/javascript" src="code.js"></script>
-      <script type="text/javascript" src="md5.js"></script>
-      <link rel="stylesheet" href="rottenPotatoes.css">
+      <link rel="stylesheet" href="code.css">
     </head>
 
     <body>
@@ -47,33 +46,31 @@
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
 
-          <form>
+          <form class="form-inline my-2 my-lg-0">
             <div class="form-group">
-              <label for="usernameInput">Username</label>
-              <input type="text" class="form-control" id="usernameInput" placeholder="Username">
+              <label for="searchType">Genre:</label>
+              <select class="form-control" id="searchType">
+                <option value="1">Hip-Hop/Rap</option>
+                <option value="2">Rock</option>
+                <option value="5">Country</option>
+                <option value="6">Alternative</option>
+                <option value="7">Jazz</option>
+                <option value="8">Pop</option>
+                <option value="9">Raggae</option>
+                <option value="10">Electronic</option>
+
+
+              </select>
             </div>
-            <div class="form-group">
-              <label for="passwordInput">Password</label>
-              <input type="password" class="form-control" id="passwordInput" placeholder="Password">
-            </div>
+            <input class="form-control mr-sm-2 long-box" type="text" id="artistNameText" placeholder="Artist Name" aria-label="ArtistName" style="width:400px">
 
+            <button class="btn btn-outline-success my-2 my-sm-0" id="newArtist" type="button" onClick="newArtist();">Submit Artist</button>
 
-          <div class="row justify-content-center">
-            <div class="col-2">
-              <button type="button" id="loginButton" class="btn btn-primary" onClick="login();">Login</button>
-            </div>
-            <div class="col-2">
-              <button type="button" id="registerButton" class="btn btn-primary" onClick="register();">Register</button>
-            </div>
-            <p>
+          </form>
 
-
-          </div>
-
-        </form>
-        <span id="loginResult"></span>
-          </div>
         </div>
+
+        <span id="submitResult"></span>
 
       </div>
 
