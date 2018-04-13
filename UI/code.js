@@ -248,6 +248,73 @@ function addAlbum()
 	}
 
 }
+function addGenre()
+{
+
+	var name = document.getElementById("name").value;
+	document.getElementById("submitResult").innerHTML = "";
+	var jsonPayload = '{"name" : "' + name + '"}';
+	var url = urlBase + '/admin.php?action=add_genre';
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Genre added.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+
+}
+function addArtist()
+{
+	var name = document.getElementById("name").value;
+	var genre_ID = document.getElementById("genre_ID").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"name" : "' + name + '", "genre" : "' + genre_ID + '"}';
+	alert(jsonPayload);
+
+	var url = urlBase + '/admin.php?action=add_artist';
+	alert(url);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Artist added.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+
+}
 
 function hideOrShow( elementId, showState )
 {
