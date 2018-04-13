@@ -80,7 +80,7 @@ elseif($by === "artist_getalbums")
 			while($stmt->fetch())
 			{
 				$atLeastOne = true;
-				$json = $json . getAlbumString($id, $name, $icon, $year, $artistId, $genreId) . ',';
+				$json = $json . getAlbumStringFull($id, $name, $icon, $year, $artistId, $genreId) . ',';
 			}
 			$stmt->close();
 
