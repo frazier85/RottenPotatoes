@@ -1,8 +1,9 @@
 <?PHP
 session_start();
 
-function generateHeader()
+function generateHeader($title = "Rotten Potatoes")
 {
+  echo "<title>$title</title>";
   echo '<script type="text/javascript" src="code.js"></script>';
   echo '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">';
   echo '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">';
