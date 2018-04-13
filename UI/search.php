@@ -1,140 +1,83 @@
 <?PHP
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-define("IN_API", 1);
-require_once "global.php";
-
-$by = $_GET["by"];
-$data = getRequestInfo();
-$qry = $data["query"];
-if(!isset($qry))
-{
-	sendError("Invalid request.");
-	die();
-}
-$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if (mysqli_connect_errno())
-{
-	sendError('There was an issue with our database. (' . mysqli_connect_errno() . ')');
-	die();
-}
-
-if(strlen($qry) < 3)
-{
-	sendError("Searches must have at least 3 characters.");
-	die();
-}
-if($by === "genre")
-{
-  if ($stmt = $dbc->prepare("SELECT * FROM GENRES WHERE name LIKE CONCAT('%',?,'%')" ))
-  {
-    $stmt->bind_param('s', $qry);
-    $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($id,$name);
-		$json = '{ "genres": [ ';
-		while($stmt->fetch())
-		{
-			$json = $json . '{"id" : ' . $id . ', "name" : "' . $name . '"},';
-		}
-		//remove last comma
-		$json = substr($json, 0, -1);
-		$json = $json . "]}";
-		$stmt->close();
-		sendResultInfoAsJson($json);
-  }
-  else
-  {
-    sendError("There was an issue with our database.");
-  }
-  mysqli_close($dbc);
-}
-elseif($by === "artist")
-{
-	if ($stmt = $dbc->prepare("SELECT * FROM ARTISTS WHERE name LIKE CONCAT('%',?,'%')" ))
-	{
-		$stmt->bind_param('s', $qry);
-		$stmt->execute();
-		$stmt->store_result();
-		$stmt->bind_result($id, $name, $genreId);
-
-		$json = '{ "artists": [ ';
-
-		while($stmt->fetch())
-		{
-			$json = $json . '{"id" : ' . $id . ', "name" : "' . $name . '", "genre_ID" : "' . $genreId . '"},';
-		}
-
-		//remove last comma
-		$json = substr($json, 0, -1);
-		$json = $json . "]}";
-		$stmt->close();
-		sendResultInfoAsJson($json);
-	}
-	else
-	{
-		sendError("There was an issue with our database.");
-	}
-	mysqli_close($dbc);
-}
-elseif($by === "album")
-{
-	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
-	{
-		$stmt->bind_param('s', $qry);
-		$stmt->execute();
-		$stmt->store_result();
-		$stmt->bind_result($id, $name, $icon, $year, $artistId, $genreId);
-		$json = '{ "albums": [ ';
-		while($stmt->fetch())
-		{
-			$json = $json . '{"id" : ' . $id . ', "name" : "' . $name . '","icon":"' . $icon .
-			'", "year" : "' . $year . '", "artist_ID" : "' . $artistId . '", "genre_ID" : "' . $genreId . '"},';
-		}
-		//remove last comma
-		$json = substr($json, 0, -1);
-		$json = $json . "]}";
-		$stmt->close();
-		sendResultInfoAsJson($json);
-	}
-	else
-	{
-		sendError("There was an issue with our database.");
-	}
-	mysqli_close($dbc);
-}
-elseif($by === "album_card")
-{
-	if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE name LIKE CONCAT('%',?,'%')" ))
-	{
-		$stmt->bind_param('s', $qry);
-		$stmt->execute();
-		$stmt->store_result();
-		$stmt->bind_result($id, $name, $icon, $year, $artistId, $genreId);
-		$json = '{ "albums": [ ';
-		while($stmt->fetch())
-		{
-			$json = $json . '{"id" : ' . $id . ', "name" : "' . $name . '","icon":"' . $icon .
-			'", "year" : "' . $year . '", "artist_ID" : "' . $artistId . '", "genre_ID" : "' . $genreId . '"},';
-		}
-		//remove last comma
-		$json = substr($json, 0, -1);
-		$json = $json . "]}";
-		$stmt->close();
-		sendResultInfoAsJson($json);
-	}
-	else
-	{
-		sendError("There was an issue with our database.");
-	}
-	mysqli_close($dbc);
-}
-else
-{
-  mysqli_close($dbc);
-  die("Invalid request.");
-}
+require_once "common.php";
 ?>
+<!DOCTYPE html>
+  <html>
+    <head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-instantsearch-theme-algolia@4.4.2">
+      <script type="text/javascript" src="code.js"></script>
+      <link rel="stylesheet" href="code.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    </head>
+
+    <body>
+
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="http://project.codethree.net">Rotten Potatoes</a>
+
+        <button class="btn btn-outline-success my-2 my-sm-0" id="addAlbumButton" type="submit" onClick="window.location.href='new.php'">Add</button>
+
+        <form class="form-inline my-2 my-lg-0">
+          <div class="form-group">
+            <label for="searchType">Search By:</label>
+            <select class="form-control" id="searchType">
+              <option value="album_card">Album</option>
+              <option value="artist_getalbums">Artist</option>
+
+
+            </select>
+          </div>
+          <input class="form-control mr-sm-2 long-box" type="text" id="searchText" placeholder="Search" aria-label="Search" style="width:400px">
+
+          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="searchBy();">Search</button>
+
+        </form>
+
+
+          <span class="navbar-text">Hello Guest</a>
+            <button class="btn btn-outline-success" type="button" onClick="window.location.href='loginOrRegister.php'">Log In/Register</button>
+            <button class="btn btn-outline-success" type="button" onClick="">Log Out</button>
+
+
+      </nav>
+
+
+      <center>Top of website stuff</center>
+
+      <div class="jumbotron jumbotron-fluid">
+
+        <div class="container">
+
+          <span id="searchResult"></span>
+          <select id="resultList" style="display:none; visibility:hidden;">
+            <!-- <option value="volvo">Volvo</option> -->
+          </select>
+
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="dataTable">
+                <thead>
+                  <th>Icon</th>
+                  <th>Title</th>
+                  <th>Year</th>
+                  <th>Artist</th>
+                  <th>Genre</th>
+                </thead>
+                <tbody id="rowData">
+                </tbody>
+              </table>
+        </div>
+      </div>
+      </div>
+
+      <center> You've reached the bottom of the website. Congrats!</center>
+    </body>
+
+  </html>
