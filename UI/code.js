@@ -75,7 +75,9 @@ function login()
 		displayName = jsonObject.username;
 
 		document.getElementById("loginResult").innerHTML = "Youre logged in now! Cool.";
-
+		setTimeout(function(){
+    	window.location.href = "http://project.codethree.net";
+		}, 500);
 	}
 	catch(err)
 	{
