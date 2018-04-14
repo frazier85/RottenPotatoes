@@ -11,39 +11,15 @@ require_once "common.php";
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-instantsearch-theme-algolia@4.4.2">
       <script type="text/javascript" src="md5.js"></script>
     </head>
-
     <body>
-
       <nav class="navbar navbar-light bg-light">
-        <?PHP
-        renderTitle();
-        renderAdminButtons();
-        ?>
-
-        <!-- <form class="form-inline my-2 my-lg-0">
-          <div class="form-group">
-            <label for="exampleSelect1">Search By:</label>
-            <select class="form-control" id="searchType">
-              <option>Album</option>
-              <option>Artist</option>
-              <option>Genre</option>
-            </select>
-          </div>
-          <input class="form-control mr-sm-2 long-box" type="search" id="searchText" placeholder="Search" aria-label="Search" style="width:400px"> -->
-
+          <?PHP
+          renderTitle();
+          renderAdminButtons();
+          ?>
           <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
-
-        <!-- </form> -->
-
-
           <?PHP renderWelcome(); ?>
-
-
       </nav>
-
-
-      <center>Top of website stuff</center>
-
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
 

@@ -45,10 +45,6 @@ require_once "common.php";
 
 
       </nav>
-
-
-      <center>Top of website stuff</center>
-
       <div class="jumbotron jumbotron-fluid">
 
         <div class="container">

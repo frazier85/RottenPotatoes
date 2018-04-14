@@ -15,23 +15,15 @@ markPageDangerous();
     <body>
 
       <nav class="navbar navbar-light bg-light">
-        <?PHP
-        renderTitle();
-        renderAdminButtons();
-        ?>
-
+          <?PHP
+          renderTitle();
+          renderAdminButtons();
+          ?>
           <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
-
-
           <?PHP renderWelcome(); ?>
       </nav>
-
-
-      <center>Top of website stuff</center>
-
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-
           <form>
             <div class="row">
               <div class="col">
