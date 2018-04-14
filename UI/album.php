@@ -19,6 +19,12 @@ require_once "common.php";
       </nav>
       <script>
         window.onload = function () {
+          var userId = <?PHP
+            if(isset($_SESSION["userid"]))
+              echo $_SESSION["userid"] . ";\r\n";
+            else
+              echo "-1;\r\n";
+          ?>
           var albumId = getQueryVariable("id");
           var name = 	document.getElementById("albumName");
           var artwork = document.getElementById("albumArtwork");
@@ -57,6 +63,34 @@ require_once "common.php";
           catch(err)
           {
             document.getElementById("errorLabel").innerHTML = err.message;
+          }
+          if(userId > 0)
+          {
+            var ratingUrl = urlBase + '/review.php?action=get_users_review';
+            ratingPayload = '{"id" :' + userId  + ',"albumid":' +  albumId + '}';
+            var reviewReq = new XMLHttpRequest();
+          	reviewReq.open("POST", ratingUrl, true);
+          	reviewReq.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+            try
+            {
+              reviewReq.onreadystatechange = function()
+              {
+                if (this.readyState == 4 && this.status == 200)
+                {
+                  var response = JSON.parse(reviewReq.responseText);
+                  userRating.innerHTML = response.rating;
+                }
+              };
+              reviewReq.send(ratingPayload);
+            }
+            catch(err)
+            {
+              document.getElementById("errorLabel").innerHTML = err.message;
+            }
+          }
+          else
+          {
+            userRating.innerHTML = "<a href='/loginOrRegister.php'>Login or register</a> to review!\r\n";
           }
         };
       </script>

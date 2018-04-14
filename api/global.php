@@ -60,7 +60,7 @@ function doesUserHaveAdmin($user)
 
 function getArtistString($id, $name, $genreId)
 {
-	return '{"id" : ' . $id . ', "name" : "' . $name . '", "genreId":"' . $genreId . '"}';
+	return '{"id" : ' . $id . ', "name" : "' . $name . '", "genreId":' . $genreId . '}';
 }
 
 function getArtistName($id)
