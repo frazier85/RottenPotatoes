@@ -26,7 +26,7 @@ function renderTitle()
 
 function renderFooter()
 {
-  echo "<center>©2018 Rotten Potatoes Group. All rights reserved.</center>";
+  echo "<center>©2018 Rotten Potatoes Group. All rights reserved.</center><br /><br />";
 }
 
 //Used on pages normal users should not see
