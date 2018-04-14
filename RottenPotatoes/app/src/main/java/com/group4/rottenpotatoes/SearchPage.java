@@ -111,6 +111,11 @@ public class SearchPage extends AppCompatActivity {
                                 String albumName = currentObj.getString("name");
                                 String year = currentObj.getString("year");
                                 String iconURL = currentObj.getString("iconUrl");
+                                String rating = "0";
+                                rating = currentObj.getString("rating");
+                                int ratingInt = Integer.parseInt(rating);
+                                if(ratingInt < 0) rating = "0";
+                                if(ratingInt > 5) rating = "5.0";
 
                                 JSONObject artistObj = currentObj.getJSONObject("artist");
                                 String artist = artistObj.getString("name");
@@ -118,7 +123,7 @@ public class SearchPage extends AppCompatActivity {
                                 JSONObject genreObj = currentObj.getJSONObject("genre");
                                 String genre = genreObj.getString("name");
 
-                                Song currentSong = new Song(artist, year, iconURL, "0.0", genre, albumName);
+                                Song currentSong = new Song(artist, year, iconURL, rating, genre, albumName);
                                 mSongList.add(currentSong);
                             }
                             SongAdapter adapter = new SongAdapter(SearchPage.this, mSongList);
