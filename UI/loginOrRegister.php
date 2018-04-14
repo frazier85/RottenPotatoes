@@ -1,5 +1,9 @@
 <?PHP
 require_once "common.php";
+if(isset($_SESSION["user"]))
+{
+  header("Location: http://project.codethree.net");
+}
 ?>
 <!DOCTYPE html>
   <html>
