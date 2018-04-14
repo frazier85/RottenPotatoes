@@ -1,11 +1,13 @@
 package com.group4.rottenpotatoes;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.SearchView;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,6 +29,7 @@ public class SearchPage extends AppCompatActivity {
     Button mHomeButton;
     Button mSearchButton;
     Button mLoginRegisterButton;
+    SearchView mSearchView;
 
     private static final String URL = "http://project.codethree.net/api/search.php?by=album_card";
     List<Song> mSongList;
@@ -43,6 +46,12 @@ public class SearchPage extends AppCompatActivity {
         mHomeButton = findViewById(R.id.homeButton);
         mSearchButton = findViewById(R.id.searchButton);
         mLoginRegisterButton = findViewById(R.id.loginRegisterButton);
+
+        // SearchView setup
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchView = findViewById(R.id.searchView);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(false);
 
         mLoginRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
