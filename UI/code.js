@@ -107,9 +107,9 @@ function logout()
 	try
 	{
 		xhr.send();
-		//redirect user to our main page
+		//reload page
 		setTimeout(function(){
-    	window.location.href = "http://project.codethree.net";
+    	location.reload(true);
 		}, 100);
 
 	}
