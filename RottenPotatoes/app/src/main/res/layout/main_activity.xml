@@ -5,28 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textViewHeader"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginStart="5dp"
-        android:text="Today's Top Hits"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewMain"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="196dp"
+            android:layout_height="73dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/potato" />
+
+        <TextView
+            android:id="@+id/textViewHeader"
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:text="Today's Top Hits"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewMain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewMain"
         android:layout_width="378dp"
-        android:layout_height="392dp"
+        android:layout_height="339dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="52dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationBar"

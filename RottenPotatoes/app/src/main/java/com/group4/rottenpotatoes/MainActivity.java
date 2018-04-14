@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mSongView;
     private SongAdapter mSongAdapter;
     private List<Song> mSongList;
+    private ImageView mIconView;
     private static final String URL = "http://project.codethree.net/api/search.php?by=album_card";
 
     @Override
