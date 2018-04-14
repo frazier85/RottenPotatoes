@@ -20,6 +20,7 @@
 **/api/review.php?action=<ACTION>**
 * <ACTION> is "get_reviews": expects album id as "id", returns reviews for that albums
 * <ACTION> is "get_users_reviews": expects user id as "id", returns reviews made by that user
+* <ACTION> is "get_users_review": expects user id as "id", album ID as "albumid", returns a user's review of an album
 * <ACTION> is "get_review": expects review id as "id", returns a single review
 * <ACTION> is "add": adds a review, expects "id" (album ID), "body", "uid" (user id), rating
 * <ACTION> is "del": deletes a review, expects only "id" (review ID)

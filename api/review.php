@@ -184,6 +184,30 @@ elseif($action === "get_users_reviews")
   }
   mysqli_close($dbc);
 }
+elseif($action === "get_users_review")
+{
+	$uid = $data["id"];
+	$aid = $data["albumid"];
+	if ($stmt = $dbc->prepare("SELECT * FROM REVIEWS WHERE user_ID=? AND album_ID=?" ))
+  {
+    $stmt->bind_param('ii', $uid, $aid);
+    $stmt->execute();
+    $stmt->store_result();
+		$stmt->bind_result($id, $body, $uid, $albumid, $rating);
+		$json = '{}';
+		if($stmt->fetch())
+		{
+			$json = getReviewString($id, $body, $uid, $albumid, $rating);
+		}
+		$stmt->close();
+		sendResultInfoAsJson($json);
+  }
+  else
+  {
+    sendError("There was an issue with our database.");
+  }
+  mysqli_close($dbc);
+}
 elseif($action === "get_review")
 {
 	$rid = $data["id"];
