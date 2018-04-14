@@ -162,7 +162,7 @@ elseif($action === "add_album")
 	{
 		$sname = $song["name"];
 		$length = $song["length"];
-		if($stmt = $dbc->prepare("INSERT INTO SONGS (ID, name, length, album_ID, artist_ID) VALUES (NULL, ?, ?, ?, ?)"))
+		if($stmt = $dbc->prepare("INSERT INTO SONGS (ID, name, length, album_ID, artist_ID, preview_url) VALUES (NULL, ?, ?, ?, ?, NULL)"))
 		{
 			$stmt->bind_param('siii', $sname, $length, $album_ID, $artist_ID);
 			$stmt->execute();

@@ -177,15 +177,15 @@ function getSongsAsJsonArray($albumid)
 {
 	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$json = '[ ';
-	if ($stmt = $dbc->prepare("SELECT ID,name FROM SONGS WHERE album_ID=?" ))
+	if ($stmt = $dbc->prepare("SELECT ID,name,length,preview_url FROM SONGS WHERE album_ID=?" ))
 	{
 		$stmt->bind_param('i', $albumid);
 		$stmt->execute();
 		$stmt->store_result();
-		$stmt->bind_result($id, $name);
+		$stmt->bind_result($id, $name, $length, $url);
 		while($stmt->fetch())
 		{
-			$json = $json . '{"id" : ' . $id . ', "name" : "' . $name . '"},';
+			$json = $json . '{"id" : ' . $id . ', "name" : "' . $name . '", "length" : ' . $length .  ', "preview_url" : "' . $url .'"},';
 		}
 		$json = substr($json, 0, -1);
 		$json = $json . "]";
