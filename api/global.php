@@ -138,6 +138,39 @@ function getReviewString($id, $body, $uid, $albumid, $rating)
 	return '{"id" : ' . $id . ', "text" : "' . $body . '", "uid" : ' . $uid . ', "username" : "' . $username . '", "albumid" : ' . $albumid . ', "rating" : ' . $rating . '}';
 }
 
+function getRating($id)
+{
+	$total = 0;
+	$count = 0;
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	if ($stmt = $dbc->prepare("SELECT rating FROM REVIEWS WHERE album_ID=?" ))
+  {
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($rating);
+		while($stmt->fetch())
+		{
+			$total += $rating;
+			$count++;
+		}
+		if($count == 0)
+		{
+			$avg = -1;
+		}
+		else
+		{
+			$avg = $total / $count;
+		}
+		$stmt->close();
+		return $avg;
+  }
+  else
+  {
+    return -1;
+  }
+}
+
 function getSongsAsJsonArray($albumid)
 {
 	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);

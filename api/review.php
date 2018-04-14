@@ -66,38 +66,18 @@ elseif($action === "edit")
 }
 elseif($action === "get_rating")
 {
+	mysqli_close($dbc);
 	//TODO: Cache rating to reduce server load
 	$id = $data["id"];
-	$total = 0;
-	$count = 0;
-	if ($stmt = $dbc->prepare("SELECT rating FROM REVIEWS WHERE album_ID=?" ))
-  {
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($rating);
-		while($stmt->fetch())
-		{
-			$total += $rating;
-			$count++;
-		}
-		if($count == 0)
-		{
-			$avg = -1;
-		}
-		else
-		{
-			$avg = $total / $count;
-		}
-		$json = '{"rating":' . $avg .'}';
-		$stmt->close();
-		sendResultInfoAsJson($json);
-  }
-  else
-  {
-    sendError("There was an issue with our database.");
-  }
-  mysqli_close($dbc);
+	$rating = getRating($id);
+	if($rating >= 0)
+	{
+		sendResultInfoAsJson('{"rating":' . $rating .'}');
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
 }
 elseif($action === "get_reviews")
 {
