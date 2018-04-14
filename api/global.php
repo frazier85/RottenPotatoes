@@ -99,7 +99,8 @@ function getAlbumStringFull($id, $name, $icon, $year, $artistId, $genreId)
 	$genre = getGenreString($genreId, getGenreName($genreId));
 	$artist = getArtistString($artistId, getArtistName($artistId), $genreId);
 	$songs = getSongsAsJsonArray($id);
-	return '{"id" : ' . $id . ', "name" : "' . $name . '", "iconUrl" : "' . $icon . '", "year" : ' . $year . ', "songs" : ' . $songs . ', "artist" : ' . $artist . ', "genre" : ' . $genre . '}';
+	$rating = getRating($id);
+	return '{"id" : ' . $id . ', "name" : "' . $name . '", "iconUrl" : "' . $icon . '", "year" : ' . $year . ', "rating" : ' . $rating . ', "songs" : ' . $songs . ', "artist" : ' . $artist . ', "genre" : ' . $genre . '}';
 }
 
 function getGenreString($id, $name)
