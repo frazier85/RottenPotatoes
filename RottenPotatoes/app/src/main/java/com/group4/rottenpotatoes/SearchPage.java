@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.SearchView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -123,6 +124,14 @@ public class SearchPage extends AppCompatActivity {
                             SongAdapter adapter = new SongAdapter(SearchPage.this, mSongList);
                             mRecyclerView.swapAdapter(adapter, true);
                         }catch(JSONException e){
+                            String err = "There was a search error";
+                            try {
+                                err = response.getString("error");
+                            } catch (JSONException ex)
+                            {
+                                ex.printStackTrace();
+                            }
+                            Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -130,8 +139,9 @@ public class SearchPage extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        System.out.println(error);
+                        Toast.makeText(getApplicationContext(),
+                                error.toString(), Toast.LENGTH_LONG)
+                                .show();
                     }
                 });
         Volley.newRequestQueue(this).add(jsonObjectRequest);
