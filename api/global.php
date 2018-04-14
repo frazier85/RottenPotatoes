@@ -168,7 +168,7 @@ function getRating($id)
   }
   else
   {
-    return -1;
+    return -2;
   }
 }
 

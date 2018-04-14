@@ -70,7 +70,7 @@ elseif($action === "get_rating")
 	//TODO: Cache rating to reduce server load
 	$id = $data["id"];
 	$rating = getRating($id);
-	if($rating >= 0)
+	if($rating >= -1)
 	{
 		sendResultInfoAsJson('{"rating":' . $rating .'}');
 	}
