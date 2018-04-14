@@ -86,8 +86,6 @@ public class SearchPage extends AppCompatActivity {
         }
     }
 
-
-
     private void search(String query)
     {
         mSongList = new ArrayList<Song>();

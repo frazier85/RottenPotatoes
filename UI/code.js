@@ -155,7 +155,7 @@ function searchBy()
 					for( i in jsonObject.albums)
 					{
 						 var row = "";
-						 row += '<tr><td>' +   '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
+             row += '<tr><td>' + '<a href="/album.php?id=' + jsonObject.albums[i].id + '">' + '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</a></td></tr>';
 
 						 var oldTBody = document.getElementById("rowData").innerHTML + row;
 
@@ -194,7 +194,7 @@ function searchBy()
 					for( i in jsonObject.albums)
 					{
              var row = "";
-             row += '<tr><td>' +   '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
+             row += '<tr><td>' + '<a href="/album.php?id=' + jsonObject.albums[i].id + '">' + '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</a></td></tr>';
 
              var oldTBody = document.getElementById("rowData").innerHTML + row;
 
