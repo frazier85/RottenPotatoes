@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -47,6 +46,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         if(!song.getLink().isEmpty())
         {
             new DownloadImageTask(holder.imageView).execute(song.getLink());
+        }
+        else
+        {
+            new DownloadImageTask(holder.imageView).execute("https://s3.amazonaws.com/detroitpubliclibrary/assets/images/material-cd.jpg");
         }
     }
 
