@@ -15,6 +15,7 @@
 * <ACTION> is "get_genres": no POST data needed, returns all genres (useful for making a menu or area for users to browse)
 * <ACTION> is "get_albums_bygenre": expects genre ID as "id", returns all albums in a genre
 * <ACTION> is "get_albums_byartist": expects artist ID as "id", returns all albums by an artist
+* <ACTION> is "get_album": expects album ID as "id", returns album info including songs
 
 **/api/review.php?action=<ACTION>**
 * <ACTION> is "get_reviews": expects album id as "id", returns reviews for that albums

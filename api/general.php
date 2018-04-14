@@ -88,6 +88,29 @@ elseif($action === "get_albums_byartist")
 	}
 	mysqli_close($dbc);
 }
+elseif($action === "get_album")
+{
+	$id = $data["id"];
+  if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS WHERE ID=?" ))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id, $name, $icon, $year, $artistId, $genreId);
+		$json = '{}';
+		if($stmt->fetch())
+		{
+			$json = getAlbumStringFull($id, $name, $icon, $year, $artistId, $genreId);
+		}
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+}
 else
 {
 	mysqli_close($dbc);

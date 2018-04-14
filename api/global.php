@@ -90,7 +90,8 @@ function getArtistName($id)
 
 function getAlbumString($id, $name, $icon, $year, $artistId, $genreId)
 {
-	return '{"id" : ' . $id . ', "name" : "' . $name . '", "iconUrl" : "' . $icon . '", "year" : ' . $year . ', "artistId" : ' . $artistId . ', "genreId" : ' . $genreId . '}';
+	$rating = getRating($id);
+	return '{"id" : ' . $id . ', "name" : "' . $name . '", "iconUrl" : "' . $icon . '", "year" : ' . $year . ', "rating" : ' . $rating . ', "artistId" : ' . $artistId . ', "genreId" : ' . $genreId . '}';
 }
 
 //Includes songs in the album and artist name
