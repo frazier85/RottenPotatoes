@@ -19,6 +19,7 @@ if (mysqli_connect_errno())
 
 function doesReviewExist($uid, $albumid)
 {
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	if ($stmt = $dbc->prepare("SELECT ID FROM REVIEWS WHERE user_ID=? AND album_ID=?" ))
   {
     $stmt->bind_param('ii', $uid, $albumid);
@@ -41,6 +42,7 @@ function doesReviewExist($uid, $albumid)
 
 function deleteReview($id)
 {
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	if($stmt = $dbc->prepare("DELETE FROM REVIEWS WHERE ID=?"))
 	{
 		$stmt->bind_param('i', $id);
