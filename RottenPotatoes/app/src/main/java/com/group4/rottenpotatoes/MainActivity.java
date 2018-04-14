@@ -72,14 +72,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mSongView = findViewById(R.id.recyclerViewMain);
+        mSongView.setHasFixedSize(true);
+        mSongView.setLayoutManager(new LinearLayoutManager(this));
 
-        //
         mSongList = new ArrayList<>();
         populateList();
-
-        mSongAdapter = new SongAdapter(this, mSongList);
-        mSongView.setAdapter(mSongAdapter);
-        mSongView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
@@ -100,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        // TODO: Something here
                         try {
                             JSONArray album = response.getJSONArray("albums");
                             for(int i = 0; i < album.length(); i++)
@@ -116,10 +112,12 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject genreObj = currentObj.getJSONObject("genre");
                                 String genre = genreObj.getString("name");
 
-                                Song currentSong = new Song(artist, " ", iconURL, "0.0", genre, albumName);
+                                Song currentSong = new Song(artist, " ", iconURL, "5.0", genre, albumName);
                                 mSongList.add(currentSong);
                             }
-                        }catch(JSONException e){
+                            SongAdapter adapter = new SongAdapter(MainActivity.this, mSongList);
+                            mSongView.setAdapter(adapter);
+                        } catch(JSONException e){
                             e.printStackTrace();
                         }
                     }

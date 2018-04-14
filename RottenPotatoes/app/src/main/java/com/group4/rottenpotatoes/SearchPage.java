@@ -32,8 +32,6 @@ public class SearchPage extends AppCompatActivity {
     List<Song> mSongList;
     RecyclerView mRecyclerView;
 
-    SongAdapter mSongAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -64,16 +62,11 @@ public class SearchPage extends AppCompatActivity {
 
         mSongList = new ArrayList<>();
 
-
-        // Setup adapter for recycler view
-        mSongAdapter = new SongAdapter(this, mSongList);
-
         // Recycler View Setup
         mRecyclerView = findViewById(R.id.recyclerViewSearch);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mSongAdapter);
-
+        mRecyclerView.setAdapter(new SongAdapter(this, mSongList));
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
@@ -87,6 +80,7 @@ public class SearchPage extends AppCompatActivity {
 
     private void search(String query)
     {
+        mSongList = new ArrayList<Song>();
         JSONObject searchQuery = new JSONObject();
         try {
             searchQuery.put("query", query);
@@ -99,7 +93,6 @@ public class SearchPage extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        // TODO: Something here
                         try {
                             JSONArray album = response.getJSONArray("albums");
                             for(int i = 0; i < album.length(); i++)
@@ -118,6 +111,8 @@ public class SearchPage extends AppCompatActivity {
                                 Song currentSong = new Song(artist, " ", iconURL, "0.0", genre, albumName);
                                 mSongList.add(currentSong);
                             }
+                            SongAdapter adapter = new SongAdapter(SearchPage.this, mSongList);
+                            mRecyclerView.swapAdapter(adapter, true);
                         }catch(JSONException e){
                             e.printStackTrace();
                         }
