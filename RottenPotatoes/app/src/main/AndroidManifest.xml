@@ -45,6 +45,10 @@
             <meta-data android:name="android.app.searchable"
                        android:resource="@xml/searchable"/>
         </activity>
+        <activity
+            android:name=".SongPage"
+            android:parentActivityName=".SearchPage">
+        </activity>
     </application>
 
 </manifest>

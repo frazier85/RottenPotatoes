@@ -1,9 +1,11 @@
 package com.group4.rottenpotatoes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     private Context mCtx;
     private List<Song> songList;
+    private Song mSong;
 
     public SongAdapter(Context mCtx, List<Song> productList) {
         this.mCtx = mCtx;
@@ -32,10 +35,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         return new SongViewHolder(view);
     }
 
-        @Override
+    @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
 
         Song song = songList.get(position);
+        mSong = song;
 
         holder.textViewTitle.setText(song.getTitle());
         holder.textViewArtist.setText(song.getArtist());
@@ -58,7 +62,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         return songList.size();
     }
 
-    class SongViewHolder extends RecyclerView.ViewHolder
+    class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
         TextView textViewTitle, textViewArtist, textViewAlbum, textViewReview;
@@ -72,10 +76,26 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             textViewArtist = itemView.findViewById(R.id.textViewArtist);
             textViewAlbum = itemView.findViewById(R.id.textViewAlbum);
             textViewReview = itemView.findViewById(R.id.textViewReview);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(mCtx, SongPage.class);
+            Bundle b = new Bundle();
+            b.putString("album",textViewAlbum.getText().toString());
+            b.putString("artist",textViewArtist.getText().toString());
+            b.putString("year", textViewTitle.getText().toString());
+            b.putString("review", textViewReview.getText().toString());
+            b.putString("url", mSong.getLink());
+            i.putExtras(b);
+            mCtx.startActivity(i);
+
         }
     }
 
-    private static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private static class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
+    {
         ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
