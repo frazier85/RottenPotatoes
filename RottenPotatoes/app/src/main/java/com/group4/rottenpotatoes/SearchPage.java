@@ -118,7 +118,7 @@ public class SearchPage extends AppCompatActivity {
                                 JSONObject genreObj = currentObj.getJSONObject("genre");
                                 String genre = genreObj.getString("name");
 
-                                Song currentSong = new Song(artist, " ", iconURL, "0.0", genre, albumName);
+                                Song currentSong = new Song(artist, year, iconURL, "0.0", genre, albumName);
                                 mSongList.add(currentSong);
                             }
                             SongAdapter adapter = new SongAdapter(SearchPage.this, mSongList);

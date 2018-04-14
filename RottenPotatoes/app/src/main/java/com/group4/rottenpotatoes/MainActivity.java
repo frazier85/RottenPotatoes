@@ -82,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateList()
     {
-        // TODO: Use JSON/Google Volley to get a list of songs to populate the list with
-        // Add songs to the mSongList list
-
         JSONObject query = new JSONObject();
         try {
             query.put("query", "sam");
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject genreObj = currentObj.getJSONObject("genre");
                                 String genre = genreObj.getString("name");
 
-                                Song currentSong = new Song(artist, " ", iconURL, "5.0", genre, albumName);
+                                Song currentSong = new Song(artist, year, iconURL, "5.0", genre, albumName);
                                 mSongList.add(currentSong);
                             }
                             SongAdapter adapter = new SongAdapter(MainActivity.this, mSongList);
@@ -125,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        System.out.println(error);
+                        // Not going to worry about error handling on the main page
+                        // /since it's just a static query
                     }
                 });
         Volley.newRequestQueue(this).add(jsonObjectRequest);
