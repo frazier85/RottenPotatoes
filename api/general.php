@@ -62,6 +62,30 @@ elseif($action === "get_albums_bygenre")
 	}
 	mysqli_close($dbc);
 }
+elseif($action === "mostrecent")
+{
+  if ($stmt = $dbc->prepare("SELECT * FROM ALBUMS ORDER BY ID DESC LIMIT 12" ))
+	{
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id, $name, $icon, $year, $artistId, $genreId);
+		$json = '{ "albums": [ ';
+		while($stmt->fetch())
+		{
+			$json = $json . getAlbumStringFull($id, $name, $icon, $year, $artistId, $genreId) . ',';
+		}
+		//remove last comma
+		$json = substr($json, 0, -1);
+		$json = $json . "]}";
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+}
 elseif($action === "get_albums_byartist")
 {
   $aid = $data["id"];

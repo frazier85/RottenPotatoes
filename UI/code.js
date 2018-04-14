@@ -15,15 +15,21 @@ function getQueryVariable(variable)
     console.log('Query variable %s not found', variable);
 }
 
-function getAlbumCard(albumid, image, artist, genre, title, year)
+function getAlbumCard(albumid, image, artist, genre, title, year, rating)
 {
+	var r = rating;
+	if(r < 1)
+	{
+		r = "No reviews yet";
+	}
 	var html = '<a class="card" href="http://project.codethree.net/album.php?id=';
 	html += albumid + '">';
 	html += '<img src="' + image + '" alt="Album art" height="220" width="220">';
 	html += '<div class="albumholder">';
 	html += '<i class="fa fa-user" aria-hidden="true"></i> <b>' + artist + '</b><br />';
+	html += '<i class="fa fa-dot-circle-o" aria-hidden="true"></i> <span>' + title + '</span><br />';
+	html += '<i class="fa fa-star" aria-hidden="true"></i> <span>' + r + '</span><br />';
 	html += '<i class="fa fa-music" aria-hidden="true"></i> <span>' + genre + '</span><br />';
-	html += '<i class="fa fa-dot-circle" aria-hidden="true"></i> <span>' + title + '</span><br />';
 	html += '<i class="fa fa-calendar" aria-hidden="true"></i> <span>' + year + '</span></div></a>';
 	return html;
 }
@@ -172,8 +178,8 @@ function searchBy()
 							 jsonObject.albums[i].artist.name,
 							 jsonObject.albums[i].genre.name,
 							 jsonObject.albums[i].name,
-							 jsonObject.albums[i].year);
-
+							 jsonObject.albums[i].year,
+							 jsonObject.albums[i].rating);
 					}
 				}
 			};
@@ -206,12 +212,13 @@ function searchBy()
 					var i;
 					for( i in jsonObject.albums)
 					{
-						 listing.innerHTML += getAlbumCard(jsonObject.albums[i].id,
+						listing.innerHTML += getAlbumCard(jsonObject.albums[i].id,
 							 jsonObject.albums[i].iconUrl,
 							 jsonObject.albums[i].artist.name,
 							 jsonObject.albums[i].genre.name,
 							 jsonObject.albums[i].name,
-							 jsonObject.albums[i].year);
+							 jsonObject.albums[i].year,
+							 jsonObject.albums[i].rating);
 					}
 
 				}
