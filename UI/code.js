@@ -15,6 +15,19 @@ function getQueryVariable(variable)
     console.log('Query variable %s not found', variable);
 }
 
+function getAlbumCard(albumid, image, artist, genre, title, year)
+{
+	var html = '<a class="card" href="http://project.codethree.net/album.php?id=';
+	html += albumid + '">';
+	html += '<img src="' + image + '" alt="Album art" height="220" width="220">';
+	html += '<div class="albumholder">';
+	html += '<i class="fa fa-user" aria-hidden="true"></i> <b>' + artist + '</b><br />';
+	html += '<i class="fa fa-music" aria-hidden="true"></i> <span>' + genre + '</span><br />';
+	html += '<i class="fa fa-dot-circle" aria-hidden="true"></i> <span>' + title + '</span><br />';
+	html += '<i class="fa fa-calendar" aria-hidden="true"></i> <span>' + year + '</span></div></a>';
+	return html;
+}
+
 function register()
 {
 	var username = document.getElementById("usernameInput").value;
@@ -122,7 +135,7 @@ function logout()
 
 function searchBy()
 {
-
+	var listing = document.getElementById("albumListing");
 	var query = document.getElementById("searchText").value;
 	var searchType = document.getElementById("searchType");
 	searchType = searchType.value;
@@ -147,19 +160,19 @@ function searchBy()
 				if (this.readyState == 4 && this.status == 200)
 				{
 
-					document.getElementById("searchResult").innerHTML = "Artist Albums data has been retrieved";
+					document.getElementById("searchResult").innerHTML = "";
 					var jsonObject = JSON.parse( xhr.responseText );
-					alert(xhr.responseText);
-					$("#dataTable tbody tr").remove();
+					//alert(xhr.responseText);
+					//$("#dataTable tbody tr").remove();
 					var i;
 					for( i in jsonObject.albums)
 					{
-						 var row = "";
-             row += '<tr><td>' + '<a href="/album.php?id=' + jsonObject.albums[i].id + '">' + '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</a></td></tr>';
-
-						 var oldTBody = document.getElementById("rowData").innerHTML + row;
-
-						 document.getElementById("rowData").innerHTML = oldTBody;
+						 listing.innerHTML += getAlbumCard(jsonObject.albums[i].id,
+							 jsonObject.albums[i].iconUrl,
+							 jsonObject.albums[i].artist.name,
+							 jsonObject.albums[i].genre.name,
+							 jsonObject.albums[i].name,
+							 jsonObject.albums[i].year);
 
 					}
 				}
@@ -183,23 +196,22 @@ function searchBy()
 				{
 
 
-					document.getElementById("searchResult").innerHTML = "Album Data has been retrieved";
+					document.getElementById("searchResult").innerHTML = "";
 
 					var jsonObject = JSON.parse( xhr.responseText );
-					alert(xhr.responseText);
+					//alert(xhr.responseText);
 
-         $("#dataTable tbody tr").remove();
+         //$("#dataTable tbody tr").remove();
 
 					var i;
 					for( i in jsonObject.albums)
 					{
-             var row = "";
-             row += '<tr><td>' + '<a href="/album.php?id=' + jsonObject.albums[i].id + '">' + '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</a></td></tr>';
-
-             var oldTBody = document.getElementById("rowData").innerHTML + row;
-
-             document.getElementById("rowData").innerHTML = oldTBody;
-
+						 listing.innerHTML += getAlbumCard(jsonObject.albums[i].id,
+							 jsonObject.albums[i].iconUrl,
+							 jsonObject.albums[i].artist.name,
+							 jsonObject.albums[i].genre.name,
+							 jsonObject.albums[i].name,
+							 jsonObject.albums[i].year);
 					}
 
 				}

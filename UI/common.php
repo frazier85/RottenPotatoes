@@ -10,6 +10,7 @@ function generateHeader($title = "Rotten Potatoes")
   echo '<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>'. "\r\n";
   echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-instantsearch-theme-algolia@4.4.2">'. "\r\n";
   echo '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">'. "\r\n";
+  echo '<link rel="stylesheet" href="/css/font-awesome.min.css">'. "\r\n";
   echo '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">'. "\r\n";
   echo '<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">'. "\r\n";
   echo '<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">'. "\r\n";
@@ -17,6 +18,7 @@ function generateHeader($title = "Rotten Potatoes")
   echo '<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">'. "\r\n";
   echo '<meta name="msapplication-TileColor" content="#da532c">'. "\r\n";
   echo '<meta name="theme-color" content="#FFFFFF">'. "\r\n";
+  echo '<link rel="stylesheet" href="/rotten.css">'. "\r\n";
 }
 
 function renderTitle()

@@ -150,6 +150,8 @@ require_once "common.php";
         </div>
         <div class="container">
           <h1>Songs</h1>
+          <br />
+          <br />
         <!--<h5>
           <div class="row">
             <div class="col">
@@ -160,16 +162,16 @@ require_once "common.php";
             </div>
           </div>
         </h5>-->
-          <div style="max-height:500px;overflow:vertical;">
+          <section style="max-height:500px;width:250px;overflow:vertical;text-align:left">
               <div class="row">
                   <div class="col">
-                    <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
+                    <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." height="25" width="25">
                   </div>
                 <div class="col">
                   Name
                 </div>
               </div>
-          </div>
+          </section>
         </div>
       </div>
       <?PHP renderFooter(); ?>
