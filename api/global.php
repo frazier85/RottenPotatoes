@@ -197,7 +197,7 @@ function getSongsAsJsonArray($albumid)
 		sendError("There was an issue with our database.");
 	}
 	mysqli_close($dbc);
-	return "null";
+	return "[]";
 }
 
 function getUsername($id)
