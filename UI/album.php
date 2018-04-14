@@ -6,9 +6,13 @@ require_once "common.php";
     <head>
       <?PHP generateHeader(); ?>
     </head>
-
     <body>
-
+<!-- TODO:
+- Purchase links (for album)
+- Let user edit / add their review
+- List other reviews
+- List songs (I'll do this after my coffee break)
+-->
       <nav class="navbar navbar-light bg-light">
           <?PHP
           renderTitle();
@@ -19,6 +23,12 @@ require_once "common.php";
       </nav>
       <script>
         window.onload = function () {
+          var userId = <?PHP
+            if(isset($_SESSION["userid"]))
+              echo $_SESSION["userid"] . ";\r\n";
+            else
+              echo "-1;\r\n";
+          ?>
           var albumId = getQueryVariable("id");
           var name = 	document.getElementById("albumName");
           var artwork = document.getElementById("albumArtwork");
@@ -57,6 +67,34 @@ require_once "common.php";
           catch(err)
           {
             document.getElementById("errorLabel").innerHTML = err.message;
+          }
+          if(userId > 0)
+          {
+            var ratingUrl = urlBase + '/review.php?action=get_users_review';
+            ratingPayload = '{"id" :' + userId  + ',"albumid":' +  albumId + '}';
+            var reviewReq = new XMLHttpRequest();
+          	reviewReq.open("POST", ratingUrl, true);
+          	reviewReq.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+            try
+            {
+              reviewReq.onreadystatechange = function()
+              {
+                if (this.readyState == 4 && this.status == 200)
+                {
+                  var response = JSON.parse(reviewReq.responseText);
+                  userRating.innerHTML = response.rating;
+                }
+              };
+              reviewReq.send(ratingPayload);
+            }
+            catch(err)
+            {
+              document.getElementById("errorLabel").innerHTML = err.message;
+            }
+          }
+          else
+          {
+            userRating.innerHTML = "<a href='/loginOrRegister.php'>Login or register</a> to review!\r\n";
           }
         };
       </script>
@@ -111,8 +149,8 @@ require_once "common.php";
           </div>
         </div>
         <div class="container">
-          <h1>Album Song List</h1>
-        <h5>
+          <h1>Songs</h1>
+        <!--<h5>
           <div class="row">
             <div class="col">
             Preview
@@ -120,12 +158,9 @@ require_once "common.php";
             <div class="col">
             Song Name
             </div>
-            <div class="col">
-            Purchase Links
-            </div>
           </div>
-        </h5>
-          <div style="max-height:500px;overflow:auto;">
+        </h5>-->
+          <div style="max-height:500px;overflow:vertical;">
               <div class="row">
                   <div class="col">
                     <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -133,95 +168,7 @@ require_once "common.php";
                 <div class="col">
                   Name
                 </div>
-                <div class="col">
-                  <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                  <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                </div>
               </div>
-                <div class="row">
-                    <div class="col">
-                      <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
-                    </div>
-                  <div class="col">
-                    Name
-                  </div>
-                  <div class="col">
-                    <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                    <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                      <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
-                    </div>
-                  <div class="col">
-                    Name
-                  </div>
-                  <div class="col">
-                    <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                    <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                      <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
-                    </div>
-                  <div class="col">
-                    Name
-                  </div>
-                  <div class="col">
-                    <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                    <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                      <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
-                    </div>
-                  <div class="col">
-                    Name
-                  </div>
-                  <div class="col">
-                    <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                    <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                      <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
-                    </div>
-                  <div class="col">
-                    Name
-                  </div>
-                  <div class="col">
-                    <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                    <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                  </div>
-                </div>
-                  <div class="row">
-                      <div class="col">
-                        <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
-                      </div>
-                    <div class="col">
-                      Name
-                    </div>
-                    <div class="col">
-                      <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                      <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                    </div>
-                  </div>
-                  <div class="row">
-                      <div class="col">
-                        <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
-                      </div>
-                    <div class="col">
-                      Name
-                    </div>
-                    <div class="col">
-                      <img src="http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Spotify-icon.png" alt="..." style="width:25px;height:25px">
-                      <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
-                    </div>
-                  </div>
           </div>
         </div>
       </div>

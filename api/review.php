@@ -194,7 +194,7 @@ elseif($action === "get_users_review")
     $stmt->execute();
     $stmt->store_result();
 		$stmt->bind_result($id, $body, $uid, $albumid, $rating);
-		$json = '{}';
+		$json = '{"rating":"You have not reviewed this album yet"}';
 		if($stmt->fetch())
 		{
 			$json = getReviewString($id, $body, $uid, $albumid, $rating);

@@ -88,8 +88,9 @@ function login()
 		displayName = jsonObject.username;
 
 		document.getElementById("loginResult").innerHTML = "Youre logged in now! Cool.";
-		setTimeout(function(){
-    	window.location.href = "http://project.codethree.net";
+		setTimeout(function()
+		{
+			window.location.href = referrer;
 		}, 500);
 	}
 	catch(err)
@@ -107,9 +108,9 @@ function logout()
 	try
 	{
 		xhr.send();
-		//redirect user to our main page
+		//reload page
 		setTimeout(function(){
-    	window.location.href = "http://project.codethree.net";
+    	location.reload(true);
 		}, 100);
 
 	}
@@ -154,7 +155,7 @@ function searchBy()
 					for( i in jsonObject.albums)
 					{
 						 var row = "";
-						 row += '<tr><td>' +   '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
+             row += '<tr><td>' + '<a href="/album.php?id=' + jsonObject.albums[i].id + '">' + '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</a></td></tr>';
 
 						 var oldTBody = document.getElementById("rowData").innerHTML + row;
 
@@ -193,7 +194,7 @@ function searchBy()
 					for( i in jsonObject.albums)
 					{
              var row = "";
-             row += '<tr><td>' +   '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</td></tr>';
+             row += '<tr><td>' + '<a href="/album.php?id=' + jsonObject.albums[i].id + '">' + '<img src='+jsonObject.albums[i].iconUrl+' style="width:100px;height:100px">' + '</td><td>' + jsonObject.albums[i].name + '</td><td>' + jsonObject.albums[i].year + '</td><td>' + jsonObject.albums[i].artist.name + '</td><td>' + jsonObject.albums[i].genre.name + '</a></td></tr>';
 
              var oldTBody = document.getElementById("rowData").innerHTML + row;
 
