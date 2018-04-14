@@ -23,7 +23,7 @@ function generateHeader($title = "Rotten Potatoes")
 
 function renderTitle()
 {
-  echo '<a class="navbar-brand" href="http://project.codethree.net"><img src="potato.png" width="55" height="55">  Rotten Potatoes</a>';
+  echo '<a class="navbar-brand" href="http://project.codethree.net"><img src="potato.png" width="100" height="100">  Rotten Potatoes</a>';
 }
 
 function renderFooter()
