@@ -7,9 +7,7 @@ markPageDangerous();
     <head>
       <?PHP generateHeader("New Album - Rotten Potatoes"); ?>
     </head>
-
     <body>
-
       <nav class="navbar navbar-light bg-light">
           <?PHP
           renderTitle();
@@ -59,13 +57,9 @@ markPageDangerous();
                           ?>
                       </select>
                     </div>
-
-
-
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col">
                 <div class="form-group">
@@ -76,7 +70,6 @@ markPageDangerous();
                 </div>
               </div>
               </div>
-
               <div class="col">
 
                 <div class="form-group">
@@ -103,22 +96,16 @@ markPageDangerous();
 
               </div>
             </div>
-            <p>
             <div class="row justify-content-center">
               <div class="col-2">
                 <button type="button" class="btn btn-primary" onClick="addAlbum();">Submit</button>
               </div>
             </div>
-
           </form>
           </div>
           <span id="submitResult"></span>
-
         </div>
-
-
       </div>
-
       <?PHP renderFooter(); ?>
     </body>
 

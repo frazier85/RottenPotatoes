@@ -18,7 +18,6 @@ require_once "common.php";
       </nav>
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-
           <form>
             <div class="form-group">
               <label for="usernameInput">Username</label>
@@ -28,8 +27,6 @@ require_once "common.php";
               <label for="passwordInput">Password</label>
               <input type="password" class="form-control" id="passwordInput" placeholder="Password">
             </div>
-
-
           <div class="row justify-content-center">
             <div class="col-2">
               <button type="button" id="loginButton" class="btn btn-primary" onClick="login();">Login</button>
@@ -37,19 +34,11 @@ require_once "common.php";
             <div class="col-2">
               <button type="button" id="registerButton" class="btn btn-primary" onClick="register();">Register</button>
             </div>
-            <p>
-
-
           </div>
-
         </form>
         <span id="loginResult"></span>
-          </div>
         </div>
-
       </div>
-
       <?PHP renderFooter(); ?>
     </body>
-
   </html>

@@ -15,18 +15,11 @@ markPageDangerous();
         renderTitle();
         renderAdminButtons();
         ?>
-
-          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
-
-
-
-          <?PHP renderWelcome(); ?>
-
-
+        <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
+        <?PHP renderWelcome(); ?>
       </nav>
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-
           <form class="form-inline my-2 my-lg-0">
             <div class="form-group">
               <label for="searchType">Genre:</label>
@@ -48,22 +41,14 @@ markPageDangerous();
                      echo "<option value=\"" . $row['ID'] . "\">" . $row['name'] . "</option>";
                  }
                  ?>
-
               </select>
             </div>
             <input class="form-control mr-sm-2 long-box" type="text" id="name" placeholder="Artist Name" aria-label="ArtistName" style="width:400px">
-
             <button class="btn btn-outline-success my-2 my-sm-0" id="newArtist" type="button" onClick="addArtist();">Submit Artist</button>
-
           </form>
-
         </div>
-
         <span id="submitResult"></span>
-
       </div>
-
       <?PHP renderFooter(); ?>
     </body>
-
   </html>

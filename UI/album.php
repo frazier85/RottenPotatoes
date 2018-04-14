@@ -60,9 +60,6 @@ require_once "common.php";
             </div>
           </div>
         </div>
-
-        <p>
-
         <div class="container">
           <h1>Album Song List</h1>
         <h5>
@@ -78,10 +75,7 @@ require_once "common.php";
             </div>
           </div>
         </h5>
-
           <div style="max-height:500px;overflow:auto;">
-
-
               <div class="row">
                   <div class="col">
                     <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -94,9 +88,6 @@ require_once "common.php";
                   <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                 </div>
               </div>
-
-              <p>
-
                 <div class="row">
                     <div class="col">
                       <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -109,9 +100,6 @@ require_once "common.php";
                     <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                   </div>
                 </div>
-
-              <p>
-
                 <div class="row">
                     <div class="col">
                       <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -124,9 +112,6 @@ require_once "common.php";
                     <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                   </div>
                 </div>
-
-              <p>
-
                 <div class="row">
                     <div class="col">
                       <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -139,9 +124,6 @@ require_once "common.php";
                     <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                   </div>
                 </div>
-
-              <p>
-
                 <div class="row">
                     <div class="col">
                       <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -154,9 +136,6 @@ require_once "common.php";
                     <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                   </div>
                 </div>
-
-                <p>
-
                 <div class="row">
                     <div class="col">
                       <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -169,9 +148,6 @@ require_once "common.php";
                     <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                   </div>
                 </div>
-
-                <p>
-
                   <div class="row">
                       <div class="col">
                         <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -184,9 +160,6 @@ require_once "common.php";
                       <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                     </div>
                   </div>
-
-                  <p>
-
                   <div class="row">
                       <div class="col">
                         <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." style="width:50px;height:50px">
@@ -199,13 +172,9 @@ require_once "common.php";
                       <img src="https://png.icons8.com/ios/1600/itunes.png" alt="..." style="width:25px;height:25px">
                     </div>
                   </div>
-
           </div>
         </div>
-
       </div>
-
       <?PHP renderFooter(); ?>
     </body>
-
   </html>
