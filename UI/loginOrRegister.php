@@ -1,5 +1,10 @@
 <?PHP
 require_once "common.php";
+//redirect logged in users to home page
+if(isset($_SESSION["user"]))
+{
+  header("Location: http://project.codethree.net");
+}
 ?>
 <!DOCTYPE html>
   <html>
@@ -29,7 +34,7 @@ require_once "common.php";
             </div>
           <div class="row justify-content-center">
             <div class="col-2">
-              <button type="button" id="loginButton" class="btn btn-primary" onClick="login();">Login</button>
+              <button type="submit" id="loginButton" class="btn btn-primary" onClick="login();">Login</button>
             </div>
             <div class="col-2">
               <button type="button" id="registerButton" class="btn btn-primary" onClick="register();">Register</button>
