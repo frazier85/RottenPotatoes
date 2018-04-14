@@ -56,7 +56,13 @@ require_once "common.php";
       </script>
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h3>Welcome to Rotten Potatoes</h3>
+          <?PHP
+            if(!isset($_SESSION["user"]))
+            {
+              echo "<h3>Welcome to Rotten Potatoes</h3>\r\n";
+              echo '<p>Rotten Potatoes was founded by people who love music just like you! Our goal is to be the matchmaker for you and your next favorite album. Join the movement right now by <a href="/loginOrRegister.php">registering.</a> (It\'s free!)</p>' . "\r\n";
+            }
+          ?>
           <center><h4>Recently added</h4></center>
           <div id="albumListing"><img src="spinner.gif"></div>
         </div>
