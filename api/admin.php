@@ -145,9 +145,13 @@ elseif($action === "add_album")
 	$album_ID = -1;
 	if($stmt = $dbc->prepare("SELECT LAST_INSERT_ID()"))
 	{
-		$stmt->store_result();
-		$stmt->bind_result($album_ID);
 		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($aID);
+		if($stmt->fetch())
+		{
+			$album_ID = $aID;
+		}
 	}
 	else
 	{
