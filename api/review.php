@@ -17,6 +17,42 @@ if (mysqli_connect_errno())
 	die();
 }
 
+function doesReviewExist($uid, $albumid)
+{
+	if ($stmt = $dbc->prepare("SELECT ID FROM REVIEWS WHERE user_ID=? AND album_ID=?" ))
+  {
+    $stmt->bind_param('ii', $uid, $albumid);
+    $stmt->execute();
+    $stmt->store_result();
+		$stmt->bind_result($id);
+		if($stmt->fetch())
+		{
+			$stmt->close();
+			return $id;
+		}
+		else
+		{
+			$stmt->close();
+			return -1;
+		}
+  }
+  return -1;
+}
+
+function deleteReview($id)
+{
+	if($stmt = $dbc->prepare("DELETE FROM REVIEWS WHERE ID=?"))
+	{
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
+}
+
 if($action === "add")
 {
 	//TODO: Does review exist
@@ -33,6 +69,11 @@ if($action === "add")
 	{
 		$rating = 1;
 	}
+	$duplicateId = doesReviewExist($uid,$albumid);
+	if($duplicateId > 0)
+	{
+		deleteReview($duplicateId);
+	}
 	if($stmt = $dbc->prepare("INSERT INTO REVIEWS (ID, review_text, user_ID, album_ID, rating) VALUES (NULL, ?, ?, ?, ?)"))
 	{
 		$stmt->bind_param('siii', $body, $uid, $albumid, $rating);
@@ -47,16 +88,8 @@ if($action === "add")
 elseif($action === "del")
 {
   $id = $data["id"];
-	if($stmt = $dbc->prepare("DELETE FROM REVIEWS WHERE ID=?"))
-	{
-		$stmt->bind_param('i', $id);
-		$stmt->execute();
-	}
-	else
-	{
+	if(deleteReview($id) < 0)
 		sendError("There was an issue with our database. (" . $mysqli->error . ")");
-	}
-	mysqli_close($dbc);
 }
 elseif($action === "edit")
 {
