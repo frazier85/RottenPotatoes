@@ -29,7 +29,7 @@
 * <ACTION> is "demote": opposite of promote
 * <ACTION> is "del_user": Expects id (user's ID)
 * <ACTION> is "add_artist": Expects "name", "genre" (INT)
-* <ACTION> is "add_album": Expects "name", "genre" (INT), "icon" and "songs" which will be a JSON array of songs that has "id", "length", "artist" (INT) within each song
+* <ACTION> is "add_album": Expects "name", "genre" (INT), "icon" and "songs" which will be a JSON array of songs that has "length" (INT), "name"  within each song
 * <ACTION> is "add_genre": Expects "name"
 * <ACTION> is "add_store": Expects "name", "icon"
 * <ACTION> is "add_storelink": Expects "link", "store" (INT), "album" (INT). Recommended to be used as a button on the album display page that is only shown to admins

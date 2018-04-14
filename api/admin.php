@@ -131,7 +131,7 @@ elseif($action === "add_album")
 	$artist_ID = $data["artist"];
 	$genre_ID = $data["genre"];
 	$year = $data["year"];
-
+	$songs = $data["songs"];
 	if($stmt = $dbc->prepare("INSERT INTO ALBUMS (ID, name, album_artwork, year, artist_ID, genre_ID) VALUES (NULL, ?, ?, ?, ?, ?)"))
 	{
 		$stmt->bind_param('ssiii', $name, $album_artwork, $year, $artist_ID , $genre_ID);
@@ -140,6 +140,33 @@ elseif($action === "add_album")
 	else
 	{
 		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	$stmt->close();
+	$album_ID = -1;
+	if($stmt = $dbc->prepare("SELECT LAST_INSERT_ID()"))
+	{
+		$stmt->store_result();
+		$stmt->bind_result($album_ID);
+		$stmt->execute();
+	}
+	else
+	{
+		sendError("There was an issue with our database. (" . $mysqli->error . ")");
+	}
+	$stmt->close();
+	foreach($songs as $song)
+	{
+		$sname = $song["name"];
+		$length = $song["length"];
+		if($stmt = $dbc->prepare("INSERT INTO SONGS (ID, name, length, album_ID, artist_ID) VALUES (NULL, ?, ?, ?, ?)"))
+		{
+			$stmt->bind_param('siii', $sname, $length, $album_ID, $artist_ID);
+			$stmt->execute();
+		}
+		else
+		{
+			sendError("There was an issue with our database. (" . $mysqli->error . ")");
+		}
 	}
 	mysqli_close($dbc);
 }
