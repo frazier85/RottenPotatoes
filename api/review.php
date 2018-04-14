@@ -19,10 +19,20 @@ if (mysqli_connect_errno())
 
 if($action === "add")
 {
+	//TODO: Does review exist
   $albumid = $data["id"];
   $uid = $data["uid"];
   $body = $data["body"];
+	//TODO: Limit rating
   $rating = $data["rating"];
+	if($rating > 5)
+	{
+		$rating = 5;
+	}
+	if($rating < 1)
+	{
+		$rating = 1;
+	}
 	if($stmt = $dbc->prepare("INSERT INTO REVIEWS (ID, review_text, user_ID, album_ID, rating) VALUES (NULL, ?, ?, ?, ?)"))
 	{
 		$stmt->bind_param('siii', $body, $uid, $albumid, $rating);
@@ -53,6 +63,14 @@ elseif($action === "edit")
   $id = $data["id"];
   $body = $data["body"];
   $rating = $data["rating"];
+	if($rating > 5)
+	{
+		$rating = 5;
+	}
+	if($rating < 1)
+	{
+		$rating = 1;
+	}
 	if($stmt = $dbc->prepare("UPDATE REVIEWS SET review_text=?, rating=? WHERE ID=?"))
 	{
 		$stmt->bind_param('sii', $body, $rating, $id);
