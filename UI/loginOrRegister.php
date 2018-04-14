@@ -10,7 +10,9 @@ require_once "common.php";
     <body>
       <script>
       <?PHP
-        if(isset($_SERVER['HTTP_REFERER']))
+        //strpos() just verifies that if the user finds us on Google and logs in we're not going to
+        //redirect them back to Google
+        if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "http://project.codethree.net") === 0)
         {
           echo 'var referrer = "' . $_SERVER['HTTP_REFERER'] . '";';
         }
