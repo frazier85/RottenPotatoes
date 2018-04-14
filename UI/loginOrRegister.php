@@ -1,10 +1,5 @@
 <?PHP
 require_once "common.php";
-//redirect logged in users to home page
-if(isset($_SESSION["user"]))
-{
-  header("Location: http://project.codethree.net");
-}
 ?>
 <!DOCTYPE html>
   <html>
@@ -13,6 +8,18 @@ if(isset($_SESSION["user"]))
       <script type="text/javascript" src="md5.js"></script>
     </head>
     <body>
+      <script>
+      <?PHP
+        if(isset($_SERVER['HTTP_REFERER']))
+        {
+          echo 'var referrer = "' . $_SERVER['HTTP_REFERER'] . '";';
+        }
+        else
+        {
+          echo 'var referrer = "http://project.codethree.net";';
+        }
+      ?>
+      </script>
       <nav class="navbar navbar-light bg-light">
           <?PHP
           renderTitle();
@@ -34,7 +41,7 @@ if(isset($_SESSION["user"]))
             </div>
           <div class="row justify-content-center">
             <div class="col-2">
-              <button type="submit" id="loginButton" class="btn btn-primary" onClick="login();">Login</button>
+              <button type="button" id="loginButton" class="btn btn-primary" onClick="login();">Login</button>
             </div>
             <div class="col-2">
               <button type="button" id="registerButton" class="btn btn-primary" onClick="register();">Register</button>
