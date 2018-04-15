@@ -238,45 +238,6 @@ function searchBy()
 
 }
 
-function addAlbum()
-{
-	var album_artwork = document.getElementById("album_artwork").value;
-	var name = document.getElementById("name").value;
-	var artist_ID = document.getElementById("artist_ID").value;
-	var year = document.getElementById("year").value;
-	var genre_ID = document.getElementById("genre_ID").value;
-
-	document.getElementById("submitResult").innerHTML = "";
-
-	var jsonPayload = '{"name" : "' + name + '", "album_artwork" : "' + album_artwork + '", "year" : "' + year + '", "artist" : "' + artist_ID + '", "genre" : "' + genre_ID + '"}';
-	alert(jsonPayload);
-
-	var url = urlBase + '/admin.php?action=add_album';
-	alert(url);
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, false);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-	try
-	{
-		xhr.send(jsonPayload);
-		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
-		{
-			var jsonObject = JSON.parse(xhr.responseText);
-
-			document.getElementById("submitResult").innerHTML = jsonObject.error;
-		}
-		else
-		{
-			document.getElementById("submitResult").innerHTML = "Album added.";
-		}
-	}
-	catch(err)
-	{
-		document.getElementById("submitResult").innerHTML = err.message;
-	}
-
-}
 function addGenre()
 {
 
