@@ -25,7 +25,7 @@ require_once "common.php";
       function getStoreRow(name, icon, link)
       {
         var html = '<div class="row">';
-        html += '<a href="' + link + '">';
+        html += '<a href="' + link + '" target="_blank">';
         html += '<img src="' + icon + '" alt="' + name + '" width="30" height="30">';
         html += ' Buy on ' + name;
         html += '</a></div>';

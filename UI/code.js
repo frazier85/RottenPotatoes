@@ -36,6 +36,7 @@ function getAlbumCard(albumid, image, artist, genre, title, year, rating)
 
 function register()
 {
+  var result = document.getElementById("loginResult");
 	var username = document.getElementById("usernameInput").value;
 	var password = md5(document.getElementById("passwordInput").value);
 
@@ -43,12 +44,9 @@ function register()
   var lname = "n/a";
   var email = "n/a";
 
-	document.getElementById("loginResult").innerHTML = "";
-
 	var jsonPayload = '{"fname" : "' + fname + '", "lname" : "' + lname + '", "email" : "' + email + '", "username" : "' + username + '", "password" : "' + password + '"}';
 	var url = urlBase + '/user.php?action=register';
-	alert(jsonPayload);
-
+  result.innerHTML = '<img src="spinner.gif"  width="30" height="30">';
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -59,13 +57,16 @@ function register()
 		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
 		{
 			var jsonObject = JSON.parse(xhr.responseText);
-			alert(xhr.responseText);
-
-			document.getElementById("loginResult").innerHTML = jsonObject.error;
+			result.innerHTML = jsonObject.error;
 		}
 		else
 		{
-			document.getElementById("loginResult").innerHTML = "Successfully registered. Please log in.";
+			result.innerHTML = "Successfully registered!";
+      setTimeout(function()
+      {
+        login();
+      }, 750);
+
 		}
 	}
 	catch(err)
@@ -78,11 +79,11 @@ function register()
 function login()
 {
 	uid = 0;
-
+  var result = document.getElementById("loginResult");
 	var username = document.getElementById("usernameInput").value;
 	var password = md5(document.getElementById("passwordInput").value);
 
-	document.getElementById("loginResult").innerHTML = "";
+	result.innerHTML = '<img src="spinner.gif"  width="30" height="30">';
 
 	var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
 	var url = urlBase + '/user.php?action=login';
@@ -93,24 +94,20 @@ function login()
 	try
 	{
 		xhr.send(jsonPayload);
-
 		var jsonObject = JSON.parse( xhr.responseText );
-
 		uid = jsonObject.id;
-
 		if( uid < 1 )
 		{
-			document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+			result.innerHTML = "User/Password combination incorrect";
 			return;
 		}
-
 		displayName = jsonObject.username;
 
-		document.getElementById("loginResult").innerHTML = "Youre logged in now! Cool.";
+		result.innerHTML = "Youre logged in now! Cool.";
 		setTimeout(function()
 		{
 			window.location.href = referrer;
-		}, 500);
+		}, 750);
 	}
 	catch(err)
 	{
