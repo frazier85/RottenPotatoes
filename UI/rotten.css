@@ -18,7 +18,7 @@ a.card:hover
 {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   text-decoration: none;
-  color: black;
+  color: #28a745;
 }
 
 div.albumholder
@@ -28,4 +28,45 @@ div.albumholder
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.holder
+{
+    position: relative;
+}
+
+.results
+{
+  position: absolute;
+  border: 3px solid #AFD0F3;
+  border-radius: 0 0 .25rem .25rem;
+  margin-top: -2px;
+  border-top:none;
+  width: 100%;
+  z-index: 500;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  display: none;
+}
+
+input:focus + .results
+{
+    display: block;
+}
+
+a.album
+{
+  color: black;
+
+  padding: 10px 25px;
+  width:100%;
+  display:block;
+  text-decoration: none;
+}
+
+a.album:hover
+{
+  color: #28a745;
+  background-color: #EEEEEE;
 }

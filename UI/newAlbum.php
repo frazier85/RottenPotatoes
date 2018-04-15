@@ -96,6 +96,19 @@ markPageDangerous();
 
               </div>
             </div>
+            <div class="col">
+              <div class="form-group">
+                <label for="title">Spotify® Auto-fill™</label>
+                <div class="holder">
+                  <input type="text" class="form-control" id="spotifySearch" placeholder="Type an album name...">
+                  <div class="results" id="resultsList">
+                    <a href="#" class="album">Test</a>
+                    <a href="#" class="album">Test</a>
+                    <a href="#" class="album">Test</a>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="row justify-content-center">
               <div class="col-2">
                 <button type="button" class="btn btn-primary" onClick="addAlbum();">Submit</button>
