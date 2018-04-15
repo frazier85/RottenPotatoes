@@ -11,7 +11,7 @@ require_once "common.php";
 - Purchase links (for album)
 - Let user edit / add their review
 - List other reviews
-- List songs (I'll do this after my coffee break)
+- List songs
 -->
       <nav class="navbar navbar-light bg-light">
           <?PHP
@@ -22,81 +22,119 @@ require_once "common.php";
           <?PHP renderWelcome(); ?>
       </nav>
       <script>
-        window.onload = function () {
-          var userId = <?PHP
-            if(isset($_SESSION["userid"]))
-              echo $_SESSION["userid"] . ";\r\n";
-            else
-              echo "-1;\r\n";
-          ?>
-          var albumId = getQueryVariable("id");
-          var name = 	document.getElementById("albumName");
-          var artwork = document.getElementById("albumArtwork");
-          var artist = 	document.getElementById("albumArtist");
-          var year = 	document.getElementById("albumYear");
-          var userRating = 	document.getElementById("albumUserRating");
-          var totalRating = document.getElementById("albumTotalRating");
-          var jsonPayload = '{"id" :' + albumId  + '}';
-          var url = urlBase + '/general.php?action=get_album';
-          var xhr = new XMLHttpRequest();
-        	xhr.open("POST", url, true);
-        	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+      function getStoreRow(name, icon, link)
+      {
+        var html = '<div class="row">';
+        html += '<a href="' + link + '">';
+        html += '<img src="' + icon + '" alt="' + name + '" width="30" height="30">';
+        html += ' Buy on ' + name;
+        html += '</a></div>';
+        return html;
+      }
+
+      window.onload = function () {
+        var userId = <?PHP
+          if(isset($_SESSION["userid"]))
+            echo $_SESSION["userid"] . ";\r\n";
+          else
+            echo "-1;\r\n";
+        ?>
+        var albumId = getQueryVariable("id");
+        var name = 	document.getElementById("albumName");
+        var artwork = document.getElementById("albumArtwork");
+        var artist = 	document.getElementById("albumArtist");
+        var year = 	document.getElementById("albumYear");
+        var userRating = 	document.getElementById("albumUserRating");
+        var totalRating = document.getElementById("albumTotalRating");
+        var jsonPayload = '{"id" :' + albumId  + '}';
+        var url = urlBase + '/general.php?action=get_album';
+        var xhr = new XMLHttpRequest();
+      	xhr.open("POST", url, true);
+      	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try
+        {
+          xhr.onreadystatechange = function()
+          {
+            if (this.readyState == 4 && this.status == 200)
+            {
+              var jsonObject = JSON.parse(xhr.responseText);
+              name.innerHTML = jsonObject.name;
+              if(jsonObject.rating > 0)
+              {
+                totalRating.innerHTML = jsonObject.rating + "/5";
+              }
+              else
+              {
+                totalRating.innerHTML = "No reviews yet"
+              }
+              artist.innerHTML = jsonObject.artist.name;
+              year.innerHTML   = jsonObject.year;
+              artwork.src = jsonObject.iconUrl;
+            }
+          };
+          xhr.send(jsonPayload);
+        }
+        catch(err)
+        {
+          document.getElementById("errorLabel").innerHTML = err.message;
+        }
+        if(userId > 0)
+        {
+          //Get user rating
+          var ratingUrl = urlBase + '/review.php?action=get_users_review';
+          ratingPayload = '{"id" :' + userId  + ',"albumid":' +  albumId + '}';
+          var reviewReq = new XMLHttpRequest();
+        	reviewReq.open("POST", ratingUrl, true);
+        	reviewReq.setRequestHeader("Content-type", "application/json; charset=UTF-8");
           try
           {
-            xhr.onreadystatechange = function()
+            reviewReq.onreadystatechange = function()
             {
               if (this.readyState == 4 && this.status == 200)
               {
-                var jsonObject = JSON.parse(xhr.responseText);
-                name.innerHTML = jsonObject.name;
-                if(jsonObject.rating > 0)
-                {
-                  totalRating.innerHTML = jsonObject.rating + "/5";
-                }
-                else
-                {
-                  totalRating.innerHTML = "No reviews yet"
-                }
-                artist.innerHTML = jsonObject.artist.name;
-                year.innerHTML   = jsonObject.year;
-                artwork.src = jsonObject.iconUrl;
+                var response = JSON.parse(reviewReq.responseText);
+                userRating.innerHTML = response.rating;
               }
             };
-            xhr.send(jsonPayload);
+            reviewReq.send(ratingPayload);
           }
           catch(err)
           {
             document.getElementById("errorLabel").innerHTML = err.message;
           }
-          if(userId > 0)
+        }
+        else
+        {
+          userRating.innerHTML = "<a href='/loginOrRegister.php'>Login or register</a> to review!\r\n";
+        }
+        //Get store links
+        var storeUrl = urlBase + '/general.php?action=get_links';
+        var pload = '{"id" :' + albumId + '}';
+        var req = new XMLHttpRequest();
+        req.open("POST", storeUrl, true);
+        req.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try
+        {
+          req.onreadystatechange = function()
           {
-            var ratingUrl = urlBase + '/review.php?action=get_users_review';
-            ratingPayload = '{"id" :' + userId  + ',"albumid":' +  albumId + '}';
-            var reviewReq = new XMLHttpRequest();
-          	reviewReq.open("POST", ratingUrl, true);
-          	reviewReq.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-            try
+            if (this.readyState == 4 && this.status == 200)
             {
-              reviewReq.onreadystatechange = function()
-              {
-                if (this.readyState == 4 && this.status == 200)
-                {
-                  var response = JSON.parse(reviewReq.responseText);
-                  userRating.innerHTML = response.rating;
-                }
-              };
-              reviewReq.send(ratingPayload);
+              var resp = JSON.parse(req.responseText);
+              var i;
+              var albumInfo = document.getElementById("albumInfo");
+    					for( i in resp.links)
+    					{
+    						 albumInfo.innerHTML += getStoreRow(resp.links[i].store, resp.links[i].icon, resp.links[i].url);
+    					}
             }
-            catch(err)
-            {
-              document.getElementById("errorLabel").innerHTML = err.message;
-            }
-          }
-          else
-          {
-            userRating.innerHTML = "<a href='/loginOrRegister.php'>Login or register</a> to review!\r\n";
-          }
-        };
+          };
+          req.send(pload);
+        }
+        catch(err)
+        {
+          document.getElementById("errorLabel").innerHTML = err.message;
+        }
+      };
       </script>
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -112,7 +150,7 @@ require_once "common.php";
               width="200"
               height="200">
             </div>
-            <div class="col-7">
+            <div class="col-7" id="albumInfo">
               <div class="row">
                 <div class="col-2">
                   Rating:
@@ -145,6 +183,7 @@ require_once "common.php";
                   <img src="spinner.gif"  width="30" height="30">
                 </div>
               </div>
+              <br />
             </div>
           </div>
         </div>
