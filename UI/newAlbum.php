@@ -178,7 +178,7 @@ markPageDangerous();
               var txtAutofill = document.getElementById("spotifySearch");
               var txtName = document.getElementById("name");
               var txtImage = document.getElementById("album_artwork");
-              var url = "https://api.spotify.com/v1/albums/" + id;
+              var url = "https://api.spotify.com/v1/albums/" + id + "?market=US";
               var req = new XMLHttpRequest();
               req.open("GET", url, true);
               req.setRequestHeader("Authorization", "Bearer BQB647qPkbpNyeEjhR-WP8go99qiQGokZOPyz5cp79ambpkJWPBQGsFRr4DmMSf6u7-MP7H7fZBqcKPsEaEknsgV04UdEy-46frC9eevxEkV5I_XO3-HpIYkiSA4F_Mzkff2TKyl3JjFO1ZG2ldILx7HLSLa8L0");
