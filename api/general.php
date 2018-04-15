@@ -12,6 +12,31 @@ if (mysqli_connect_errno())
 	die();
 }
 
+function getStoreString($storeid, $url)
+{
+	$name = "null";
+	$icon = "null";
+	$dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  if ($stmt = $dbc->prepare("SELECT name,icon FROM STORES WHERE ID=?" ))
+	{
+		$stmt->bind_param('i', $storeid);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($n,$i);
+		if($stmt->fetch())
+		{
+			$name = $n;
+			$icon = $i;
+		}
+	}
+	else
+	{
+		return "There was an issue with our database.";
+	}
+	mysqli_close($dbc);
+	return '{"store" : "' . $name . '", "icon" : "' . $icon . '", "url":"' . $url . '"}';
+}
+
 if($action === "get_genres")
 {
   if ($stmt = $dbc->prepare("SELECT * FROM GENRES" ))
@@ -126,6 +151,32 @@ elseif($action === "get_album")
 		{
 			$json = getAlbumStringFull($id, $name, $icon, $year, $artistId, $genreId);
 		}
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+}
+elseif($action === "get_links")
+{
+	$aid = $data["id"];
+	if ($stmt = $dbc->prepare("SELECT link,store_ID FROM LINKS WHERE album_ID=?" ))
+	{
+		$stmt->bind_param('i', $aid);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($url, $storeid);
+		$json = '{ "links": [ ';
+		while($stmt->fetch())
+		{
+			$json = $json . getStoreString($storeid, $url) . ',';
+		}
+		//remove last comma
+		$json = substr($json, 0, -1);
+		$json = $json . "]}";
 		$stmt->close();
 		sendResultInfoAsJson($json);
 	}
