@@ -50,22 +50,22 @@ div.albumholder
   display: none;
 }
 
-input:focus + .results
+input:focus + .results, .results:hover
 {
     display: block;
 }
 
-a.album
+.album
 {
   color: black;
-
+  cursor: pointer;
   padding: 10px 25px;
   width:100%;
   display:block;
   text-decoration: none;
 }
 
-a.album:hover
+.album:hover
 {
   color: #28a745;
   background-color: #EEEEEE;

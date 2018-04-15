@@ -138,17 +138,78 @@ markPageDangerous();
               </div>
             </div>
             <script>
+            function getListingElement(album, id)
+            {
+              return '<p onclick="autofill(\'' + id + '\')" class="album">' + album + '</p>';
+            }
+            function showResult(txt)
+            {
+              var listing = document.getElementById("resultsList");
+              var url = "https://api.spotify.com/v1/search?type=album&limit=10&q=";
+              if(txt.length < 3)
+              {
+                listing.innerHTML = "";
+                return;
+              }
+              //Encoding spaces into hex format
+              url += txt.replace(" ", "%20");
+              var req = new XMLHttpRequest();
+              req.open("GET", url, true);
+              req.setRequestHeader("Authorization", "Bearer BQB647qPkbpNyeEjhR-WP8go99qiQGokZOPyz5cp79ambpkJWPBQGsFRr4DmMSf6u7-MP7H7fZBqcKPsEaEknsgV04UdEy-46frC9eevxEkV5I_XO3-HpIYkiSA4F_Mzkff2TKyl3JjFO1ZG2ldILx7HLSLa8L0");
+              req.onreadystatechange = function()
+        			{
+        				if (this.readyState == 4 && this.status == 200)
+        				{
+        					listing.innerHTML = "";
+        					var jsonObject = JSON.parse(req.responseText);
+        					var i;
+        					for(i in jsonObject.albums.items)
+        					{
+        						listing.innerHTML += getListingElement(jsonObject.albums.items[i].name, jsonObject.albums.items[i].id);
+        					}
+        				}
+        			};
+              req.send();
+            }
 
+            function autofill(id)
+            {
+              var txtYear = document.getElementById("year");
+              var txtAutofill = document.getElementById("spotifySearch");
+              var txtName = document.getElementById("name");
+              var txtImage = document.getElementById("album_artwork");
+              var url = "https://api.spotify.com/v1/albums/" + id;
+              var req = new XMLHttpRequest();
+              req.open("GET", url, true);
+              req.setRequestHeader("Authorization", "Bearer BQB647qPkbpNyeEjhR-WP8go99qiQGokZOPyz5cp79ambpkJWPBQGsFRr4DmMSf6u7-MP7H7fZBqcKPsEaEknsgV04UdEy-46frC9eevxEkV5I_XO3-HpIYkiSA4F_Mzkff2TKyl3JjFO1ZG2ldILx7HLSLa8L0");
+              req.onreadystatechange = function()
+              {
+                if (this.readyState == 4 && this.status == 200)
+                {
+                  var jsonObject = JSON.parse(req.responseText);
+                  console.debug(jsonObject);
+                  txtYear.value = jsonObject.release_date.split("-")[0];
+                  txtName.value = jsonObject.name;
+                  //Not really necessary but it looks better in a demo
+                  txtAutofill.value = jsonObject.name;
+                  txtImage.value = jsonObject.images[0].url;
+                  //TODO: Loop through tracks
+                  //var i;
+                  //for(i in jsonObject.albums.items)
+                  //{
+                  //  listing.innerHTML += getListingElement(jsonObject.albums.items[i].name, jsonObject.albums.items[i].id);
+                  //}
+                }
+              };
+              req.send();
+            }
             </script>
             <div class="col">
               <div class="form-group">
                 <label for="title">Spotify® Auto-fill™</label>
                 <div class="holder">
-                  <input type="text" class="form-control" id="spotifySearch" placeholder="Type an album name...">
+                  <input type="text" class="form-control" id="spotifySearch" placeholder="Type an album name..." onkeyup="showResult(this.value)">
                   <div class="results" id="resultsList">
-                    <a href="#" class="album">Test</a>
-                    <a href="#" class="album">Test</a>
-                    <a href="#" class="album">Test</a>
                   </div>
                 </div>
               </div>
