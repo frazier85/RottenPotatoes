@@ -7,12 +7,9 @@ a.card, a.card:visited
   margin: 15px;
   color: black;
   float:none;
+  overflow: hidden;
   background-color:white;
   display: inline-block;
-}
-span.card
-{
-  overflow:none;
 }
 a.card:hover
 {
