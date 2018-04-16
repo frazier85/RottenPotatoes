@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.security.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -103,10 +106,13 @@ public class LoginPage extends Activity {
                 String username = inputUsername.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
 
+                //Hash the password
+                String hashedPass = MD5(password);
+
                 // Check for empty data in the form
-                if (!username.isEmpty() && !password.isEmpty()) {
+                if (!username.isEmpty() && !hashedPass.isEmpty()) {
                     // login user
-                    checkLogin(username, password);
+                    checkLogin(username, hashedPass);
                 } else {
                     // Prompt user to enter credentials)
                     Toast.makeText(getApplicationContext(),
@@ -221,5 +227,19 @@ public class LoginPage extends Activity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    public String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
     }
 }
