@@ -36,7 +36,7 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigationView2"
         style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="384dp"
+        android:layout_width="412dp"
         android:layout_height="35dp"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"

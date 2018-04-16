@@ -109,11 +109,15 @@ public class SearchPage extends AppCompatActivity {
                                 String albumName = currentObj.getString("name");
                                 String year = currentObj.getString("year");
                                 String iconURL = currentObj.getString("iconUrl");
-                                String rating = "0";
-                                rating = currentObj.getString("rating");
+
+                                String rating = currentObj.getString("rating");
                                 int ratingInt = Integer.parseInt(rating);
-                                if(ratingInt < 0) rating = "0";
-                                if(ratingInt > 5) rating = "5.0";
+                                if(ratingInt == -1)
+                                    rating = "Not yet reviewed!";
+                                else if(ratingInt < 0)
+                                    rating = "0";
+                                else if (ratingInt > 5)
+                                    rating = "5.0";
 
                                 JSONObject artistObj = currentObj.getJSONObject("artist");
                                 String artist = artistObj.getString("name");
