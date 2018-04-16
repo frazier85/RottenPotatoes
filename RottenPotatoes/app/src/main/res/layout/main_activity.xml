@@ -28,7 +28,7 @@
             android:layout_marginEnd="3dp"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:text="Most Recent Albums"
+            android:text="Today's Top Hits"
             android:textAlignment="center"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
