@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private SongAdapter mSongAdapter;
     private List<Song> mSongList;
     private ImageView mIconView;
-    private static final String URL = "http://project.codethree.net/api/search.php?by=album_card";
+    private static final String URL = "http://project.codethree.net/api/general.php?action=mostrecent";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +85,9 @@ public class MainActivity extends AppCompatActivity {
     private void populateList()
     {
         JSONObject query = new JSONObject();
-        try {
-            query.put("query", "sam");
-        } catch(JSONException e) {
-            e.printStackTrace();
-        }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, URL, query, new Response.Listener<JSONObject>() {
+                (Request.Method.POST, URL, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -105,13 +100,22 @@ public class MainActivity extends AppCompatActivity {
                                 String year = currentObj.getString("year");
                                 String iconURL = currentObj.getString("iconUrl");
 
+                                String rating = currentObj.getString("rating");
+                                int ratingInt = Integer.parseInt(rating);
+                                if(ratingInt == -1)
+                                    rating = "Not yet reviewed!";
+                                else if(ratingInt < 0)
+                                    rating = "0";
+                                else if (ratingInt > 5)
+                                    rating = "5.0";
+
                                 JSONObject artistObj = currentObj.getJSONObject("artist");
                                 String artist = artistObj.getString("name");
 
                                 JSONObject genreObj = currentObj.getJSONObject("genre");
                                 String genre = genreObj.getString("name");
 
-                                Song currentSong = new Song(artist, year, iconURL, "5.0", genre, albumName);
+                                Song currentSong = new Song(artist, year, iconURL, rating, genre, albumName);
                                 mSongList.add(currentSong);
                             }
                             SongAdapter adapter = new SongAdapter(MainActivity.this, mSongList);
