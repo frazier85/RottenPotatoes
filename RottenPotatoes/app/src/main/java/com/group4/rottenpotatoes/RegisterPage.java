@@ -11,9 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,13 +75,13 @@ public class RegisterPage extends Activity {
         db = new SQLiteHandler(getApplicationContext());
 
         // Check if user is already logged in or not
-        if (session.isLoggedIn()) {
+        /*if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
             Intent intent = new Intent(RegisterPage.this,
                     MainActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
 
         // Register Button Click event
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +121,9 @@ public class RegisterPage extends Activity {
      * */
     private void registerUser(final String firstname, final String lastname, final String email,
                               final String username, final String password) {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -139,7 +144,7 @@ public class RegisterPage extends Activity {
                     if (!error) {
                         // User successfully stored in MySQL
                         // Now store the user in sqlite
-                        String uid = jObj.getString("uid");
+                        /**String uid = jObj.getString("uid");
 
                         JSONObject user = jObj.getJSONObject("user");
                         int admin = 0;                                          //Cannot register as an admin, must be promoted
@@ -150,7 +155,7 @@ public class RegisterPage extends Activity {
                         String password = user.getString("password");
 
                         // Inserting row in users table
-                        db.addUser(admin, firstname, lastname , email, username, password);
+                        //db.addUser(admin, firstname, lastname , email, username, password);**/
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
@@ -200,7 +205,7 @@ public class RegisterPage extends Activity {
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        queue.add(strReq);
     }
 
     private void showDialog() {

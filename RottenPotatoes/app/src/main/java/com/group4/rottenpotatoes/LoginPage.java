@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 ;
+import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -51,6 +52,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 /**
  * A login screen that offers login via username/password.
@@ -58,7 +61,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginPage extends Activity {
     private static final String TAG = RegisterPage.class.getSimpleName();
     private Button btnLogin;
-    private Button btnLinkToRegister;
+    private Button btnLinkToRegisterScreen;
     private EditText inputUsername;
     private EditText inputPassword;
     private ProgressDialog pDialog;
@@ -70,17 +73,17 @@ public class LoginPage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        inputUsername = (EditText) findViewById(R.id.username);
-        inputPassword = (EditText) findViewById(R.id.password);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
+        inputUsername = findViewById(R.id.username);
+        inputPassword = findViewById(R.id.password);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLinkToRegisterScreen = (Button) findViewById(R.id.btnLinkToRegisterScreen);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
         // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
+        //db = new SQLiteHandler(getApplicationContext());
 
         // Session manager
         session = new SessionManager(getApplicationContext());
@@ -105,7 +108,7 @@ public class LoginPage extends Activity {
                     // login user
                     checkLogin(username, password);
                 } else {
-                    // Prompt user to enter credentials
+                    // Prompt user to enter credentials)
                     Toast.makeText(getApplicationContext(),
                             "Please enter the credentials!", Toast.LENGTH_LONG)
                             .show();
@@ -115,7 +118,7 @@ public class LoginPage extends Activity {
         });
 
         // Link to Register Screen
-        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
+        btnLinkToRegisterScreen.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),
@@ -129,6 +132,7 @@ public class LoginPage extends Activity {
 
     /**
      * function to verify login details in mysql db
+
      * */
     private void checkLogin(final String username, final String password) {
 
@@ -139,40 +143,53 @@ public class LoginPage extends Activity {
         pDialog.setMessage("Logging in ...");
         showDialog();
 
-        StringRequest strReq = new StringRequest(Method.POST,
+        StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_LOGIN, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Login Response: " + response.toString());
+                Log.d(TAG, "Login Response: " + response);
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
                     String error = jObj.getString("error");
+                    int success = jObj.getInt("id");
+
+
+                    //If JSON response has id = -1, it did not find the user
+                    boolean canLogin;
+                    if(success == -1){
+                        canLogin = FALSE;
+                    }
+                    else{
+                        canLogin = TRUE;
+                    }
 
                     // Check for error node in json
-                    if (!error.isEmpty()) {
+                    if (canLogin) {
                         // user successfully logged in
                         // Create login session
                         session.setLogin(true);
+                        Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
 
                         // Now store the user in SQLite
-                        String id = jObj.getString("id");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /**String id = jObj.getString("id");
                         JSONObject user = jObj.getJSONObject("username");
                         int admin = user.getInt("admin");
 
                         // Inserting row in users table
-                        // db.addUser(admin, firstname, lastname, email, username, password);
+                        // db.addUser(admin, firstname, lastname, email, username, password);**/
 
                         // Launch main activity
+
                         Intent intent = new Intent(LoginPage.this,
                                 MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
                         // Error in login. Get the error message
-                        String errorMsg = jObj.getString("error_msg");
+                            String errorMsg = jObj.getString("error");
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
                     }
@@ -185,6 +202,7 @@ public class LoginPage extends Activity {
             }
         }, new Response.ErrorListener() {
 
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
@@ -193,6 +211,7 @@ public class LoginPage extends Activity {
                 hideDialog();
             }
         }) {
+
 
             @Override
             protected Map<String, String> getParams() {
