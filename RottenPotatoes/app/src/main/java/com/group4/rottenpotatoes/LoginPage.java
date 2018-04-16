@@ -138,94 +138,80 @@ public class LoginPage extends Activity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         // Tag used to cancel the request
-        String tag_string_req = "req_login";
 
         pDialog.setMessage("Logging in ...");
         showDialog();
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_LOGIN, new Response.Listener<String>() {
+        //Create the object to send to attempt login
+        JSONObject logInAttempt = new JSONObject();
+        try{
+            logInAttempt.put("username", username);
+            logInAttempt.put("password", password);
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        final JsonObjectRequest jobjReq = new JsonObjectRequest(Request.Method.POST, AppConfig.URL_LOGIN,
+                logInAttempt, new Response.Listener<JSONObject>() {
 
             @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Login Response: " + response);
+            public void onResponse(JSONObject response) {
+                //Check the json response to see if we logged in properly
+                int success;
+                Boolean canLogin;
+
+                Log.d(TAG, "Login Response: " + response.toString());
                 hideDialog();
 
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    String error = jObj.getString("error");
-                    int success = jObj.getInt("id");
-
-
-                    //If JSON response has id = -1, it did not find the user
-                    boolean canLogin;
+                try{
+                    success = response.getInt("id");
                     if(success == -1){
-                        canLogin = FALSE;
+                        canLogin = false;
                     }
                     else{
-                        canLogin = TRUE;
+                        canLogin = true;
                     }
 
-                    // Check for error node in json
-                    if (canLogin) {
-                        // user successfully logged in
-                        // Create login session
+                    if(canLogin){
                         session.setLogin(true);
-                        Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Successfully logged in",
+                                Toast.LENGTH_LONG).show();
 
-                        // Now store the user in SQLite
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /**String id = jObj.getString("id");
-                        JSONObject user = jObj.getJSONObject("username");
-                        int admin = user.getInt("admin");
-
-                        // Inserting row in users table
-                        // db.addUser(admin, firstname, lastname, email, username, password);**/
-
-                        // Launch main activity
-
-                        Intent intent = new Intent(LoginPage.this,
-                                MainActivity.class);
+                        //We logged in, go to the main page now
+                        Intent intent = new Intent(LoginPage.this, MainActivity.class);
                         startActivity(intent);
                         finish();
-                    } else {
-                        // Error in login. Get the error message
-                            String errorMsg = jObj.getString("error");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
-                    // JSON error
+                    else{
+                        //We did not successfully login
+                        String errorMsg = response.getString("error");
+                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch(JSONException e){
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Json error:" + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
                 }
 
+
             }
+
         }, new Response.ErrorListener() {
-
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
             }
-        }) {
+
+            });
+        queue.add(jobjReq);
+
+        }
 
 
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("username", username);
-                params.put("password", password);
-
-                return params;
-            }
-
-        };
-        queue.add(strReq);
-    }
 
     private void showDialog() {
         if (!pDialog.isShowing())
