@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,11 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private Button mHomeButton;
     private Button mSearchButton;
     private Button mLoginRegisterButton;
+    private Button btnLogout;
     private RecyclerView mSongView;
     private SongAdapter mSongAdapter;
     private List<Song> mSongList;
     private ImageView mIconView;
     private static final String URL = "http://project.codethree.net/api/search.php?by=album_card";
+
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,17 @@ public class MainActivity extends AppCompatActivity {
         mHomeButton = findViewById(R.id.homeButton);
         mSearchButton = findViewById(R.id.searchButton);
         mLoginRegisterButton = findViewById(R.id.loginRegisterButton);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+
+        session = new SessionManager(getApplicationContext());
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
 
         mLoginRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,5 +144,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    //Log out the user by setting session flag to false
+    private void logoutUser(){
+        session.setLogin(false);
+
+        Intent intent = new Intent(MainActivity.this, LoginPage.class);
+        startActivity(intent);
+        finish();
+        Toast.makeText(getApplicationContext(), "User logged out", Toast.LENGTH_LONG).show();
     }
 }

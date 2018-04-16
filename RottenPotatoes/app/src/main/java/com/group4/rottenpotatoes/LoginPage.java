@@ -91,13 +91,14 @@ public class LoginPage extends Activity {
         // Session manager
         session = new SessionManager(getApplicationContext());
 
-//        // Check if user is already logged in or not
-//        if (session.isLoggedIn()) {
-//            // User is already logged in. Take him to main activity
-//            Intent intent = new Intent(LoginPage.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        // Check if user is already logged in or not
+        if (session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(LoginPage.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            Toast.makeText(getApplicationContext(), "Already logged in", Toast.LENGTH_LONG).show();
+        }
 
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
