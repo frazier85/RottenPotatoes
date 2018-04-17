@@ -20,18 +20,44 @@ require_once "common.php";
           <?PHP renderWelcome(); ?>
       </nav>
       <script>
+
+      function playPreview(url, el)
+      {
+        if(currentPlaying != null)
+        {
+          stopPreview(source.src, currentPlaying);
+        }
+        currentPlaying = el;
+        source.src = url;
+        player.load();
+        player.play();
+        el.classList.remove("fa-play");
+        el.classList.add("fa-stop");
+        el.setAttribute("onclick", "stopPreview('"+url+"', this)");
+      }
+      function stopPreview(url, el)
+      {
+        player.pause();
+        player.currentTime = 0;
+        el.classList.add("fa-play");
+        el.classList.remove("fa-stop");
+        el.setAttribute("onclick", "playPreview('"+url+"', this)");
+      }
       function getPlay(url)
       {
-        return '<i class="fa fa-play clickable"><span style="display:none">'+url+'</span></i>';
+        return '<i class="fa fa-play clickable" onclick="playPreview(\''+url+'\', this)"><span style="display:none">'+url+'</span></i>';
       }
       function getStop(url)
       {
-        return '<i class="fa fa-stop clickable"><span style="display:none">'+url+'</span></i>';
+        return '<i class="fa fa-stop clickable" onclick="stopPreview(\''+url+'\', this)"><span style="display:none">'+url+'</span></i>';
       }
       function getError()
       {
         return '<i class="fa fa-window-close" aria-hidden="true"></i>';
       }
+
+
+
       function getStoreRow(name, icon, link)
       {
         var html = '<div class="row">';
@@ -55,6 +81,9 @@ require_once "common.php";
         return html;
       }
       window.onload = function () {
+        player = document.getElementById("audioPlayer");
+        source = player.firstChild;
+        currentPlaying = null;
         var userId = <?PHP
           if(isset($_SESSION["userid"]))
             echo $_SESSION["userid"] . ";\r\n";
