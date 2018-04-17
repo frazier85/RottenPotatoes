@@ -51,7 +51,7 @@ require_once "common.php";
         }
         html += icon + '</div>';
         html += '<div class="col">' + name + '</div>';
-        html += '<div class="col">' + formatMSS(length) + '</div></div>';
+        html += '<div class="col seccol">' + formatMSS(length) + '</div></div>';
         return html;
       }
       window.onload = function () {
@@ -102,7 +102,7 @@ require_once "common.php";
                  || jsonObject.songs[i].preview_url == null
                  || typeof jsonObject.songs[i].preview_url == 'undefined')
                  {
-                   document.getElementById("warningSpotify").innerHTML = "<b>Note: Not all songs have Spotify previews.<b/>";
+                   document.getElementById("warningSpotify").innerHTML = "<b>Note: Not all songs have Spotify previews due to licensing restrictions.<b/>";
                  }
     					}
             }
@@ -226,7 +226,7 @@ require_once "common.php";
           <br />
           <p id="warningSpotify"></p>
           <audio id="audioPlayer"><source type="audio/mpeg"><track kind="captions"></audio>
-          <section style="max-height:500px;width:500px;overflow:vertical;text-align:left" id="songListing">
+          <section class="songList" id="songListing">
 
           </section>
         </div>

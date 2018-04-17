@@ -83,6 +83,24 @@ input:focus + .results, .results:hover
 {
   color: #28a745;
 }
+
+.seccol
+{
+  width:50px;
+  flex-grow:0;
+}
+
+.songList
+{
+  max-height:500px;
+  width:400px;
+  padding: 10px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background-color:white;
+  text-align:left
+}
+
 .album
 {
   color: black;
