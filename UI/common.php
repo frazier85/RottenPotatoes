@@ -1,6 +1,11 @@
 <?PHP
 session_start();
 
+function getSpotifyToken()
+{
+  echo "BQAGZQphWClJWoo4BQaDez6QY2NedzuHnCbK-6QReAd5gWC9nlhqmSMm784GDCA5lwtxyrgcDJG_PUgA64c";
+}
+
 function generateHeader($title = "Rotten Potatoes")
 {
   echo "<title>$title</title>\r\n";
@@ -57,6 +62,8 @@ function renderAdminButtons()
 
 function renderWelcome()
 {
+  echo '<button class="btn btn-outline-success my-2 my-sm-0" id="genreListing" type="button" onClick="window.location.href=\'genres.php\'">Genres</button>';
+  echo '<button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href=\'search.php\'">Search</button>';
   echo '<span class="navbar-text">Hello, ';
   if(isset($_SESSION["user"]))
   {

@@ -30,9 +30,7 @@ if(isset($_SESSION["user"]))
           <?PHP
           renderTitle();
           renderAdminButtons();
-          ?>
-          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
-          <?PHP renderWelcome(); ?>
+          renderWelcome(); ?>
       </nav>
       <div class="jumbotron jumbotron-fluid">
         <div class="container">

@@ -8,20 +8,54 @@ require_once "common.php";
     </head>
     <body>
 <!-- TODO:
-- Purchase links (for album)
 - Let user edit / add their review
 - List other reviews
-- List songs
 -->
       <nav class="navbar navbar-light bg-light">
           <?PHP
           renderTitle();
           renderAdminButtons();
-          ?>
-          <button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href='search.php'">Search</button>
-          <?PHP renderWelcome(); ?>
+          renderWelcome(); ?>
       </nav>
       <script>
+
+      function playPreview(url, el)
+      {
+        if(currentPlaying != null)
+        {
+          stopPreview(source.src, currentPlaying);
+        }
+        currentPlaying = el;
+        source.src = url;
+        player.load();
+        player.play();
+        el.classList.remove("fa-play");
+        el.classList.add("fa-stop");
+        el.setAttribute("onclick", "stopPreview('"+url+"', this)");
+      }
+      function stopPreview(url, el)
+      {
+        player.pause();
+        player.currentTime = 0;
+        el.classList.add("fa-play");
+        el.classList.remove("fa-stop");
+        el.setAttribute("onclick", "playPreview('"+url+"', this)");
+      }
+      function getPlay(url)
+      {
+        return '<i class="fa fa-play clickable" onclick="playPreview(\''+url+'\', this)"><span style="display:none">'+url+'</span></i>';
+      }
+      function getStop(url)
+      {
+        return '<i class="fa fa-stop clickable" onclick="stopPreview(\''+url+'\', this)"><span style="display:none">'+url+'</span></i>';
+      }
+      function getError()
+      {
+        return '<i class="fa fa-window-close" aria-hidden="true"></i>';
+      }
+
+
+
       function getStoreRow(name, icon, link)
       {
         var html = '<div class="row">';
@@ -31,8 +65,23 @@ require_once "common.php";
         html += '</a></div>';
         return html;
       }
-
+      function getSongRow(name, preview, length)
+      {
+        var html = '<div class="row songrow notext" ><div class="col fifty">';
+        var icon = getPlay(preview);
+        if(preview === "" || typeof preview == 'undefined' || preview == null)
+        {
+          icon = getError();
+        }
+        html += icon + '</div>';
+        html += '<div class="col">' + name + '</div>';
+        html += '<div class="col seccol">' + formatMSS(length) + '</div></div>';
+        return html;
+      }
       window.onload = function () {
+        player = document.getElementById("audioPlayer");
+        source = player.firstChild;
+        currentPlaying = null;
         var userId = <?PHP
           if(isset($_SESSION["userid"]))
             echo $_SESSION["userid"] . ";\r\n";
@@ -44,6 +93,7 @@ require_once "common.php";
         var artwork = document.getElementById("albumArtwork");
         var artist = 	document.getElementById("albumArtist");
         var year = 	document.getElementById("albumYear");
+        var genre = document.getElementById("albumGenre");
         var userRating = 	document.getElementById("albumUserRating");
         var totalRating = document.getElementById("albumTotalRating");
         var jsonPayload = '{"id" :' + albumId  + '}';
@@ -70,6 +120,20 @@ require_once "common.php";
               artist.innerHTML = jsonObject.artist.name;
               year.innerHTML   = jsonObject.year;
               artwork.src = jsonObject.iconUrl;
+              genre.innerHTML = '<a href="http://project.codethree.net/genre.php?id=' + jsonObject.genre.id + '">' + jsonObject.genre.name + '</a>'
+              var i;
+              var songList = document.getElementById("songListing");
+    					for( i in jsonObject.songs)
+    					{
+    						 songList.innerHTML += getSongRow(jsonObject.songs[i].name,
+    							 jsonObject.songs[i].preview_url, jsonObject.songs[i].length);
+                 if((jsonObject.songs[i].preview_url || "") === ""
+                 || jsonObject.songs[i].preview_url == null
+                 || typeof jsonObject.songs[i].preview_url == 'undefined')
+                 {
+                   document.getElementById("warningSpotify").innerHTML = getError() + "<b>  Not all songs have Spotify previews due to licensing restrictions.<b/>";
+                 }
+    					}
             }
           };
           xhr.send(jsonPayload);
@@ -141,7 +205,7 @@ require_once "common.php";
           <div id="errorLabel" style="color:red"></div>
           <h1 id="albumName"><img src="spinner.gif" width="100" height="100"></h1>
           <div class="row">
-            <div class="col-3">
+            <div class="col hunnit">
               <img
               id="albumArtwork"
               src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_161d5427632%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_161d5427632%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4375%22%20y%3D%22104.55625%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
@@ -150,7 +214,7 @@ require_once "common.php";
               width="200"
               height="200">
             </div>
-            <div class="col-7" id="albumInfo">
+            <div class="col-7 notext" id="albumInfo">
               <div class="row">
                 <div class="col-2">
                   Rating:
@@ -164,6 +228,14 @@ require_once "common.php";
                   Artist:
                 </div>
                 <div id="albumArtist" class="col">
+                  <img src="spinner.gif"  width="30" height="30">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-2">
+                  Genre:
+                </div>
+                <div id="albumGenre" class="col">
                   <img src="spinner.gif"  width="30" height="30">
                 </div>
               </div>
@@ -188,28 +260,11 @@ require_once "common.php";
           </div>
         </div>
         <div class="container">
-          <h1>Songs</h1>
           <br />
-          <br />
-        <!--<h5>
-          <div class="row">
-            <div class="col">
-            Preview
-            </div>
-            <div class="col">
-            Song Name
-            </div>
-          </div>
-        </h5>-->
-          <section style="max-height:500px;width:250px;overflow:vertical;text-align:left">
-              <div class="row">
-                  <div class="col">
-                    <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." height="25" width="25">
-                  </div>
-                <div class="col">
-                  Name
-                </div>
-              </div>
+          <p id="warningSpotify"></p>
+          <audio id="audioPlayer"><source type="audio/mpeg"><track kind="captions"></audio>
+          <section class="songList" id="songListing">
+
           </section>
         </div>
       </div>

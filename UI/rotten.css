@@ -11,6 +11,7 @@ a:hover
 }
 a.card, a.card:visited
 {
+  font-weight: normal;
   width: 220px;
   height: 350px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -27,6 +28,23 @@ a.card:hover
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   text-decoration: none;
   color: #28a745;
+}
+
+.fifty
+{
+  width:30px;
+  flex-grow:0;
+}
+
+.hunnit
+{
+  width: 220px;
+  flex-grow:0;
+}
+.cutoff
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 div.albumholder
@@ -62,6 +80,41 @@ input:focus + .results, .results:hover
 {
     display: block;
 }
+.clickable
+{
+  cursor:pointer;
+}
+.clickable:hover
+{
+  color: #28a745;
+}
+
+.seccol
+{
+  width:50px;
+  flex-grow:0;
+}
+
+.songList
+{
+  max-height:500px;
+  width:400px;
+  padding: 10px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background-color:white;
+  text-align:left
+  border-radius: .25rem !important;
+}
+.songrow:hover
+{
+  background-color:#e9ecef;
+}
+
+.notext
+{
+  cursor:default;
+}
 
 .album
 {
@@ -71,6 +124,12 @@ input:focus + .results, .results:hover
   width:100%;
   display:block;
   text-decoration: none;
+}
+
+#albumListing
+{
+  width:1000px;
+  margin: auto;
 }
 
 .album:hover

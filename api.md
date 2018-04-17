@@ -2,7 +2,7 @@
 
 **/api/user.php?action=<ACTION>**
 * <ACTION> is "login": expects "username" and "password" and logs the user in Leinecker style. "admin" >= 1 if user has admin permissions, 0 otherwise. creates a PHP session
-* <ACTION> is "register": expects "username", "password", "email", "fname", "lname" and registers user
+* <ACTION> is "register": expects "username", "password", "email", "fname", "lname" and registers user. returns nothing (unless there is an error)
 * <ACTION> is "logout": ends the PHP session, expects no data and returns no data
 
 **/api/search.php?by=<TYPE>**
