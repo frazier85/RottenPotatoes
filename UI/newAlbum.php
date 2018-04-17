@@ -193,7 +193,7 @@ markPageDangerous();
             {
               var html = '<div class="row"><div class="col">' + name;
               //Length is in MS, convert to seconds
-              html += '</div><div class="col cutoff">' + preview + '</div><div class="col cutoff">' + Math.ceil((length / 1000)) + '</div></div>';
+              html += '</div><div class="col cutoff">' + preview + '</div><div class="col cutoff">' + formatMSS(Math.ceil((length / 1000))) + '</div></div>';
               return html;
             }
             function autofill(id)
@@ -241,7 +241,7 @@ markPageDangerous();
             </div>
             <div class="container">
               <br />
-              <section style="max-height:500px;width:95%;overflow:vertical;text-align:left" id="songListing">
+              <section style="max-height:500px;width:95%;overflow-y:scroll;overflow-x:hidden;text-align:left" id="songListing">
 
               </section>
             </div>

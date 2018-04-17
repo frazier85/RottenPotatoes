@@ -2,6 +2,11 @@ var urlBase = '/api';
 
 var userId = 0;
 
+function formatMSS(s)
+{
+  return(s-(s%=60))/60+(9<s?':':':0')+s;
+}
+
 function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);
