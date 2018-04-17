@@ -218,8 +218,6 @@ public class LoginPage extends Activity {
 
         }
 
-
-
     private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
