@@ -165,8 +165,6 @@ function searchBy()
 
 					document.getElementById("searchResult").innerHTML = "";
 					var jsonObject = JSON.parse( xhr.responseText );
-					//alert(xhr.responseText);
-					//$("#dataTable tbody tr").remove();
 					var i;
 					for( i in jsonObject.albums)
 					{
@@ -202,9 +200,6 @@ function searchBy()
 					document.getElementById("searchResult").innerHTML = "";
 
 					var jsonObject = JSON.parse( xhr.responseText );
-					//alert(xhr.responseText);
-
-         //$("#dataTable tbody tr").remove();
 
 					var i;
 					for( i in jsonObject.albums)
@@ -274,10 +269,8 @@ function addArtist()
 	document.getElementById("submitResult").innerHTML = "";
 
 	var jsonPayload = '{"name" : "' + name + '", "genre" : "' + genre_ID + '"}';
-	alert(jsonPayload);
 
 	var url = urlBase + '/admin.php?action=add_artist';
-	alert(url);
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");

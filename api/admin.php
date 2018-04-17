@@ -162,9 +162,11 @@ elseif($action === "add_album")
 	{
 		$sname = $song["name"];
 		$length = $song["length"];
-		if($stmt = $dbc->prepare("INSERT INTO SONGS (ID, name, length, album_ID, artist_ID, preview_url) VALUES (NULL, ?, ?, ?, ?, NULL)"))
+		//Null coalesce in case someone does not use the Spotify auto-fill
+		$url = $song["preview_url"] ?? "";
+		if($stmt = $dbc->prepare("INSERT INTO SONGS (ID, name, length, album_ID, artist_ID, preview_url) VALUES (NULL, ?, ?, ?, ?, ?)"))
 		{
-			$stmt->bind_param('siii', $sname, $length, $album_ID, $artist_ID);
+			$stmt->bind_param('siiis', $sname, $length, $album_ID, $artist_ID, $url);
 			$stmt->execute();
 		}
 		else

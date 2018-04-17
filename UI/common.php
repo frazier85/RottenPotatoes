@@ -1,6 +1,11 @@
 <?PHP
 session_start();
 
+function getSpotifyToken()
+{
+  echo "BQC96LjJm_wi68eF5bQL3_MI5Xp0r1rEobVQf4Kv8kBw6-cmm9uUtILOb7QMOBC7k9i5opT5gb6QfZHDaYc";
+}
+
 function generateHeader($title = "Rotten Potatoes")
 {
   echo "<title>$title</title>\r\n";

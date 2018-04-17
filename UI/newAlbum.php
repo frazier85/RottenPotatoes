@@ -8,6 +8,27 @@ markPageDangerous();
       <?PHP generateHeader("New Album - Rotten Potatoes"); ?>
     </head>
     <script>
+      function songString(name, url, length)
+      {
+        return '{"name":"'+name+'","preview_url":"'+url+'", "length":'+length+'}';
+      }
+      function parseSongListing()
+      {
+        var listing = document.getElementById("songListing");
+        console.debug(listing);
+        if(listing.childElementCount < 1)
+        {
+          return "";
+        }
+        var json = "";
+        for(var i = 0; i < listing.children.length; i++)
+        {
+          json += songString(listing.children[i].children[0].innerHTML, listing.children[i].children[1].innerHTML, listing.children[i].children[2].innerHTML) + ',';
+        }
+        //remove trailing comma
+        json = json.substring(0, json.length - 1);
+        return json;
+      }
       function addAlbum()
       {
       	var album_artwork = document.getElementById("album_artwork").value;
@@ -18,11 +39,8 @@ markPageDangerous();
 
       	document.getElementById("submitResult").innerHTML = "";
 
-      	var jsonPayload = '{"name" : "' + name + '", "album_artwork" : "' + album_artwork + '", "year" : "' + year + '", "artist" : "' + artist_ID + '", "genre" : "' + genre_ID + '"}';
-      	alert(jsonPayload);
-
+      	var jsonPayload = '{"name" : "' + name + '", "album_artwork" : "' + album_artwork + '", "year" : ' + year + ', "songs" : [' + parseSongListing() + '], "artist" : "' + artist_ID + '", "genre" : "' + genre_ID + '"}';
       	var url = urlBase + '/admin.php?action=add_album';
-      	alert(url);
       	var xhr = new XMLHttpRequest();
       	xhr.open("POST", url, false);
       	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -155,7 +173,7 @@ markPageDangerous();
               url += txt.replace(" ", "%20");
               var req = new XMLHttpRequest();
               req.open("GET", url, true);
-              req.setRequestHeader("Authorization", "Bearer BQB647qPkbpNyeEjhR-WP8go99qiQGokZOPyz5cp79ambpkJWPBQGsFRr4DmMSf6u7-MP7H7fZBqcKPsEaEknsgV04UdEy-46frC9eevxEkV5I_XO3-HpIYkiSA4F_Mzkff2TKyl3JjFO1ZG2ldILx7HLSLa8L0");
+              req.setRequestHeader("Authorization", "Bearer <?PHP getSpotifyToken(); ?>");
               req.onreadystatechange = function()
         			{
         				if (this.readyState == 4 && this.status == 200)
@@ -171,7 +189,13 @@ markPageDangerous();
         			};
               req.send();
             }
-
+            function getSongElement(name, preview, length)
+            {
+              var html = '<div class="row"><div class="col">' + name;
+              //Length is in MS, convert to seconds
+              html += '</div><div class="col cutoff">' + preview + '</div><div class="col cutoff">' + Math.ceil((length / 1000)) + '</div></div>';
+              return html;
+            }
             function autofill(id)
             {
               var txtYear = document.getElementById("year");
@@ -181,24 +205,25 @@ markPageDangerous();
               var url = "https://api.spotify.com/v1/albums/" + id + "?market=US";
               var req = new XMLHttpRequest();
               req.open("GET", url, true);
-              req.setRequestHeader("Authorization", "Bearer BQB647qPkbpNyeEjhR-WP8go99qiQGokZOPyz5cp79ambpkJWPBQGsFRr4DmMSf6u7-MP7H7fZBqcKPsEaEknsgV04UdEy-46frC9eevxEkV5I_XO3-HpIYkiSA4F_Mzkff2TKyl3JjFO1ZG2ldILx7HLSLa8L0");
+              req.setRequestHeader("Authorization", "Bearer <?PHP getSpotifyToken(); ?>");
               req.onreadystatechange = function()
               {
                 if (this.readyState == 4 && this.status == 200)
                 {
                   var jsonObject = JSON.parse(req.responseText);
-                  console.debug(jsonObject);
                   txtYear.value = jsonObject.release_date.split("-")[0];
                   txtName.value = jsonObject.name;
                   //Not really necessary but it looks better in a demo
                   txtAutofill.value = jsonObject.name;
                   txtImage.value = jsonObject.images[0].url;
                   //TODO: Loop through tracks
-                  //var i;
-                  //for(i in jsonObject.albums.items)
-                  //{
-                  //  listing.innerHTML += getListingElement(jsonObject.albums.items[i].name, jsonObject.albums.items[i].id);
-                  //}
+                  var i;
+                  var listing = document.getElementById("songListing");
+                  listing.innerHTML = "";
+                  for(i in jsonObject.tracks.items)
+                  {
+                    listing.innerHTML += getSongElement(jsonObject.tracks.items[i].name, jsonObject.tracks.items[i].preview_url || "", jsonObject.tracks.items[i].duration_ms);
+                  }
                 }
               };
               req.send();
@@ -213,6 +238,12 @@ markPageDangerous();
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="container">
+              <br />
+              <section style="max-height:500px;width:95%;overflow:vertical;text-align:left" id="songListing">
+
+              </section>
             </div>
             <div class="row justify-content-center">
               <div class="col-2">

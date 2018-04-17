@@ -35,6 +35,12 @@ a.card:hover
   flex-grow:0;
 }
 
+.cutoff
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 div.albumholder
 {
   text-align: left;
