@@ -36,6 +36,11 @@ a.card:hover
   flex-grow:0;
 }
 
+.hunnit
+{
+  width: 220px;
+  flex-grow:0;
+}
 .cutoff
 {
   overflow: hidden;
