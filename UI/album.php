@@ -8,10 +8,8 @@ require_once "common.php";
     </head>
     <body>
 <!-- TODO:
-- Purchase links (for album)
 - Let user edit / add their review
 - List other reviews
-- List songs
 -->
       <nav class="navbar navbar-light bg-light">
           <?PHP
@@ -22,6 +20,18 @@ require_once "common.php";
           <?PHP renderWelcome(); ?>
       </nav>
       <script>
+      function getPlay(url)
+      {
+        return '<i class="fa fa-play clickable"><span style="display:none">'+url+'</span></i>';
+      }
+      function getStop(url)
+      {
+        return '<i class="fa fa-stop clickable"><span style="display:none">'+url+'</span></i>';
+      }
+      function getError()
+      {
+        return '<i class="fa fa-window-close" aria-hidden="true"></i>';
+      }
       function getStoreRow(name, icon, link)
       {
         var html = '<div class="row">';
@@ -33,7 +43,13 @@ require_once "common.php";
       }
       function getSongRow(name, preview)
       {
-        var html = '<div class="row" ><div class="col fifty"><img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="Play" height="25" width="25"></div>'
+        var html = '<div class="row" ><div class="col fifty">';
+        var icon = getPlay(preview);
+        if(preview === "" || typeof preview == 'undefined' || preview == null)
+        {
+          icon = getError();
+        }
+        html += icon + '</div>';
         html += '<div class="col">' + name + '</div></div>';
         return html;
       }
@@ -81,6 +97,12 @@ require_once "common.php";
     					{
     						 songList.innerHTML += getSongRow(jsonObject.songs[i].name,
     							 jsonObject.songs[i].preview_url);
+                 if((jsonObject.songs[i].preview_url || "") === ""
+                 || jsonObject.songs[i].preview_url == null
+                 || typeof jsonObject.songs[i].preview_url == 'undefined')
+                 {
+                   document.getElementById("warningSpotify").innerHTML = "<b>Note: Not all songs have Spotify previews.<b/>";
+                 }
     					}
             }
           };
@@ -201,6 +223,8 @@ require_once "common.php";
         </div>
         <div class="container">
           <br />
+          <p id="warningSpotify"></p>
+          <audio id="audioPlayer"><source type="audio/mpeg"><track kind="captions"></audio>
           <section style="max-height:500px;width:500px;overflow:vertical;text-align:left" id="songListing">
 
           </section>

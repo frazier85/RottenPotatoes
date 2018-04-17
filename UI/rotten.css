@@ -75,7 +75,14 @@ input:focus + .results, .results:hover
 {
     display: block;
 }
-
+.clickable
+{
+  cursor:pointer;
+}
+.clickable:hover
+{
+  color: #28a745;
+}
 .album
 {
   color: black;
