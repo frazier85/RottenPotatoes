@@ -140,24 +140,27 @@ public class RegisterPage extends Activity {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "Register Response:" + response.toString());
+                Log.d(TAG, "First Register Response:" + response.toString());
                 hideDialog();
+
 
                 //Check to see if we got an error
                 try {
                     String error = response.getString("error");
 
                     //If there is no error, then we successfully registered
-                    if (error.isEmpty()) {
+                    if (!error.isEmpty()) {
+                        //Error in registration
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+
+                    } else {
+                        session.setLogin(true);
                         Toast.makeText(getApplicationContext(), "User successfully registered",
                                 Toast.LENGTH_LONG).show();
 
                         Intent intent = new Intent(RegisterPage.this, MainActivity.class);
                         startActivity(intent);
                         finish();
-                    } else {
-                        //Error in registration
-                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
@@ -167,8 +170,25 @@ public class RegisterPage extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
+                Log.e(TAG, "Other Registration Error: " + error.getMessage());
                 hideDialog();
+
+                //Server does not send a response on successful registration
+                String defResponse = "org.json.JSONException: End of input at character 0 of ";
+
+                String jsonResponse = error.getMessage();
+
+                //Turns out we did successfully register, the server just didn't say anything
+                if(jsonResponse.equals(defResponse)){
+                    session.setLogin(true);
+                    Toast.makeText(getApplicationContext(), "User successfully registered",
+                            Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(RegisterPage.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         });
         queue.add(jobjReq);
