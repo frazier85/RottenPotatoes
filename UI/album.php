@@ -41,7 +41,7 @@ require_once "common.php";
         html += '</a></div>';
         return html;
       }
-      function getSongRow(name, preview)
+      function getSongRow(name, preview, length)
       {
         var html = '<div class="row" ><div class="col fifty">';
         var icon = getPlay(preview);
@@ -50,7 +50,8 @@ require_once "common.php";
           icon = getError();
         }
         html += icon + '</div>';
-        html += '<div class="col">' + name + '</div></div>';
+        html += '<div class="col">' + name + '</div>';
+        html += '<div class="col">' + formatMSS(length) + '</div></div>';
         return html;
       }
       window.onload = function () {
@@ -96,7 +97,7 @@ require_once "common.php";
     					for( i in jsonObject.songs)
     					{
     						 songList.innerHTML += getSongRow(jsonObject.songs[i].name,
-    							 jsonObject.songs[i].preview_url);
+    							 jsonObject.songs[i].preview_url, jsonObject.songs[i].length);
                  if((jsonObject.songs[i].preview_url || "") === ""
                  || jsonObject.songs[i].preview_url == null
                  || typeof jsonObject.songs[i].preview_url == 'undefined')
