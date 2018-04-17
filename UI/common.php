@@ -3,7 +3,7 @@ session_start();
 
 function getSpotifyToken()
 {
-  echo "BQDCoVLL8Ff9xn6VoBZyLkm7yiYdOC2cCtxbBUycxOlOFdYfdRv_zZdU4o2_7WU-x7iAt5vZsLIU5FO7YDztBgAogcbfAnR5z-_KPA9P44UjdVfZIhxB8Xh4ZAnDwmzFTm-SzpFkoXCTf-fsQJkXDz5SHj528Jw";
+  echo "BQAGZQphWClJWoo4BQaDez6QY2NedzuHnCbK-6QReAd5gWC9nlhqmSMm784GDCA5lwtxyrgcDJG_PUgA64c";
 }
 
 function generateHeader($title = "Rotten Potatoes")
@@ -62,6 +62,8 @@ function renderAdminButtons()
 
 function renderWelcome()
 {
+  echo '<button class="btn btn-outline-success my-2 my-sm-0" id="genreListing" type="button">Genres</button>';
+  echo '<button class="btn btn-outline-success my-2 my-sm-0" id="searchButton" type="button" onClick="window.location.href=\'search.php\'">Search</button>';
   echo '<span class="navbar-text">Hello, ';
   if(isset($_SESSION["user"]))
   {

@@ -61,6 +61,29 @@ if($action === "get_genres")
 	}
 	mysqli_close($dbc);
 }
+elseif($action === "get_genre")
+{
+	$gid = $data["id"];
+  if ($stmt = $dbc->prepare("SELECT * FROM GENRES WHERE ID=?" ))
+	{
+		$stmt->bind_param('i', $gid);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($id, $name);
+		$json = '{"id":-1,"name":"Invalid genre"}';
+		if($stmt->fetch())
+		{
+			$json = getGenreString($id, $name);
+		}
+		$stmt->close();
+		sendResultInfoAsJson($json);
+	}
+	else
+	{
+		sendError("There was an issue with our database.");
+	}
+	mysqli_close($dbc);
+}
 elseif($action === "get_albums_bygenre")
 {
   $gid = $data["id"];
@@ -73,7 +96,7 @@ elseif($action === "get_albums_bygenre")
 		$json = '{ "albums": [ ';
 		while($stmt->fetch())
 		{
-			$json = $json . getAlbumString($id, $name, $icon, $year, $artistId, $genreId) . ',';
+			$json = $json . getAlbumStringFull($id, $name, $icon, $year, $artistId, $genreId) . ',';
 		}
 		//remove last comma
 		$json = substr($json, 0, -1);

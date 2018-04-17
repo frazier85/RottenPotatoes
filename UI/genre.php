@@ -5,11 +5,8 @@ require_once "common.php";
   <html>
     <head>
       <?PHP generateHeader(); ?>
-      <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
     </head>
-
     <body>
-
       <nav class="navbar navbar-light bg-light">
         <?PHP
         renderTitle();
@@ -18,10 +15,12 @@ require_once "common.php";
       </nav>
       <script>
         window.onload = function () {
+          var genredId = getQueryVariable("id");
           var listing = document.getElementById("albumListing")
-        	var url = urlBase + '/general.php?action=mostrecent';
+        	var url = urlBase + '/general.php?action=get_albums_bygenre';
+          var payload = '{"id" :' + genredId + '}';
         	var xhr = new XMLHttpRequest();
-        	xhr.open("GET", url, true);
+        	xhr.open("POST", url, true);
       		try
       		{
       			xhr.onreadystatechange = function()
@@ -44,26 +43,38 @@ require_once "common.php";
       					}
       				}
       			};
-      			xhr.send();
+      			xhr.send(payload);
       		}
       		catch(err)
       		{
       			console.log(err);
       		}
+          var nameUrl = urlBase + '/general.php?action=get_genre';
+          var req = new XMLHttpRequest();
+          req.open("POST", nameUrl, true);
+          req.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+          try
+          {
+            req.onreadystatechange = function()
+            {
+              if (this.readyState == 4 && this.status == 200)
+              {
+                var response = JSON.parse(req.responseText);
+                document.getElementById("pageTitle").innerHTML = response.name + " Albums";
+              }
+            };
+            req.send(payload);
+          }
+          catch(err)
+          {
+            document.getElementById("errorLabel").innerHTML = err.message;
+          }
         };
       </script>
       <div class="jumbotron jumbotron-xl-12">
+        <p id="errorLabel"></p>
         <div class="container">
-          <?PHP
-            if(!isset($_SESSION["user"]))
-            {
-              echo '<center style="width:60%;margin:auto">';
-              echo "<h3>Welcome to Rotten Potatoes</h3>\r\n";
-              echo '<p>Rotten Potatoes was founded by people who love music just like you! Our goal is to be the matchmaker for you and your next favorite album. Join the movement right now by <a href="/loginOrRegister.php">registering.</a> (It\'s free!)</p>' . "\r\n";
-              echo '</center';
-            }
-          ?>
-          <center><h4>Recently added</h4></center>
+          <center><h4 id="pageTitle"><img src="spinner.gif" width="70" height="70"></h4></center>
           <div id="albumListing"><img src="spinner.gif"></div>
         </div>
       </div>

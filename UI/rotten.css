@@ -126,6 +126,12 @@ input:focus + .results, .results:hover
   text-decoration: none;
 }
 
+#albumListing
+{
+  width:1000px;
+  margin: auto;
+}
+
 .album:hover
 {
   color: #28a745;
