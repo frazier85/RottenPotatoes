@@ -31,7 +31,12 @@ require_once "common.php";
         html += '</a></div>';
         return html;
       }
-
+      function getSongRow(name, preview)
+      {
+        var html = '<div class="row" ><div class="col fifty"><img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="Play" height="25" width="25"></div>'
+        html += '<div class="col">' + name + '</div></div>';
+        return html;
+      }
       window.onload = function () {
         var userId = <?PHP
           if(isset($_SESSION["userid"]))
@@ -70,6 +75,13 @@ require_once "common.php";
               artist.innerHTML = jsonObject.artist.name;
               year.innerHTML   = jsonObject.year;
               artwork.src = jsonObject.iconUrl;
+              var i;
+              var songList = document.getElementById("songListing");
+    					for( i in jsonObject.songs)
+    					{
+    						 songList.innerHTML += getSongRow(jsonObject.songs[i].name,
+    							 jsonObject.songs[i].preview_url);
+    					}
             }
           };
           xhr.send(jsonPayload);
@@ -188,28 +200,9 @@ require_once "common.php";
           </div>
         </div>
         <div class="container">
-          <h1>Songs</h1>
           <br />
-          <br />
-        <!--<h5>
-          <div class="row">
-            <div class="col">
-            Preview
-            </div>
-            <div class="col">
-            Song Name
-            </div>
-          </div>
-        </h5>-->
-          <section style="max-height:500px;width:250px;overflow:vertical;text-align:left">
-              <div class="row">
-                  <div class="col">
-                    <img src="https://image.flaticon.com/icons/svg/26/26025.svg" alt="..." height="25" width="25">
-                  </div>
-                <div class="col">
-                  Name
-                </div>
-              </div>
+          <section style="max-height:500px;width:500px;overflow:vertical;text-align:left" id="songListing">
+
           </section>
         </div>
       </div>

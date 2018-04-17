@@ -54,8 +54,8 @@ require_once "common.php";
       		}
         };
       </script>
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
+      <div class="jumbotron jumbotron-xl-12">
+        <div class="container" style="text-align:center">
           <?PHP
             if(!isset($_SESSION["user"]))
             {

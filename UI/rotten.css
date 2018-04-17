@@ -29,6 +29,12 @@ a.card:hover
   color: #28a745;
 }
 
+.fifty
+{
+  width:30px;
+  flex-grow:0;
+}
+
 div.albumholder
 {
   text-align: left;
