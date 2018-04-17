@@ -93,6 +93,7 @@ require_once "common.php";
         var artwork = document.getElementById("albumArtwork");
         var artist = 	document.getElementById("albumArtist");
         var year = 	document.getElementById("albumYear");
+        var genre = document.getElementById("albumGenre");
         var userRating = 	document.getElementById("albumUserRating");
         var totalRating = document.getElementById("albumTotalRating");
         var jsonPayload = '{"id" :' + albumId  + '}';
@@ -119,6 +120,7 @@ require_once "common.php";
               artist.innerHTML = jsonObject.artist.name;
               year.innerHTML   = jsonObject.year;
               artwork.src = jsonObject.iconUrl;
+              genre.innerHTML = '<a href="http://project.codethree.net/genre.php?id=' + jsonObject.genre.id + '">' + jsonObject.genre.name + '</a>'
               var i;
               var songList = document.getElementById("songListing");
     					for( i in jsonObject.songs)
@@ -226,6 +228,14 @@ require_once "common.php";
                   Artist:
                 </div>
                 <div id="albumArtist" class="col">
+                  <img src="spinner.gif"  width="30" height="30">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-2">
+                  Genre:
+                </div>
+                <div id="albumGenre" class="col">
                   <img src="spinner.gif"  width="30" height="30">
                 </div>
               </div>
