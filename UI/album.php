@@ -43,7 +43,7 @@ require_once "common.php";
       }
       function getSongRow(name, preview, length)
       {
-        var html = '<div class="row" ><div class="col fifty">';
+        var html = '<div class="row songrow notext" ><div class="col fifty">';
         var icon = getPlay(preview);
         if(preview === "" || typeof preview == 'undefined' || preview == null)
         {
@@ -102,7 +102,7 @@ require_once "common.php";
                  || jsonObject.songs[i].preview_url == null
                  || typeof jsonObject.songs[i].preview_url == 'undefined')
                  {
-                   document.getElementById("warningSpotify").innerHTML = "<b>Note: Not all songs have Spotify previews due to licensing restrictions.<b/>";
+                   document.getElementById("warningSpotify").innerHTML = getError() + "<b>  Not all songs have Spotify previews due to licensing restrictions.<b/>";
                  }
     					}
             }
