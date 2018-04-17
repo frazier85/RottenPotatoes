@@ -104,6 +104,7 @@ input:focus + .results, .results:hover
   overflow-x:hidden;
   background-color:white;
   text-align:left
+  border-radius: .25rem !important;
 }
 .songrow:hover
 {
