@@ -185,7 +185,7 @@ require_once "common.php";
               width="200"
               height="200">
             </div>
-            <div class="col-7" id="albumInfo">
+            <div class="col-7 notext" id="albumInfo">
               <div class="row">
                 <div class="col-2">
                   Rating:

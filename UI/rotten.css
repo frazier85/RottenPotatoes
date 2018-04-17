@@ -102,7 +102,7 @@ input:focus + .results, .results:hover
 }
 .songrow:hover
 {
-  background-color:#EEEEEE;
+  background-color:#e9ecef;
 }
 
 .notext

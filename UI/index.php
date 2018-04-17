@@ -59,8 +59,10 @@ require_once "common.php";
           <?PHP
             if(!isset($_SESSION["user"]))
             {
+              echo '<center style="width:60%;margin:auto">';
               echo "<h3>Welcome to Rotten Potatoes</h3>\r\n";
               echo '<p>Rotten Potatoes was founded by people who love music just like you! Our goal is to be the matchmaker for you and your next favorite album. Join the movement right now by <a href="/loginOrRegister.php">registering.</a> (It\'s free!)</p>' . "\r\n";
+              echo '</center';
             }
           ?>
           <center><h4>Recently added</h4></center>

@@ -241,9 +241,10 @@ markPageDangerous();
             </div>
             <div class="container">
               <br />
-              <section style="max-height:500px;width:95%;overflow-y:scroll;overflow-x:hidden;text-align:left" id="songListing">
+              <section style="max-height:300px;width:95%;overflow-y:scroll;overflow-x:hidden;text-align:left" id="songListing">
 
               </section>
+              <br />
             </div>
             <div class="row justify-content-center">
               <div class="col-2">
