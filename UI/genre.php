@@ -27,7 +27,7 @@ require_once "common.php";
       			{
       				if (this.readyState == 4 && this.status == 200)
       				{
-      					document.getElementById("albumListing").innerHTML = "";
+      					listing.innerHTML = "";
       					var jsonObject = JSON.parse(xhr.responseText);
       					var i;
       					for( i in jsonObject.albums)
@@ -41,6 +41,10 @@ require_once "common.php";
                      jsonObject.albums[i].rating);
 
       					}
+                if(jsonObject.albums.length == 0)
+                {
+                  listing.innerHTML = "<center>No albums are in this genre!</center>";
+                }
       				}
       			};
       			xhr.send(payload);
