@@ -11,6 +11,7 @@ a:hover
 }
 a.card, a.card:visited
 {
+  font-weight: normal;
   width: 220px;
   height: 350px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
