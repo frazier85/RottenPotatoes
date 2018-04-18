@@ -20,7 +20,24 @@ markPageDangerous();
           <form>
               <div class="form-group">
                 <label for="name">Store</label>
-                <input type="text" class="form-control" id="id" placeholder="ID">
+                <select name="Store" id="store_ID" class="form-control">
+                  <?php
+                    define("IN_API", 1);
+                    require_once "api/global.php";
+
+                    $dbc = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+                    if (mysqli_connect_errno())
+                    {
+                      echo "Error: " . mysqli_connect_errno();
+                    }
+
+                    $result = $dbc->query("SELECT * FROM STORES");
+
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value=\"" . $row['ID'] . "\">" . $row['name'] . "</option>";
+                    }
+                    ?>
+                </select>
               </div>
             </div>
             <div class="row justify-content-center">

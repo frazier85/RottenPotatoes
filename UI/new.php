@@ -26,6 +26,12 @@ markPageDangerous();
             <div class="col">
               <button class="btn btn-outline-success" type="button" onClick="window.location.href='newGenre.php'">New Genre</button>
             </div>
+            <div class="col">
+              <button class="btn btn-outline-success" type="button" onClick="window.location.href='newStorelink.php'">New Store Link</button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success" type="button" onClick="window.location.href='newStore.php'">New Store</button>
+            </div>
           </div>
         </div>
       </div>

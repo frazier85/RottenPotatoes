@@ -20,6 +20,14 @@ function getQueryVariable(variable)
     console.log('Query variable %s not found', variable);
 }
 
+function pageRefresh()
+{
+  setTimeout(function()
+  {
+    location.reload(true);
+  }, 750);
+}
+
 function getAlbumCard(albumid, image, artist, genre, title, year, rating)
 {
 	var r = rating;
@@ -237,8 +245,6 @@ function searchBy()
 
 					document.getElementById("searchResult").innerHTML = "";
 					var jsonObject = JSON.parse( xhr.responseText );
-					//alert(xhr.responseText);
-					//$("#dataTable tbody tr").remove();
 					var i;
 					for( i in jsonObject.albums)
 					{
@@ -274,9 +280,6 @@ function searchBy()
 					document.getElementById("searchResult").innerHTML = "";
 
 					var jsonObject = JSON.parse( xhr.responseText );
-					//alert(xhr.responseText);
-
-         //$("#dataTable tbody tr").remove();
 
 					var i;
 					for( i in jsonObject.albums)
@@ -316,10 +319,8 @@ function addGenre()
 	document.getElementById("submitResult").innerHTML = "";
 
 	var jsonPayload = '{"name" : "' + name + '"}';
-	alert(jsonPayload);
 
 	var url = urlBase + '/admin.php?action=add_genre';
-	alert(url);
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
@@ -354,10 +355,8 @@ function addArtist()
 	document.getElementById("submitResult").innerHTML = "";
 
 	var jsonPayload = '{"name" : "' + name + '", "genre" : "' + genre_ID + '"}';
-	alert(jsonPayload);
 
 	var url = urlBase + '/admin.php?action=add_artist';
-	alert(url);
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
@@ -428,10 +427,8 @@ function addStore()
 	document.getElementById("submitResult").innerHTML = "";
 
 	var jsonPayload = '{"name" : "' + name + '", "icon" : "' + icon + '"}';
-	alert(jsonPayload);
 
 	var url = urlBase + '/admin.php?action=add_store';
-	alert(url);
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -465,10 +462,8 @@ function addStorelink()
 	document.getElementById("submitResult").innerHTML = "";
 
 	var jsonPayload = '{"link" : "' + link + '", "store" : "' + store + '", "album" : "' + album + '"}';
-	alert(jsonPayload);
 
 	var url = urlBase + '/admin.php?action=add_storelink';
-	alert(url);
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -597,7 +592,7 @@ function delAlbum()
 
 function delStore()
 {
-	var id = document.getElementById("id").value;
+	var id = document.getElementById("store_ID").value;
 
 	document.getElementById("submitResult").innerHTML = "";
 
@@ -627,6 +622,8 @@ function delStore()
 	{
 		document.getElementById("submitResult").innerHTML = err.message;
 	}
+
+  pageRefresh();
 }
 
 function delStorelink()
