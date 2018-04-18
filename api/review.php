@@ -57,11 +57,9 @@ function deleteReview($id)
 
 if($action === "add")
 {
-	//TODO: Does review exist
   $albumid = $data["id"];
   $uid = $data["uid"];
   $body = $data["body"];
-	//TODO: Limit rating
   $rating = $data["rating"];
 	if($rating > 5)
 	{

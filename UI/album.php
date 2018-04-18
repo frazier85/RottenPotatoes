@@ -7,10 +7,6 @@ require_once "common.php";
       <?PHP generateHeader(); ?>
     </head>
     <body>
-<!-- TODO:
-- Let user edit / add their review
-- List other reviews
--->
       <nav class="navbar navbar-light bg-light">
           <?PHP
           renderTitle();
@@ -18,6 +14,48 @@ require_once "common.php";
           renderWelcome(); ?>
       </nav>
       <script>
+
+      function addRating()
+      {
+        var result = document.getElementById("rateResult");
+      	var rating = document.getElementById("rating").value;
+      	var body = document.getElementById("body").value;
+        var albumId = getQueryVariable("id");
+        var userId = <?PHP
+          if(isset($_SESSION["userid"]))
+            echo $_SESSION["userid"] . ";\r\n";
+          else
+            echo "-1;\r\n";
+        ?>
+
+
+        if(userId > 0)
+        {
+          var jsonPayload = '{"body" : "' + body + '", "uid" : "' + userId + '", "id" : "' + albumId + '", "rating" : "' + rating + '"}';
+          var url = urlBase + '/review.php?action=add';
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", url, false);
+          xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+          try
+          {
+            xhr.send(jsonPayload);
+            if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+            {
+              var jsonObject = JSON.parse(xhr.responseText);
+              result.innerHTML = jsonObject.error;
+            }
+            else
+            {
+              pageRefresh();
+            }
+          }
+          catch(err)
+          {
+            document.getElementById("rateResult").innerHTML = "There was a problem.";
+          }
+        }
+      }
 
       function playPreview(url, el)
       {
@@ -78,6 +116,15 @@ require_once "common.php";
         html += '<div class="col seccol">' + formatMSS(length) + '</div></div>';
         return html;
       }
+      function getReviewCard(id, body, uid, username, rating)
+      {
+        var html = '<div class="review">';
+        html += '<div class="reviewholder">';
+        html += '<i class="fa fa-user" aria-hidden="true"></i>&nbsp; <b>' + username + '</b><br />';
+        html += '<i class="fa fa-star" aria-hidden="true"></i>&nbsp; <span>' + rating + '</span><br />';
+        html += '<i class="fa fa-comment" aria-hidden="true"></i> <span>' + body + '</span></div></div>';
+        return html;
+      }
       window.onload = function () {
         player = document.getElementById("audioPlayer");
         source = player.firstChild;
@@ -111,7 +158,7 @@ require_once "common.php";
               name.innerHTML = jsonObject.name;
               if(jsonObject.rating > 0)
               {
-                totalRating.innerHTML = jsonObject.rating + "/5";
+                totalRating.innerHTML = jsonObject.rating.toFixed(1) + "/5";
               }
               else
               {
@@ -198,6 +245,37 @@ require_once "common.php";
         {
           document.getElementById("errorLabel").innerHTML = err.message;
         }
+        //Finally, get reviews
+        var reviewUrl = urlBase + '/review.php?action=get_reviews';
+        var rpload = '{"id" :' + albumId + '}';
+        var rreq = new XMLHttpRequest();
+        rreq.open("POST", reviewUrl, true);
+        rreq.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try
+        {
+          rreq.onreadystatechange = function()
+          {
+            if (this.readyState == 4 && this.status == 200)
+            {
+              var rresp = JSON.parse(rreq.responseText);
+              var i;
+              var reviews = document.getElementById("reviewListing");
+    					for( i in rresp.reviews)
+    					{
+    						 reviews.innerHTML += getReviewCard(rresp.reviews[i].id, rresp.reviews[i].text, rresp.reviews[i].uid, rresp.reviews[i].username, rresp.reviews[i].rating);
+    					}
+              if(rresp.reviews.length == 0)
+              {
+                reviews.innerHTML = "No reviews";
+              }
+            }
+          };
+          rreq.send(rpload);
+        }
+        catch(err)
+        {
+          document.getElementById("errorLabel").innerHTML = err.message;
+        }
       };
       </script>
       <div class="jumbotron jumbotron-fluid">
@@ -254,6 +332,22 @@ require_once "common.php";
                 <div id="albumUserRating" class="col">
                   <img src="spinner.gif"  width="30" height="30">
                 </div>
+                <form>
+                  <div class="form-group">
+                    <label for="Rate">Rate:</label>
+                    <select id="rating">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  <input class="form-control mr-sm-2 long-box" type="text" id="body" placeholder="Review Text" aria-label="reviewText" style="width:400px" maxlength="3900">
+                  <button class="btn btn-outline-success my-2 my-sm-0" id="addRatingButton" type="button" onClick="addRating();">Submit Rating</button>
+                </form>
+                <span id="rateResult"></span>
+
               </div>
               <br />
             </div>
@@ -264,6 +358,11 @@ require_once "common.php";
           <p id="warningSpotify"></p>
           <audio id="audioPlayer"><source type="audio/mpeg"><track kind="captions"></audio>
           <section class="songList" id="songListing">
+
+          </section>
+          <br />
+          <h4>Reviews</h4>
+          <section class="reviewList" id="reviewListing">
 
           </section>
         </div>
