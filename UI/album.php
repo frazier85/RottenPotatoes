@@ -19,6 +19,52 @@ require_once "common.php";
       </nav>
       <script>
 
+      function addRating()
+      {
+        var result = document.getElementById("rateResult");
+      	var rating = document.getElementById("rating").value;
+      	var body = document.getElementById("body").value;
+        var albumId = getQueryVariable("id");
+        var userId = <?PHP
+          if(isset($_SESSION["userid"]))
+            echo $_SESSION["userid"] . ";\r\n";
+          else
+            echo "-1;\r\n";
+        ?>
+
+
+
+      	var jsonPayload = '{"body" : "' + body + '", "uid" : "' + userId + '", "id" : "' + albumId + '", "rating" : "' + rating + '"}';
+      	var url = urlBase + '/review.php?action=add';
+      	var xhr = new XMLHttpRequest();
+      	xhr.open("POST", url, false);
+      	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+      	try
+      	{
+      		xhr.send(jsonPayload);
+      		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+      		{
+      			var jsonObject = JSON.parse(xhr.responseText);
+      			result.innerHTML = jsonObject.error;
+      		}
+      		else
+      		{
+      			// result.innerHTML = "Successfully added rating!";
+            setTimeout(function()
+            {
+              login();
+            }, 750);
+
+      		}
+      	}
+      	catch(err)
+      	{
+      		document.getElementById("rateResult").innerHTML = "There was a problem.";
+      	}
+
+      }
+
       function playPreview(url, el)
       {
         if(currentPlaying != null)
@@ -254,6 +300,22 @@ require_once "common.php";
                 <div id="albumUserRating" class="col">
                   <img src="spinner.gif"  width="30" height="30">
                 </div>
+                <form>
+                  <div class="form-group">
+                    <label for="Rate">Rate:</label>
+                    <select id="rating">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  <input class="form-control mr-sm-2 long-box" type="text" id="body" placeholder="Review Text" aria-label="reviewText" style="width:400px" maxlength="140">
+                  <button class="btn btn-outline-success my-2 my-sm-0" id="addRatingButton" type="button" onClick="addRating();">Submit Rating</button>
+                </form>
+                <span id="rateResult"></span>
+
               </div>
               <br />
             </div>
