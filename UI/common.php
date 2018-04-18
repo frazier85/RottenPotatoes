@@ -3,7 +3,7 @@ session_start();
 
 function getSpotifyToken()
 {
-  echo "BQAGZQphWClJWoo4BQaDez6QY2NedzuHnCbK-6QReAd5gWC9nlhqmSMm784GDCA5lwtxyrgcDJG_PUgA64c";
+  echo "BQDsYFHrglLnRkekoawBVJKb__aIUkIP3HeASwV-FKcDDRzNm8_cWXFb9XgFY-iEqucL4LNa00SsjuegbQY";
 }
 
 function generateHeader($title = "Rotten Potatoes")
