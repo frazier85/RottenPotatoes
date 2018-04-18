@@ -158,7 +158,7 @@ require_once "common.php";
               name.innerHTML = jsonObject.name;
               if(jsonObject.rating > 0)
               {
-                totalRating.innerHTML = jsonObject.rating + "/5";
+                totalRating.innerHTML = jsonObject.rating.toFixed(1) + "/5";
               }
               else
               {
@@ -343,7 +343,7 @@ require_once "common.php";
                       <option value="5">5</option>
                     </select>
                   </div>
-                  <input class="form-control mr-sm-2 long-box" type="text" id="body" placeholder="Review Text" aria-label="reviewText" style="width:400px" maxlength="300">
+                  <input class="form-control mr-sm-2 long-box" type="text" id="body" placeholder="Review Text" aria-label="reviewText" style="width:400px" maxlength="3900">
                   <button class="btn btn-outline-success my-2 my-sm-0" id="addRatingButton" type="button" onClick="addRating();">Submit Rating</button>
                 </form>
                 <span id="rateResult"></span>
