@@ -244,7 +244,7 @@ function searchBy()
 				if (this.readyState == 4 && this.status == 200)
 				{
 
-					document.getElementById("searchResult").innerHTML = "";
+					listing.innerHTML = "";
 					var jsonObject = JSON.parse( xhr.responseText );
 					var i;
 					for( i in jsonObject.albums)
@@ -278,7 +278,7 @@ function searchBy()
 				{
 
 
-					document.getElementById("searchResult").innerHTML = "";
+					listing.innerHTML = "";
 
 					var jsonObject = JSON.parse( xhr.responseText );
 
