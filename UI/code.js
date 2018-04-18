@@ -215,6 +215,7 @@ function demote()
 	{
 		document.getElementById("submitResult").innerHTML = err.message;
 	}
+  pageRefresh();
 }
 
 
