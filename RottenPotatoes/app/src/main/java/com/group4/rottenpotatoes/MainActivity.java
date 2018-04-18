@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                                 String iconURL = currentObj.getString("iconUrl");
 
                                 String rating = currentObj.getString("rating");
-                                int ratingInt = Integer.parseInt(rating);
+                                double ratingInt = Double.parseDouble(rating);
                                 if(ratingInt == -1)
                                     rating = "Not yet reviewed!";
                                 else if(ratingInt < 0)
