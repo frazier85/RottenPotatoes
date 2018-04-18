@@ -30,6 +30,39 @@ a.card:hover
   color: #28a745;
 }
 
+.review, .review:visited
+{
+  border-radius: .25rem;
+  font-weight: normal;
+  width: 300px;
+  height: 220px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.2s;
+  margin: 15px;
+  color: black;
+  float:none;
+  overflow-x: hidden;
+  overflow-y:scroll;
+  background-color:white;
+  display: inline-block;
+  cursor:default;
+}
+.review:hover
+{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  text-decoration: none;
+  color: #28a745;
+}
+
+div.reviewholder
+{
+  text-align: left;
+  padding: 2px 16px;
+  /*white-space: nowrap;
+  text-overflow: ellipsis;*/
+  overflow-x: hidden;
+}
+
 .fifty
 {
   width:30px;
