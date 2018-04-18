@@ -2,11 +2,6 @@ var urlBase = '/api';
 
 var userId = 0;
 
-function formatMSS(s)
-{
-  return(s-(s%=60))/60+(9<s?':':':0')+s;
-}
-
 function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);
@@ -141,6 +136,75 @@ function logout()
 	}
 }
 
+function promote()
+{
+	var id = document.getElementById("id").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"id" : "' + id + '"}';
+
+	var url = urlBase + '/admin.php?action=promote';
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Admin status granted.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+function demote()
+{
+	var id = document.getElementById("id").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"id" : "' + id + '"}';
+
+	var url = urlBase + '/admin.php?action=demote';
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Admin status revoked.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+
 function searchBy()
 {
 	var listing = document.getElementById("albumListing");
@@ -149,8 +213,6 @@ function searchBy()
 	searchType = searchType.value;
 
 	document.getElementById("searchResult").innerHTML = "";
-
-
 
 	var jsonPayload = '{"query" : "' + query + '"}';
 	var url = urlBase + '/search.php?by=' + searchType;
@@ -170,6 +232,8 @@ function searchBy()
 
 					document.getElementById("searchResult").innerHTML = "";
 					var jsonObject = JSON.parse( xhr.responseText );
+					//alert(xhr.responseText);
+					//$("#dataTable tbody tr").remove();
 					var i;
 					for( i in jsonObject.albums)
 					{
@@ -205,6 +269,9 @@ function searchBy()
 					document.getElementById("searchResult").innerHTML = "";
 
 					var jsonObject = JSON.parse( xhr.responseText );
+					//alert(xhr.responseText);
+
+         //$("#dataTable tbody tr").remove();
 
 					var i;
 					for( i in jsonObject.albums)
@@ -240,8 +307,15 @@ function addGenre()
 
 	var name = document.getElementById("name").value;
 	document.getElementById("submitResult").innerHTML = "";
+
+	document.getElementById("submitResult").innerHTML = "";
+
 	var jsonPayload = '{"name" : "' + name + '"}';
+	alert(jsonPayload);
+
 	var url = urlBase + '/admin.php?action=add_genre';
+	alert(url);
+
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -266,6 +340,7 @@ function addGenre()
 	}
 
 }
+
 function addArtist()
 {
 	var name = document.getElementById("name").value;
@@ -274,8 +349,11 @@ function addArtist()
 	document.getElementById("submitResult").innerHTML = "";
 
 	var jsonPayload = '{"name" : "' + name + '", "genre" : "' + genre_ID + '"}';
+	alert(jsonPayload);
 
 	var url = urlBase + '/admin.php?action=add_artist';
+	alert(url);
+
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -298,5 +376,285 @@ function addArtist()
 	{
 		document.getElementById("submitResult").innerHTML = err.message;
 	}
-
 }
+
+function addAlbum()
+      {
+      	var album_artwork = document.getElementById("album_artwork").value;
+      	var name = document.getElementById("name").value;
+      	var artist_ID = document.getElementById("artist_ID").value;
+      	var year = document.getElementById("year").value;
+      	var genre_ID = document.getElementById("genre_ID").value;
+
+      	document.getElementById("submitResult").innerHTML = "";
+
+      	var jsonPayload = '{"name" : "' + name + '", "album_artwork" : "' + album_artwork + '", "year" : ' + year + ', "songs" : [' + parseSongListing() + '], "artist" : "' + artist_ID + '", "genre" : "' + genre_ID + '"}';
+      	var url = urlBase + '/admin.php?action=add_album';
+      	var xhr = new XMLHttpRequest();
+      	xhr.open("POST", url, false);
+      	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+      	try
+      	{
+      		xhr.send(jsonPayload);
+      		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+      		{
+      			var jsonObject = JSON.parse(xhr.responseText);
+
+      			document.getElementById("submitResult").innerHTML = jsonObject.error;
+      		}
+      		else
+      		{
+      			document.getElementById("submitResult").innerHTML = "Album added.";
+      		}
+      	}
+      	catch(err)
+      	{
+      		document.getElementById("submitResult").innerHTML = err.message;
+      	}
+
+      }
+
+function addStore()
+{
+	var name = document.getElementById("name").value;
+	var icon = document.getElementById("icon").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"name" : "' + name + '", "icon" : "' + icon + '"}';
+	alert(jsonPayload);
+
+	var url = urlBase + '/admin.php?action=add_store';
+	alert(url);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Store added.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+function addStorelink()
+{
+	var link = document.getElementById("link").value;
+	var store = document.getElementById("store").value;
+	var album = document.getElementById("album").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"link" : "' + link + '", "store" : "' + store + '", "album" : "' + album + '"}';
+	alert(jsonPayload);
+
+	var url = urlBase + '/admin.php?action=add_storelink';
+	alert(url);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Storelink added.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+function delGenre()
+{
+	var id = document.getElementById("id").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"id" : "' + id + '"}';
+
+	var url = urlBase + '/admin.php?action=del_genre';
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Genre deleted.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+function delArtist()
+{
+	var id = document.getElementById("id").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"id" : "' + id + '"}';
+
+	var url = urlBase + '/admin.php?action=del_artist';
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Artist deleted.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+function delAlbum()
+{
+	var id = document.getElementById("id").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"id" : "' + id + '"}';
+
+	var url = urlBase + '/admin.php?action=del_album';
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Album deleted.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+function delStore()
+{
+	var id = document.getElementById("id").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"id" : "' + id + '"}';
+
+	var url = urlBase + '/admin.php?action=del_store';
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Store deleted.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
+function delStorelink()
+{
+	var id = document.getElementById("id").value;
+
+	document.getElementById("submitResult").innerHTML = "";
+
+	var jsonPayload = '{"id" : "' + id + '"}';
+
+	var url = urlBase + '/admin.php?action=del_storelink';
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try
+	{
+		xhr.send(jsonPayload);
+		if(typeof xhr.responseText != "undefined" && xhr.responseText != "")
+		{
+			var jsonObject = JSON.parse(xhr.responseText);
+
+			document.getElementById("submitResult").innerHTML = jsonObject.error;
+		}
+		else
+		{
+			document.getElementById("submitResult").innerHTML = "Storelink deleted.";
+		}
+	}
+	catch(err)
+	{
+		document.getElementById("submitResult").innerHTML = err.message;
+	}
+}
+
