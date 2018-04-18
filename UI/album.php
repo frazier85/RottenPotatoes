@@ -51,11 +51,6 @@ require_once "common.php";
       		else
       		{
       			// result.innerHTML = "Successfully added rating!";
-            setTimeout(function()
-            {
-              login();
-            }, 750);
-
       		}
       	}
       	catch(err)
