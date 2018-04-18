@@ -79,6 +79,8 @@ function renderAdminButtons()
     return;
   }
   echo '<button class="btn btn-outline-success my-2 my-sm-0" id="addButton" type="submit" onClick="window.location.href=\'new.php\'">Add</button>';
+  echo '<button class="btn btn-outline-success my-2 my-sm-0" id="delButton" type="submit" onClick="window.location.href=\'delete.php\'">Delete</button>';
+  echo '<button class="btn btn-outline-success my-2 my-sm-0" id="userButton" type="submit" onClick="window.location.href=\'promoteDemote.php\'">Promote/Demote</button>';
 }
 
 function renderWelcome()
