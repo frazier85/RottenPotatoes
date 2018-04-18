@@ -2,6 +2,11 @@ var urlBase = '/api';
 
 var userId = 0;
 
+function formatMSS(s)
+{
+  return(s-(s%=60))/60+(9<s?':':':0')+s;
+}
+
 function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);
@@ -149,7 +154,7 @@ function promote()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	
+
 	try
 	{
 		xhr.send(jsonPayload);
@@ -183,7 +188,7 @@ function demote()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	
+
 	try
 	{
 		xhr.send(jsonPayload);
@@ -501,7 +506,7 @@ function delGenre()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	
+
 	try
 	{
 		xhr.send(jsonPayload);
@@ -535,7 +540,7 @@ function delArtist()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	
+
 	try
 	{
 		xhr.send(jsonPayload);
@@ -569,7 +574,7 @@ function delAlbum()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	
+
 	try
 	{
 		xhr.send(jsonPayload);
@@ -603,7 +608,7 @@ function delStore()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	
+
 	try
 	{
 		xhr.send(jsonPayload);
@@ -637,7 +642,7 @@ function delStorelink()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	
+
 	try
 	{
 		xhr.send(jsonPayload);
@@ -657,4 +662,3 @@ function delStorelink()
 		document.getElementById("submitResult").innerHTML = err.message;
 	}
 }
-
