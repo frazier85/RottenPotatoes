@@ -3,7 +3,28 @@ session_start();
 
 function getSpotifyToken()
 {
-  echo "BQDsYFHrglLnRkekoawBVJKb__aIUkIP3HeASwV-FKcDDRzNm8_cWXFb9XgFY-iEqucL4LNa00SsjuegbQY";
+  $cached = "token.txt";
+  //Cache for 30 minutes
+  if(file_exists($cached) && (filemtime($cached) > (time() - 60 * 30 )))
+  {
+    $file = file_get_contents($cached);
+    echo $file;
+  }
+  else
+  {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://accounts.spotify.com/api/token");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded',"Authorization: Basic MGU2YWRkZjlkNjRiNGI0ZDljMWYzYjFmNjI0MTQ0MjI6MjlkNDBhMTk5NjdmNDQzY2I0YWQ0NjU2YzhiYThjMTU="));
+    $response = curl_exec($ch);
+    $data = json_decode($response, true);
+    curl_close($ch);
+    $token = $data["access_token"];
+    file_put_contents($cached, $token, LOCK_EX);
+    echo $token;
+  }
 }
 
 function generateHeader($title = "Rotten Potatoes")
